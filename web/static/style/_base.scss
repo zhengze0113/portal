@@ -1,0 +1,17 @@
+.m-main{
+  min-height: 100vh;
+}
+.m-content{
+  min-height: calc(100vh - 100px)
+}
+.m-header, .m-footer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  background: rgb(66, 181, 247);
+  text-align: center;
+}
+.m-footer {
+  background: rgba(0, 0, 0, .5);
+}

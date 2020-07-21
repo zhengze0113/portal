@@ -1,0 +1,22 @@
+.m-toolbar-container{
+  margin-right: 0;
+  margin-left: auto;
+  order: 2
+}
+.m-toolbar-container a{
+  // width: 56px;
+  // height: 19px;
+  // color: #fbfbfb;
+  font-family: "Microsoft YaHei";
+  font-weight: 290;
+  line-height: 19px;
+  // padding: 0 14px;
+  display: inline-block;
+  height: 100%;
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+}
+/deep/ .m-topBar{
+  line-height: 50px;
+}

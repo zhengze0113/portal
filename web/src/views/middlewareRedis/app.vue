@@ -1,0 +1,584 @@
+<template>
+  <div id="app" style="background-color: #E9E9E9">
+    <el-row style="height:100px;background: white;">
+      <el-col :span="24"></el-col>
+    </el-row>
+    <el-row style="height:70px;background:rgba(255,255,255,1);">
+      <el-col :span="24">
+        <el-row>
+          <el-col :offset="3" :span="2" class="buyTitle">服务购买</el-col>
+          <el-col :span="12" class="smallBuyTitle">{{
+            addorder.productName
+          }}</el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+    <!--sku-->
+    <!--参数项-->
+    <el-row style="margin-top:30px;">
+      <el-col :offset="3" :span="18" style="background: #FFF;">
+        <p class="skuFont">资源选项</p>
+        <el-row>
+          <el-col :offset="2">
+            <el-row>
+              <el-col :span="18">
+                <el-form
+                  :label-position="labelPVC"
+                  :model="redisFrom"
+                  :rules="redisFrom"
+                  ref="redisFrom"
+                  label-width="150px"
+                  class="demo-ruleForm"
+                >
+                  <el-form-item
+                    label="名称："
+                    prop="displayname"
+                    class="skuDivFont"
+                  >
+                    <el-input v-model="redisFrom.displayname"></el-input>
+                  </el-form-item>
+                  <el-form-item label="标签：">
+                    <el-row
+                      v-for="(item, index) in redisFrom.label"
+                      :key="index"
+                    >
+                      <el-col :span="9">
+                        <el-input v-model="item.key" />
+                      </el-col>
+                      <el-col :span="9" :offset="1">
+                        <el-input v-model="item.value" />
+                      </el-col>
+                      <el-col :span="4" :offset="1">
+                        <el-button
+                          size="mini"
+                          style="border-radius:0;background:rgba(3,97,167,1);"
+                          v-if="index != redisFrom.label.length - 1"
+                          icon="el-icon-minus"
+                          type="primary"
+                          plain
+                          @click.prevent="removeLS(item)"
+                        />
+                        <el-button
+                          size="mini"
+                          style="border-radius:0;background:rgba(3,97,167,1);"
+                          v-if="index == redisFrom.label.length - 1"
+                          icon="el-icon-plus"
+                          type="primary"
+                          plain
+                          @click.prevent="addLS()"
+                        />
+                      </el-col>
+                    </el-row>
+                  </el-form-item>
+                  <el-form-item
+                    label="服务端口："
+                    prop="port"
+                    class="skuDivFont"
+                  >
+                    <el-input
+                      v-model="redisFrom.port"
+                      :disabled="true"
+                    ></el-input>
+                  </el-form-item>
+                  <el-form-item label="集群配置：" class="skuDivFont">
+                    <el-switch
+                      v-model="redisFrom.cluster"
+                      @change="clusterChange"
+                    >
+                    </el-switch>
+                  </el-form-item>
+                  <el-form-item
+                    label="集群规模："
+                    prop="slaveCount"
+                    class="skuDivFont"
+                  >
+                    <el-radio-group
+                      v-model="redisFrom.slaveCount"
+                      :disabled="!redisFrom.cluster"
+                    >
+                      <el-radio label="3">3</el-radio>
+                      <el-radio label="5">5</el-radio>
+                      <el-radio label="7">7</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form-item label="CPU：" prop="cpu" class="skuDivFont">
+                    <el-radio-group v-model="redisFrom.cpu" @change="cpuChange">
+                      <el-radio label="100m">100m</el-radio>
+                      <el-radio label="500m">500m</el-radio>
+                      <el-radio label="1024m">1024m</el-radio>
+                      <el-radio label="2048m">2048m</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form-item label="内存：" prop="memory" class="skuDivFont">
+                    <el-radio-group
+                      v-model="redisFrom.memory"
+                      @change="memoryChange"
+                    >
+                      <el-radio label="256Mi">256Mi</el-radio>
+                      <el-radio label="512Mi">512Mi</el-radio>
+                      <el-radio label="1024Mi">1024Mi</el-radio>
+                      <el-radio label="2048Mi">2048Mi</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form-item
+                    label="持久化存储大小："
+                    prop="storage"
+                    class="skuDivFont"
+                  >
+                    <el-radio-group
+                      v-model="redisFrom.storage"
+                      @change="storageChange"
+                    >
+                      <el-radio label="1Gi">1Gi</el-radio>
+                      <el-radio label="2Gi">2Gi</el-radio>
+                      <el-radio label="4Gi">4Gi</el-radio>
+                      <el-radio label="8Gi">8Gi</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form-item
+                    label="配置密码："
+                    prop="password"
+                    class="skuDivFont"
+                  >
+                    <el-input
+                      v-model="redisFrom.password"
+                      placeholder="请输入redis密码"
+                      type="password"
+                      autocomplete="new-password"
+                      show-password
+                      clearable
+                    ></el-input>
+                  </el-form-item>
+                </el-form>
+              </el-col>
+            </el-row>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+    <!--订购-->
+    <el-row style="margin-top:30px;">
+      <el-col :offset="3" :span="18" style="background: #FFF;">
+        <p class="skuFont">订购</p>
+        <el-row>
+          <el-col :offset="2" style="margin-bottom:30px;">
+            <span class="skuDivFont">计费方式</span>
+            <el-button
+              style="border-radius:0;height:30px;background:rgba(3,97,167,1);padding-left: 14px;"
+            >
+              <span class="rightFont">包年包月</span>
+            </el-button>
+          </el-col>
+          <el-col :offset="2" style="margin-bottom:30px;">
+            <span class="skuDivFont">购买时长</span>
+            <el-input-number
+              v-model="time"
+              :min="1"
+              :max="12"
+              size="mini"
+              style="width:130px"
+              @change="countTime"
+            ></el-input-number>
+            <el-select
+              v-model="mode"
+              size="mini"
+              style="width: 80px; margin-left: 30px;margin-bottom: 0px;"
+              @change="countTime"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+    <!--服务协议-->
+    <el-row style="margin-top:30px;">
+      <el-col :offset="3" :span="18" style="background: #FFF;">
+        <el-col :span="3"> <p class="skuFont">服务协议</p></el-col>
+
+        <el-col :span="21">
+          <el-checkbox
+            @change="confirm()"
+            class="skuFont"
+            style="margin-bottom:10px"
+          >
+            <el-link type="primary" @click="agreement()">《服务条款》</el-link>
+          </el-checkbox>
+        </el-col>
+      </el-col>
+    </el-row>
+
+    <!--提交订单-->
+    <el-row style="margin-top:30px;height:100px;">
+      <el-col
+        :span="24"
+        style="background: #FFF;height:100px;"
+        :class="isFixed ? 'fixed' : ''"
+      >
+        <el-col :offset="15" style="color: #666666;line-height: 100px;">
+          服务费用：
+          <span class="money">￥{{ sum }}</span>
+          <el-button
+            style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);padding-left: 14px;margin-left:5%;"
+            @click="submitForm('redisFrom')"
+            v-if="disable == true"
+          >
+            <span class="rightFont">提交订单</span>
+          </el-button>
+          <el-popover
+            placement="bottom-start"
+            width="150"
+            trigger="click"
+            content="请仔细阅读服务协议，确认后再提交订单"
+            v-if="disable == false"
+          >
+            <el-button
+              slot="reference"
+              style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);margin-left:5%;padding-left: 14px;"
+            >
+              <span class="rightFont">提交订单</span>
+            </el-button>
+          </el-popover>
+        </el-col>
+      </el-col>
+    </el-row>
+  </div>
+</template>
+
+<script>
+import {
+  getServiceCatalogsInfo,
+  getResourcesSku, //获取云资源下的sku
+  getResourcesSkuInfo //查询详细sku信息
+} from "../../api/serviceOperating";
+import { requestParams } from "../../utils/urlParam";
+import { getUserInfo } from "../../utils/auth";
+export default {
+  name: "App",
+  data: function() {
+    return {
+      cpuPrice: 100,
+      memoryPrice: 256,
+      storagePrice: 10,
+      cpuPrices: [
+        { key: "100m", value: 100 },
+        { key: "500m", value: 500 },
+        { key: "1024m", value: 1024 },
+        { key: "2048m", value: 2048 }
+      ],
+      memoryPrices: [
+        { key: "256Mi", value: 256 },
+        { key: "512Mi", value: 512 },
+        { key: "1024Mi", value: 1024 },
+        { key: "2048Mi", value: 2048 }
+      ],
+      storagePrices: [
+        { key: "1Gi", value: 10 },
+        { key: "2Gi", value: 20 },
+        { key: "4Gi", value: 40 },
+        { key: "8Gi", value: 80 }
+      ],
+      skuInfo: null,
+      skuInfoSpecs: [],
+      search: {
+        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        page: 1,
+        rows: 100
+      },
+      labelPVC: "left",
+      isFixed: true,
+      edit: [],
+      skuid: 0,
+      skuData: "",
+      disable: false,
+      sum: 0,
+      radio: "",
+      name: "",
+      redisFrom: {
+        displayname: "Redis",
+        name: "redis",
+        port: "31048",
+        cluster: false,
+        slaveCount: "1",
+        cpu: "100m",
+        memory: "256Mi",
+        storage: "1Gi",
+        password: "123456",
+        label: [{ key: "fasf", value: "asf" }]
+      },
+      price: 0,
+      time: 0,
+      addorder: {
+        //提交订单数据
+        amount: 0,
+        description: "订单",
+        discount: 0,
+         projectId: "", //所属项目id
+        projectName: "", //所属项目名称
+        productId: 0, //云产品id
+        productName: "", //云产品名称
+        catalogId: 0, //服务目录Id
+        catalog: "", //服务目录名称
+        items: [
+          {
+            amount: 0,
+            basicPrice: 0,
+            category: "",
+            name: "",
+            description: "",
+            discount: 0,
+            duration: 0,
+            finalPrice: 0,
+            name: "",
+            params: "",
+            payMode: "AFTERWARDS",
+            skuId: 0,
+            tags: "",
+            platformParams: ""
+          }
+        ],
+        name: "",
+        payMode: "AFTERWARDS",
+        tags: "",
+        userId: "1",
+        tenantId: "1"
+      },
+      sum: 0,
+      mode: "MONTH",
+      disable: false,
+      options: [
+        {
+          value: "MONTH",
+          label: "月"
+        }
+      ]
+    };
+  },
+  methods: {
+    //增加时间
+    countTime() {
+      this.price = this.cpuPrice + this.memoryPrice + this.storagePrice;
+      console.log(this.cpuPrice + "+" + this.price);
+      this.sum = this.time * this.price;
+      this.sum = Math.floor(this.sum * 100) / 100;
+    },
+
+    cpuChange(data) {
+      this.cpuPrices.forEach(item => {
+        if (data == item.key) {
+          this.cpuPrice = item.value;
+        }
+      });
+      this.countTime();
+    },
+    memoryChange(data) {
+      this.memoryPrices.forEach(item => {
+        if (data == item.key) {
+          this.memoryPrice = item.value;
+        }
+      });
+      this.countTime();
+    },
+    storageChange(data) {
+      this.storagePrices.forEach(item => {
+        if (data == item.key) {
+          this.storagePrice = item.value;
+        }
+      });
+      this.countTime();
+    },
+    addLS() {
+      this.redisFrom.label.push({
+        key: "",
+        value: ""
+      });
+    },
+    removeLS(item) {
+      var index = this.redisFrom.label.indexOf(item);
+      if (index !== -1) {
+        this.redisFrom.label.splice(index, 1);
+      }
+    },
+    clusterChange(data) {
+      if (!data) {
+        this.redisFrom.slaveCount = 1;
+        console.log(this.redisFrom.slaveCount);
+      }
+    },
+    //获取参数
+    getId(name) {
+      return (
+        decodeURIComponent(
+          (new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(
+            location.href
+          ) || [, ""])[1].replace(/\+/g, "%20")
+        ) || null
+      );
+    },
+    confirm() {
+      if (this.disable == true) {
+        this.disable = false;
+      } else if (this.disable == false) {
+        this.disable = true;
+      }
+    },
+    //服务协议
+    agreement() {
+      location.href = "/html/agreement.html";
+    },
+    //固定定位
+    handleScroll() {
+      let scrollTop1 =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      let screenHeight = scrollTop1 + document.documentElement.clientHeight;
+
+      if (300 <= document.body.offsetHeight - screenHeight) {
+        this.isFixed = true;
+      } else {
+        this.isFixed = false;
+      }
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          // alert("submit!");
+          this.commitOrder();
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    //提交订单
+    async commitOrder() {
+      //提交订单参数
+      const r = await requestParams(getResourcesSkuInfo, this.radio);
+      console.log(r);
+      this.skuInfo = r.content;
+      // this.skuInfoSpecs = r.content.specs;
+      this.skuInfo.category = this.name;
+
+      let arr = r.content.storage.split(";");
+      for (let a = 0; a < arr.length; a++) {
+        let arr1 = arr[a].split(":");
+        let params = { name: "", paramValue: "" };
+        //CPU : ; 内存 : 1; 持久化存储 : ;名称: ;端口: ;集群规模: ;配置密码: ;时长: ;
+        if (arr1[0].trim() == "CPU") {
+          params.name = arr1[0];
+          params.paramValue = this.redisFrom.cpu;
+          this.skuInfoSpecs.push(params);
+        }
+        if (arr1[0].trim() == "内存") {
+          params.name = arr1[0];
+          params.paramValue = this.redisFrom.memory;
+          this.skuInfoSpecs.push(params);
+        }
+        if (arr1[0].trim() == "持久化存储") {
+          params.name = arr1[0];
+          params.paramValue = this.redisFrom.storage;
+          this.skuInfoSpecs.push(params);
+        }
+        if (arr1[0].trim() == "名称") {
+          params.name = arr1[0];
+          params.paramValue = this.redisFrom.displayname;
+          this.skuInfoSpecs.push(params);
+        }
+        if (arr1[0].trim() == "端口") {
+          params.name = arr1[0];
+          params.paramValue = this.redisFrom.port;
+          this.skuInfoSpecs.push(params);
+        }
+        if (arr1[0].trim() == "集群规模") {
+          params.name = arr1[0];
+          params.paramValue = this.redisFrom.slaveCount;
+          this.skuInfoSpecs.push(params);
+        }
+        if (arr1[0].trim() == "配置密码") {
+          params.name = arr1[0];
+          params.paramValue = this.redisFrom.password;
+          this.skuInfoSpecs.push(params);
+        }
+        if (arr1[0].trim() == "标签") {
+          params.name = arr1[0];
+          params.paramValue = this.redisFrom.label;
+          this.skuInfoSpecs.push(params);
+        }
+      }
+      if (this.disable == true) {
+        for (var key in this.addorder.items[0]) {
+          for (var key1 in this.skuInfo) {
+            if (key == key1) {
+              this.addorder.items[0][key] = this.skuInfo[key1];
+            }
+          }
+        }
+
+        this.addorder.amount = this.sum;
+        this.addorder.items[0].amount = this.time;
+        this.addorder.items[0].basicPrice = this.price;
+        this.addorder.items[0].finalPrice = this.sum;
+        this.addorder.items[0].skuId = this.radio; //
+        this.addorder.items[0].category = "缓存中间件（redis）";
+        this.addorder.items[0].name = this.name;
+        this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
+        var duration = "月";
+        this.mode == "MONTH" ? (duration = "月") : (duration = "年");
+        this.addorder.items[0].duration = this.time + duration;
+        console.log(this.addorder);
+        // 存储
+        var data = JSON.stringify(this.addorder);
+        console.log(data);
+        sessionStorage.setItem("order", data);
+        sessionStorage.setItem("redisFrom", JSON.stringify(this.redisFrom));
+        console.log(sessionStorage);
+        location.href = "/html/confirmOrder.html";
+      } else if (this.disable == false) {
+        this.disable = true;
+      }
+    },
+    async fetchData() {
+      this.listLoading = true;
+      this.id = this.getId("id");
+      this.search.params = `[{"param":{"catalogId":${this.id}},"sign":"EQ"}]`;
+      this.search.page = 1;
+      this.search.rows = 100;
+      const res = await requestParams(getResourcesSku, this.search);
+      var list = res.content.content;
+      console.log(res);
+      this.radio = list[0].id;
+      this.countTime();
+    }
+  },
+
+  created() {
+    this.addorder.productId = this.getId("id");
+    this.addorder.productName = this.getId("productName");
+    this.addorder.catalogId = this.getId("catalogId");
+    this.addorder.catalog = this.getId("catalog");
+    this.fetchData();
+  },
+  mounted() {
+    this.isFixed =
+      document.body.offsetHeight - document.documentElement.clientHeight > 300;
+    // window.addEventListener('mousewheel',this.handleScroll,false);
+    window.addEventListener("scroll", this.handleScroll);
+  }
+};
+</script>
+
+<style>
+.m-topBar {
+  background-color: #11151c !important;
+}
+</style>
+<style scoped lang="scss">
+@import "../rewrite.scss";
+@import "../purchase.scss";
+</style>

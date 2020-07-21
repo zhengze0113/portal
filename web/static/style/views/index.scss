@@ -1,0 +1,75 @@
+@import "../_reset.scss";
+@import "../_base.scss";
+
+// html {
+//   height: 100vh;
+//   overflow: hidden;
+// }
+
+// /* vertical scrollbar track */
+// .gm-scrollbar.-vertical {
+//   background-color: rgba(0,0,0,0);
+//   right: 0px;
+// }
+
+// /* horizontal scrollbar track */
+// .gm-scrollbar.-horizontal {
+//   background-color: transparent;
+// }
+
+/* scrollbar thumb */
+.gm-scrollbar .thumb {
+  background-color: rebeccapurple;
+}
+.gm-scrollbar .thumb:hover {
+  background-color: fuchsia;
+}
+
+
+
+.part{
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  counter-reset: part;
+}
+
+.part1 {
+  /*background: #fca1a1;*/
+  background: white;
+
+}
+
+.part2 {
+  /*background: #8bf9b3;*/
+  background: white;
+}
+
+.part3 {
+  /*background: #a1b6fc;*/
+  background: white;
+}
+
+.part4 {
+  /*background: #9452f2;*/
+  background: white;
+}
+
+.dotted-wrap{
+  position: fixed;
+  height: 100%;
+  right: 10px;
+  top: 50%;
+  z-index: 90;
+}
+
+.part-dotted{
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin-bottom: 8px;
+  background: #eee;
+  border-radius: 4px;
+  cursor: pointer;
+}
