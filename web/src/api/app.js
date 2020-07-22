@@ -17,6 +17,7 @@ let baseURL = {
   DataInterface3scale: "http://10.72.78.125:8810",
   // cms路径
   DATAURL: "http://10.72.78.125:1337"
+  //测试提交
 };
 /**
  * 以下代码本地启动需要注释掉
