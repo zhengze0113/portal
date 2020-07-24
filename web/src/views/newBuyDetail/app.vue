@@ -251,8 +251,7 @@
                       class="skuDivFont"
                       prop="namespace"
                       :rules="[
-                        { required: true, message: '资源空间不能为空' },
-                        { validator: checkName, trigger: 'blur' }
+                        { required: true, message: '资源空间不能为空' }
                       ]"
                     >
                       <el-select

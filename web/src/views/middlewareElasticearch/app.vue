@@ -31,50 +31,159 @@
                   class="demo-ruleForm"
                 >
                   <el-form-item
+                    class="skuDivFont"
+                    label="项目："
+                    prop="projectNo"
+                    :rules="[{ required: true, message: '项目信息不能为空' }]"
+                  >
+                    <el-select
+                      v-model="redisFrom.projectNo"
+                      placeholder="请选择项目"
+                      style="width: 100%;"
+                      @change="selectModel($event)"
+                    >
+                      <el-option
+                        v-for="item in project"
+                        :key="item.projectName"
+                        :label="item.projectName"
+                        :value="item.projectNo"
+                      ></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item
+                    class="skuDivFont"
+                    label="集群："
+                    prop="envId"
+                    :rules="[{ required: true, message: '集群信息不能为空' }]"
+                  >
+                    <!-- :rules="[{ required: true, message: '集群信息不能为空' }]" -->
+                    <el-select
+                      v-model="redisFrom.envId"
+                      filterable
+                      placeholder="请选择集群"
+                      style="width: 100%;"
+                    >
+                      <el-option
+                        v-for="item in envs"
+                        :key="item.name"
+                        :label="item.name"
+                        :value="item.id"
+                      ></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item
+                    label="资源空间:"
+                    class="skuDivFont"
+                    prop="namespace"
+                    :rules="[{ required: true, message: '资源空间不能为空' }]"
+                  >
+                    <!-- :rules="[{ required: true, message: '资源空间不能为空' }]" -->
+                    <el-select
+                      v-model="redisFrom.namespace"
+                      placeholder="请选择资源空间"
+                      style="width: 100%;"
+                      @visible-change="clickNamespace"
+                    >
+                      <el-option
+                        v-for="item in namespaces"
+                        :key="item.name"
+                        :label="item.name"
+                        :value="item.name"
+                      ></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item
                     label="名称："
                     prop="displayname"
                     class="skuDivFont"
+                    :rules="[
+                      { required: true, message: '名称不能为空' },
+                      {
+                        pattern: /^[a-z0-9A-Z]([-a-z0-9A-Z.]*[z-z0-9A-Z])?$/,
+                        message:
+                          '名称由字母、数字、横线(-)和点(.)组成,且必须以字母或数字开头结尾',
+                        trigger: 'blur',
+                      },
+                    ]"
                   >
                     <el-input v-model="redisFrom.displayname"></el-input>
                   </el-form-item>
-                  <el-form-item label="标签：">
-                    <el-row
-                      v-for="(item, index) in redisFrom.label"
-                      :key="index"
-                    >
-                      <el-col :span="9">
-                        <el-input v-model="item.key" />
-                      </el-col>
-                      <el-col :span="9" :offset="1">
-                        <el-input v-model="item.value" />
-                      </el-col>
-                      <el-col :span="4" :offset="1">
-                        <el-button
-                          size="mini"
-                          style="border-radius:0;background:rgba(3,97,167,1);"
-                          v-if="index != redisFrom.label.length - 1"
-                          icon="el-icon-minus"
-                          type="primary"
-                          plain
-                          @click.prevent="removeLS(item)"
-                        />
-                        <el-button
-                          size="mini"
-                          style="border-radius:0;background:rgba(3,97,167,1);"
-                          v-if="index == redisFrom.label.length - 1"
-                          icon="el-icon-plus"
-                          type="primary"
-                          plain
-                          @click.prevent="addLS()"
-                        />
-                      </el-col>
-                    </el-row>
+                  <el-form-item label="标签">
+                    <div class="table-box" style="margin-right:24px;">
+                      <el-table
+                        :data="redisFrom.label"
+                        style="width: 100%; border: 1px solid #dcdfe6;"
+                      >
+                        <el-table-column label="KEY" align="center">
+                          <template slot-scope="scope">
+                            <el-form-item
+                              :prop="'label.' + scope.$index + '.key'"
+                              :rules="[
+                                {
+                                  required: true,
+                                  message: '请输入KEY',
+                                  trigger: 'blur',
+                                },
+                                {
+                                  pattern: /(?!\d+$)[a-zA-Z0-9]([A-Za-z0-9/_])?$/,
+                                  message:
+                                    '不能为纯数字,名称由字母、数字、(_)和(/)组成',
+                                  trigger: 'blur',
+                                },
+                              ]"
+                            >
+                              <el-input
+                                placeholder="请输入KEY"
+                                class="width90"
+                                v-model="scope.row.key"
+                              ></el-input>
+                            </el-form-item>
+                          </template>
+                        </el-table-column>
+                        <el-table-column align="center" label="VALUE">
+                          <template slot-scope="scope">
+                            <el-form-item
+                              :prop="'label.' + scope.$index + '.value'"
+                              :rules="[
+                                {
+                                  required: true,
+                                  message: '请输入VALUE',
+                                  trigger: 'blur',
+                                },
+                                {
+                                  pattern: /(?!\d+$)[a-zA-Z0-9]([A-Za-z0-9/_])?$/,
+                                  message:
+                                    '不能为纯数字,名称由字母、数字、(_)和(/)组成',
+                                  trigger: 'blur',
+                                },
+                              ]"
+                            >
+                              <el-input
+                                placeholder="请输入VALUE"
+                                class="width90"
+                                v-model="scope.row.value"
+                              ></el-input>
+                            </el-form-item>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          width="100"
+                          align="center"
+                          label="操作"
+                        >
+                          <template slot-scope="scope">
+                            <div class="del" @click="delEnv(scope)">移除</div>
+                          </template>
+                        </el-table-column>
+                      </el-table>
+                    </div>
+                    <div class="add">
+                      <span @click="addEnv">
+                        <i class="add-icon">+</i>新增标签</span
+                      >
+                    </div>
                   </el-form-item>
-                  <el-form-item
-                    label="服务端口："
-                    prop="port"
-                    class="skuDivFont"
-                  >
+                  <el-form-item label="服务端口：" class="skuDivFont">
                     <el-input
                       v-model="redisFrom.port"
                       :disabled="true"
@@ -220,7 +329,10 @@
 import {
   getServiceCatalogsInfo,
   getResourcesSku, //获取云资源下的sku
-  getResourcesSkuInfo //查询详细sku信息
+  getResourcesSkuInfo, //查询详细sku信息
+  getProjects,
+  getClusters,
+  getProjectResource, //获取项目下资源空间
 } from "../../api/serviceOperating";
 import { requestParams } from "../../utils/urlParam";
 import { getUserInfo } from "../../utils/auth";
@@ -228,6 +340,11 @@ export default {
   name: "App",
   data: function() {
     return {
+      search1: {
+        page: 1,
+        pageSize: 100,
+        sort: "",
+      },
       cpuPrice: 100,
       memoryPrice: 256,
       storagePrice: 50,
@@ -235,26 +352,26 @@ export default {
         { key: "100m", value: 100 },
         { key: "500m", value: 500 },
         { key: "1024m", value: 1024 },
-        { key: "2048m", value: 2048 }
+        { key: "2048m", value: 2048 },
       ],
       memoryPrices: [
         { key: "256Mi", value: 256 },
         { key: "512Mi", value: 512 },
         { key: "1024Mi", value: 1024 },
-        { key: "2048Mi", value: 2048 }
+        { key: "2048Mi", value: 2048 },
       ],
       storagePrices: [
         { key: "5Gi", value: 50 },
         { key: "10Gi", value: 100 },
         { key: "20Gi", value: 200 },
-        { key: "30Gi", value: 300 }
+        { key: "30Gi", value: 300 },
       ],
       skuInfo: null,
       skuInfoSpecs: [],
       search: {
         params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
         page: 1,
-        rows: 100
+        rows: 100,
       },
       labelPVC: "left",
       isFixed: true,
@@ -266,17 +383,21 @@ export default {
       radio: "",
       name: "",
       redisFrom: {
-        displayname: "elasticsearch",
-        name: "elasticsearch",
-        port: "31499",
+        envId: "",
+        namespace: "",
+        projectNo: "",
+        displayname: "",
+        name: "",
+        port: "",
         cpu: "100m",
         memory: "256Mi",
         storage: "5Gi",
         slaveCount: "1",
-        label: [{ key: "", value: "" }]
+        label: [],
       },
       price: 0,
-      time: 0,
+      time: 1,
+      project: "",
       addorder: {
         //提交订单数据
         amount: 0,
@@ -303,14 +424,14 @@ export default {
             payMode: "AFTERWARDS",
             skuId: 0,
             tags: "",
-            platformParams: ""
-          }
+            platformParams: "",
+          },
         ],
         name: "",
         payMode: "AFTERWARDS",
         tags: "",
         userId: "1",
-        tenantId: "1"
+        tenantId: "1",
       },
       sum: 0,
       mode: "MONTH",
@@ -318,12 +439,53 @@ export default {
       options: [
         {
           value: "MONTH",
-          label: "月"
-        }
-      ]
+          label: "月",
+        },
+      ],
+      envs: "",
+      namespaces: "",
     };
   },
   methods: {
+    delEnv(row) {
+      this.redisFrom.label.splice(row.$index, 1);
+    },
+    addEnv() {
+      this.redisFrom.label.push({ key: "", value: "" });
+    },
+    //获取资源空间
+    clickNamespace(judge) {
+      if (judge) {
+        this.projectResource.envId = this.redisFrom.envId;
+        this.projectResource.projectNo = this.redisFrom.projectNo;
+        getProjectResource(this.projectResource).then((r) => {
+          this.namespaces = r.content;
+        });
+      }
+    },
+    //获取集群
+    async getClusters() {
+      const res1 = await requestParams(getClusters);
+      this.envs = res1.content.content;
+      this.redisFrom.envId = this.envs[0].id;
+      this.projectResource.envId = this.redisFrom.envId;
+      this.projectResource.projectNo = this.redisFrom.projectNo;
+
+      getProjectResource(this.projectResource).then((r) => {
+        this.namespaces = r.content;
+      });
+    },
+    selectModel(name) {
+      let obj = {};
+      obj = this.project.find((item) => {
+        //model就是上面的数据源
+        return item.projectNo === name; //筛选出匹配数据
+      });
+
+      this.redisFrom.namespace = "";
+      this.addorder.projectId = obj.id;
+      this.addorder.projectName = obj.projectName;
+    },
     //增加时间
     countTime() {
       this.price = this.cpuPrice + this.memoryPrice + this.storagePrice;
@@ -333,7 +495,7 @@ export default {
     },
 
     cpuChange(data) {
-      this.cpuPrices.forEach(item => {
+      this.cpuPrices.forEach((item) => {
         if (data == item.key) {
           this.cpuPrice = item.value;
         }
@@ -341,7 +503,7 @@ export default {
       this.countTime();
     },
     memoryChange(data) {
-      this.memoryPrices.forEach(item => {
+      this.memoryPrices.forEach((item) => {
         if (data == item.key) {
           this.memoryPrice = item.value;
         }
@@ -349,7 +511,7 @@ export default {
       this.countTime();
     },
     storageChange(data) {
-      this.storagePrices.forEach(item => {
+      this.storagePrices.forEach((item) => {
         if (data == item.key) {
           this.storagePrice = item.value;
         }
@@ -359,7 +521,7 @@ export default {
     addLS() {
       this.redisFrom.label.push({
         key: "",
-        value: ""
+        value: "",
       });
     },
     removeLS(item) {
@@ -370,8 +532,9 @@ export default {
     },
     clusterChange(data) {
       if (!data) {
-        this.redisFrom.slaveCount = 1;
-        console.log(this.redisFrom.slaveCount);
+        this.redisFrom.slaveCount = "1";
+      } else {
+        this.redisFrom.slaveCount = "3";
       }
     },
     //获取参数
@@ -410,7 +573,8 @@ export default {
       }
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      console.log(this.redisFrom.label);
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           // alert("submit!");
           this.commitOrder();
@@ -478,6 +642,7 @@ export default {
             }
           }
         }
+        console.log(this.redisFrom);
 
         this.addorder.amount = this.sum;
         this.addorder.items[0].amount = this.time;
@@ -497,12 +662,14 @@ export default {
         sessionStorage.setItem("order", data);
         sessionStorage.setItem("redisFrom", JSON.stringify(this.redisFrom));
         console.log(sessionStorage);
-        location.href = "/html/confirmOrder.html";
+        // location.href = "/html/confirmOrder.html";
       } else if (this.disable == false) {
         this.disable = true;
       }
     },
     async fetchData() {
+      this.redisFrom.port =
+        Math.floor(Math.random() * (32767 - 30000 + 1)) + 30000;
       this.listLoading = true;
       this.id = this.getId("id");
       this.search.params = `[{"param":{"catalogId":${this.id}},"sign":"EQ"}]`;
@@ -512,8 +679,14 @@ export default {
       var list = res.content.content;
       console.log(res);
       this.radio = list[0].id;
+
+      this.user = JSON.parse(getUserInfo());
+      //获取用户下的项目列表
+      this.search1.sort = this.user.uid;
+      const projectres = await requestParams(getProjects, this.search1);
+      this.project = projectres.content.content;
       this.countTime();
-    }
+    },
   },
 
   created() {
@@ -522,13 +695,14 @@ export default {
     this.addorder.catalogId = this.getId("catalogId");
     this.addorder.catalog = this.getId("catalog");
     this.fetchData();
+    this.getClusters();
   },
   mounted() {
     this.isFixed =
       document.body.offsetHeight - document.documentElement.clientHeight > 300;
     // window.addEventListener('mousewheel',this.handleScroll,false);
     window.addEventListener("scroll", this.handleScroll);
-  }
+  },
 };
 </script>
 
@@ -540,4 +714,33 @@ export default {
 <style scoped lang="scss">
 @import "../rewrite.scss";
 @import "../purchase.scss";
+/deep/ .el-form-item__content {
+  line-height: 0px;
+  position: relative;
+  font-size: 14px;
+}
+.add {
+  color: #0261a7;
+  font-size: 12px;
+  margin-top: 10px;
+  i {
+    display: inline-block;
+    margin-right: 9px;
+    width: 14px;
+    box-sizing: border-box;
+    text-align: center;
+    height: 13px;
+    border-radius: 4px;
+    border: 1px solid #0261a7;
+    line-height: 13px;
+  }
+  span {
+    cursor: pointer;
+  }
+}
+.del {
+  margin-bottom: 18px;
+  color: #ff2d25;
+  cursor: pointer;
+}
 </style>

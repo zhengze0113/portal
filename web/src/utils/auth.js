@@ -19,13 +19,13 @@ export function getAccessToken() {
 }
 
 export function setAccessToken(token) {
-    // return Cookies.set(accessToken, token);  开发环境
-    return Cookies.set(accessToken, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });//生产环境
+    return Cookies.set(accessToken, token); //开发环境
+    // return Cookies.set(accessToken, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });//生产环境
 }
 
 export function removeAccessToken() {
-    //return Cookie('accessToken');开发环境
-    return Cookies.remove(accessToken, { domain: '.devapp.cnooc', path: '/' });//生产环境
+    return Cookies.remove(accessToken); //开发环境
+    // return Cookies.remove(accessToken, { domain: '.devapp.cnooc', path: '/' });//生产环境
 }
 // expiresIn
 export function getExpiresIn() {
@@ -33,11 +33,13 @@ export function getExpiresIn() {
 }
 
 export function setExpiresIn(token) {
-    return Cookies.set(expiresIn, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
+    return Cookies.set(expiresIn, token);
+    // return Cookies.set(expiresIn, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
 }
 
 export function removeExpiresIn() {
-    return Cookies.remove(expiresIn, { domain: '.devapp.cnooc', path: '/' });
+    return Cookies.remove(expiresIn);
+    // return Cookies.remove(expiresIn, { domain: '.devapp.cnooc', path: '/' });
 }
 
 // refreshExpiresIn
@@ -46,11 +48,13 @@ export function getRefreshExpiresIn() {
 }
 
 export function setRefreshExpiresIn(token) {
-    return Cookies.set(refreshExpiresIn, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
+    return Cookies.set(refreshExpiresIn, token);
+    // return Cookies.set(refreshExpiresIn, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
 }
 
 export function removeRefreshExpiresIn() {
-    return Cookies.remove(refreshExpiresIn, { domain: '.devapp.cnooc', path: '/' });
+    return Cookies.remove(refreshExpiresIn);
+    // return Cookies.remove(refreshExpiresIn, { domain: '.devapp.cnooc', path: '/' });
 }
 
 // refreshToken
@@ -59,11 +63,13 @@ export function getRefreshToken() {
 }
 
 export function setRefreshToken(token) {
-    return Cookies.set(refreshToken, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
+    return Cookies.set(refreshToken, token);
+    // return Cookies.set(refreshToken, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
 }
 
 export function removeRefreshToken() {
-    return Cookies.remove(refreshToken, { domain: '.devapp.cnooc', path: '/' });
+    return Cookies.remove(refreshToken);
+    // return Cookies.remove(refreshToken, { domain: '.devapp.cnooc', path: '/' });
 }
 
 // loginDate
@@ -72,11 +78,13 @@ export function getLoginDate() {
 }
 
 export function setLoginDate(token) {
-    return Cookies.set(loginDate, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
+    return Cookies.set(loginDate, token);
+    // return Cookies.set(loginDate, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
 }
 
 export function removeLoginDate() {
-    return Cookies.remove(loginDate, { domain: '.devapp.cnooc', path: '/' });
+    return Cookies.remove(loginDate);
+    // return Cookies.remove(loginDate, { domain: '.devapp.cnooc', path: '/' });
 }
 
 // loadAccessTokenDate
@@ -85,11 +93,13 @@ export function getLoadAccessTokenDate() {
 }
 
 export function setLoadAccessTokenDate(token) {
-    return Cookies.set(loadAccessTokenDate, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
+    return Cookies.set(loadAccessTokenDate, token);
+    // return Cookies.set(loadAccessTokenDate, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
 }
 
 export function removeLoadAccessTokenDate() {
-    return Cookies.remove(loadAccessTokenDate, { domain: '.devapp.cnooc', path: '/' });
+    return Cookies.remove(loadAccessTokenDate);
+    // return Cookies.remove(loadAccessTokenDate, { domain: '.devapp.cnooc', path: '/' });
 }
 
 // location
@@ -98,11 +108,13 @@ export function getLocation() {
 }
 
 export function setLocation(token) {
-    return Cookies.set(location, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
+    return Cookies.set(location, token);
+    // return Cookies.set(location, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
 }
 
 export function removeLocation() {
-    return Cookies.remove(location, { domain: '.devapp.cnooc', path: '/' });
+    return Cookies.remove(location);
+    // return Cookies.remove(location, { domain: '.devapp.cnooc', path: '/' });
 }
 
 // userLocation
@@ -111,11 +123,13 @@ export function getUserLocation() {
 }
 
 export function setUserLocation(token) {
-    return Cookies.set(userLocation, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
+    return Cookies.set(userLocation, token);
+    // return Cookies.set(userLocation, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
 }
 
 export function removeUserLocation() {
-    return Cookies.remove(userLocation, { domain: '.devapp.cnooc', path: '/' });
+    return Cookies.remove(userLocation);
+    // return Cookies.remove(userLocation, { domain: '.devapp.cnooc', path: '/' });
 }
 
 // userInfo
@@ -124,11 +138,13 @@ export function getUserInfo() {
 }
 
 export function setUserInfo(token) {
-    return Cookies.set(userInfo, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
+    return Cookies.set(userInfo, token);
+    // return Cookies.set(userInfo, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
 }
 
 export function removeUserInfo() {
-    return Cookies.remove(userInfo, { domain: '.devapp.cnooc', path: '/' });
+    return Cookies.remove(userInfo);
+    // return Cookies.remove(userInfo, { domain: '.devapp.cnooc', path: '/' });
 }
 
 // userName
@@ -137,11 +153,13 @@ export function getUserName() {
 }
 
 export function setUserName(token) {
-    return Cookies.set(userName, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
+    return Cookies.set(userName, token);
+    // return Cookies.set(userName, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
 }
 
 export function removeUserName() {
-    return Cookies.remove(userName, { domain: '.devapp.cnooc', path: '/' });
+    return Cookies.remove(userName);
+    // return Cookies.remove(userName, { domain: '.devapp.cnooc', path: '/' });
 }
 
 
@@ -151,9 +169,11 @@ export function getLastUserName() {
 }
 
 export function setLastUserName(token) {
-    return Cookies.set(lastUserName, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
+    return Cookies.set(lastUserName, token);
+    // return Cookies.set(lastUserName, token, { expires: 7, path: '/', domain: '.devapp.cnooc' });
 }
 
 export function removeLastUserName() {
-    return Cookies.remove(lastUserName, { domain: '.devapp.cnooc', path: '/' });
+    return Cookies.remove(lastUserName);
+    // return Cookies.remove(lastUserName, { domain: '.devapp.cnooc', path: '/' });
 }
