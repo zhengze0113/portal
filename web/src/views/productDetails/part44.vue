@@ -6,13 +6,10 @@
           <!-- Left -->
           <el-col :span="6" :offset="1" style="margin-top:60px;">
             <p class="imgStyle">
-              <img
-                :src="baseURL.DATAURL + list3[0].icon.url"
-                style="width:80px;"
-              />
+              <img :src="baseURL.DATAURL + list.icon.url" style="width:80px;" />
             </p>
             <div class="fontChiese" style="margin-top:15px;">
-              {{ list3[0].title }}
+              {{ list.name }}
             </div>
             <div class="fontCenter" style="margin-top:43px;">
               <el-button class="btnStyle" @click="linkBuy()">
@@ -74,25 +71,25 @@ import topBar from "../../components/hd1/topBar";
 import {
   getProductDetail,
   getProducts,
-  getProductone
+  getProductone,
 } from "../../api/productDetail";
 import {
   getServiceCatalogsInfo,
-  getCloudServiceCatalogsC
+  getCloudServiceCatalogsC,
 } from "../../api/serviceOperating";
-
+import { getProductMessage, getDocuments } from "../../api/CMSApi";
 import baseURL from "../../api/app";
 
 import {
   requestParams,
   parseHash,
-  appendParamsToUrl
+  appendParamsToUrl,
 } from "../../utils/urlParam";
 
 export default {
   name: "App",
   components: {
-    topBar
+    topBar,
   },
   data: function() {
     return {
@@ -112,16 +109,18 @@ export default {
       seardh: { productId: undefined },
       list: [{ cover: { url: "" }, icon: { url: "" } }],
       activeName: 2,
-      list1: [{ cover: { url: "" }, icon: { url: "" } }],
       list2: [{ cover: { url: "" }, icon: { url: "" } }],
-      list3: [{ cover: { url: "" }, icon: { url: "" } }]
+      servicecatalogId: "",
     };
   },
   created() {
-    this.id = this.getId("productId"); //this.getFatherId(this.id);
+    this.id = this.getId("id"); //this.getFatherId(this.id);
     this.productName = this.getId("productName");
     this.catalogId = this.getId("catalogId");
     this.catalog = this.getId("catalog");
+    this.servicecatalogId = this.getId("productId");
+    this.itemid = this.getQueryVariable("ll");
+    this.activeName = this.itemid;
     this.getProduct(this.id);
   },
   mounted() {},
@@ -136,142 +135,142 @@ export default {
       );
     },
     linkBuy() {
-      console.log(this.list[0].title);
-      if (this.list[0].title == "数据存储PVC") {
+      let name = this.list.name;
+      if (name == "数据存储PVC") {
         window.location.href = `/html/dataPVBuy.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "服务路由(Route)") {
+      if (name == "服务路由(Route)") {
         window.location.href = `/html/serviceRoute.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "熔断监控服务") {
+      if (name == "熔断监控服务") {
         window.location.href = `/html/fusingMonitoring.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "分布式服务 tx-lcn（提供sdk）") {
+      if (name == "分布式服务 tx-lcn（提供sdk）") {
         window.location.href = `/html/distributed.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "注册中心服务") {
+      if (name == "注册中心服务") {
         window.location.href = `/html/registryService.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "注册中心服务（高可用）") {
+      if (name == "注册中心服务（高可用）") {
         window.location.href = `/html/registryService.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "调用链服务") {
+      if (name == "调用链服务") {
         window.location.href = `/html/callChain.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "网关服务") {
+      if (name == "网关服务") {
         window.location.href = `/html/gateway.html?id=${this.id}&productName=${
           this.productName
         }&catalogId=${this.catalogId}&catalog=${this.catalog}`;
         return;
       }
-      if (this.list[0].title == "Apm性能管理") {
+      if (name == "Apm性能管理") {
         window.location.href = `/html/pinpoint.html?id=${this.id}&productName=${
           this.productName
         }&catalogId=${this.catalogId}&catalog=${this.catalog}`;
         return;
       }
-      if (this.list[0].title == "配置中心服务") {
+      if (name == "配置中心服务") {
         window.location.href = `/html/configurationCenter.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "一键安装微服务") {
+      if (name == "一键安装微服务") {
         window.location.href = `/html/Installmicroservices.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "项目管理服务（Jira）") {
+      if (name == "项目管理服务（Jira）") {
         window.location.href = `/html/jiraService.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "开通SonarQube") {
+      if (name == "开通SonarQube") {
         window.location.href = `/html/sonarQube.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "开通Gitlab") {
+      if (name == "开通Gitlab") {
         window.location.href = `/html/gitlabService.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "开通Hitchhiker") {
+      if (name == "开通Hitchhiker") {
         window.location.href = `/html/hitchhiker.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
-      if (this.list[0].title == "开通Jenkins") {
+      if (name == "开通Jenkins") {
         window.location.href = `/html/jenkins.html?id=${this.id}&productName=${
           this.productName
         }&catalogId=${this.catalogId}&catalog=${this.catalog}`;
         return;
       }
-      if (this.list[0].title == "开通Nexus") {
+      if (name == "开通Nexus") {
         window.location.href = `/html/nexusService.html?id=${
           this.id
-        }&productName=${this.productName}&catalogId=${
-          this.catalogId
-        }&catalog=${this.catalog}`;
+        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+          this.catalog
+        }`;
         return;
       }
       window.location.href = `/html/newBuyDetail.html?id=${
         this.id
-      }&productName=${this.productName}&catalogId=${
-        this.catalogId
-      }&catalog=${this.catalog}`;
+      }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
+        this.catalog
+      }`;
     },
     handleClick(tab, event) {
       console.log(tab, event);
@@ -288,28 +287,11 @@ export default {
      * 触发‘配置管理’事件
      */
     second() {
-      window.location.href = "/html/productDetail1.html?id=" + this.ids;
-    },
-    jump() {
-      window.location.href = "/html/productDetail1.html";
-    },
-    getFatherId(id) {
-      getServiceCatalogsInfo(id).then(r => {
-        this.objectCloud = r.content;
-        this.id = id;
-        getCloudServiceCatalogsC(r.content.parentId).then(r => {
-          for (var i = 0; i < r.content.content.length; i++) {
-            if (r.content.content[i].id == id) {
-              r.content.content.splice(i, 1);
-              this.compatriotsObject = r.content.content;
-            }
-          }
-          this.getProductList();
-        });
-      });
-    },
-    link(id) {
-      window.location.href = "/html/productDetail.html?id=" + id;
+      window.location.href = `/html/productDetail1.html?id=${this.id}
+      &productId=${this.servicecatalogId}&ll=${this.itemid}&productName=${
+        this.productName
+      }
+      &catalogId=${this.catalogId}&catalog=${this.catalog}`;
     },
     //获取地址栏id
     getQueryVariable(variable) {
@@ -325,39 +307,74 @@ export default {
       return false;
     },
     async getProduct() {
-      this.ids = this.getQueryVariable("productId");
-      this.itemid = this.getQueryVariable("ll");
-      this.activeName = this.itemid;
-      this.search.productId = this.id;
-
-      const res = await requestParams(getProductDetail, this.search);
-      console.log(res);
+      const res = await requestParams(getProductMessage, this.servicecatalogId);
       this.list = res;
-      var productParams = {
-        productId: this.ids
-      };
-      const r = await requestParams(getProducts, productParams);
-      this.list2 = r;
-      console.log(this.list2);
-
-      this.seardh.productId = this.ids;
-      const rs = await requestParams(getProductDetail, this.seardh);
-      this.list3 = rs;
-    },
-    async getProductList() {
-      const res = await requestParams(getProductDetail);
-      this.list1 = res;
-      for (var j = 0; j < this.list1.length; j++) {
-        for (var i = 0; i < this.compatriotsObject.length; i++) {
-          if (this.list1[j].productId == this.compatriotsObject[i].id) {
-            var img = baseURL.DATAURL + this.list1[j].icon.url;
-            this.compatriotsObject[i].icon = img;
-            this.compatriotsObject[i].content = this.list1[j].content;
-          }
+      console.log(this.list);
+      this.list2 = [
+        { title: "概览", id: "" },
+        { title: "产品详细信息", id: this.list.id, content: this.list.content },
+      ];
+      if (this.list.pricing_id != "" && this.list.pricing_id != null) {
+        this.list2.push({
+          title: "定价",
+          id: this.list.pricing_id,
+          content: "",
+        });
+      }
+      if (
+        this.list.introduction_id != "" &&
+        this.list.introduction_id != null
+      ) {
+        this.list2.push({
+          title: "入门",
+          id: this.list.introduction_id,
+          content: "",
+        });
+      }
+      if (this.list.document_id != "" && this.list.document_id != null) {
+        this.list2.push({
+          title: "文档与资源",
+          id: this.list.document_id,
+          content: "",
+        });
+      }
+      if (this.list.problem_id != "" && this.list.problem_id != null) {
+        this.list2.push({
+          title: "常见问题",
+          id: this.list.problem_id,
+          content: "",
+        });
+      }
+      for (var i = 0; i < this.list2.length; i++) {
+        if (i > 1) {
+          const document = await requestParams(getDocuments, this.list2[i].id);
+          console.log(i);
+          console.log(document);
+          this.list2[i].content = document.content;
         }
       }
-    }
-  }
+
+      // this.list2 =
+      // this.ids = this.getQueryVariable("productId");
+      // this.itemid = this.getQueryVariable("ll");
+      // this.activeName = this.itemid;
+      // this.search.productId = this.id;
+
+      // const res = await requestParams(getProductDetail, this.search);
+      // console.log(res);
+      // this.list = res;
+      // var productParams = {
+      //   productId: this.ids
+      // };
+      // const r = await requestParams(getProducts, productParams);
+      // this.list2 = r;
+      // console.log(this.list2);
+
+      // this.seardh.productId = this.ids;
+      // const rs = await requestParams(getProductDetail, this.seardh);
+      // this.list3 = rs;
+    },
+  },
 };
 </script>
 <style>

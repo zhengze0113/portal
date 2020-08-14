@@ -25,7 +25,7 @@
               微服务
             </el-dropdown-item>
             <el-dropdown-item
-              :command="baseURL.DataInterfaceConsole + '/#/'"
+              :command="baseURL.DataInterfaceConsole + '/#/workbench/elasticearch'"
             >
               中间件控制台
             </el-dropdown-item>

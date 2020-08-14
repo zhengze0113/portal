@@ -9,31 +9,32 @@
 </template>
 
 <script>
-import './index1.scss';
-import navMenuConfig from './menuConfig';
-import menuItem from './menuItem';
-import menuList from './menuList';
-import menuTest from './menuTest';
+import "./index1.scss";
+import navMenuConfig from "./menuConfig";
+import menuItem from "./menuItem";
+import menuList from "./menuList";
+import menuTest from "./menuTest";
 import {
   getCloudServiceList,
   getCloudServiceResources,
   getCloudServiceCatalogs,
-  getCloudServiceCatalogsC
-} from '../../../api/serviceOperating';
+  getCloudServiceCatalogsC,
+} from "../../../api/serviceOperating";
+import { getServicecatalogs ,getcloudproductInfo} from "../../../api/CMSApi";
 import {
   requestParams,
   parseHash,
-  appendParamsToUrl
-} from '../../../utils/urlParam';
+  appendParamsToUrl,
+} from "../../../utils/urlParam";
 export default {
   components: {
     menuItem,
     menuList,
-    menuTest
+    menuTest,
   },
   data: function() {
     return {
-      navMenuConfig: navMenuConfig
+      navMenuConfig: navMenuConfig,
     };
   },
   created() {
@@ -43,32 +44,72 @@ export default {
     //获取数据
     async fetchData() {
       this.listLoading = true;
-      const res = await requestParams(getCloudServiceCatalogs);
-      this.list = res.content.content;
+      const params = { parentId: 0, _sort: "sort:asc" };
+      const res = await requestParams(getServicecatalogs, params);
+      this.list = res;
       for (var i = 0; i < this.list.length; i++) {
         var child = {
           menuTxt: this.list[i].name,
-          children: []
+          children: [],
         };
 
-        const res1 = await requestParams(
-          getCloudServiceCatalogsC,
-          this.list[i].id
-        );
-        this.list1 = res1.content.content;
+        var params1 = {
+          servicecatalog_id: this.list[i].id
+        };
+        const res1 = await requestParams(getcloudproductInfo, params1);
+
+        this.list1 = res1;
+        console.log(this.list1)
         for (var j = 0; j < this.list1.length; j++) {
+          
+          if(!this.list1[j].is_putaway){
+            break;
+          }
           var childs = {
             menuTxt: null,
-            link:`/html/productDetail1.html?id=${this.list1[j].id}&productName=${this.list1[j].name}&catalogId=${this.list[i].id}&catalog=${this.list[i].name}`  
+            link: `/html/productDetail1.html?id=${
+              this.list1[j].productId
+            }&productName=${this.list1[j].name}&catalogId=${
+              this.list[i].catalogId
+            }&catalog=${this.list[i].name}&productId=${this.list1[j].id}`,
           };
           childs.menuTxt = this.list1[j].name;
           child.children.push(childs);
         }
         this.navMenuConfig[1].children.push(child);
       }
+
+      // const res = await requestParams(getCloudServiceCatalogs);
+      // this.list = res.content.content;
+      // console.log(this.list);
+      // for (var i = 0; i < this.list.length; i++) {
+      //   var child = {
+      //     menuTxt: this.list[i].name,
+      //     children: [],
+      //   };
+
+      //   const res1 = await requestParams(
+      //     getCloudServiceCatalogsC,
+      //     this.list[i].id
+      //   );
+      //   this.list1 = res1.content.content;
+      //   for (var j = 0; j < this.list1.length; j++) {
+      //     var childs = {
+      //       menuTxt: null,
+      //       link: `/html/productDetail1.html?id=${
+      //         this.list1[j].id
+      //       }&productName=${this.list1[j].name}&catalogId=${
+      //         this.list[i].id
+      //       }&catalog=${this.list[i].name}`,
+      //     };
+      //     childs.menuTxt = this.list1[j].name;
+      //     child.children.push(childs);
+      //   }
+      //   this.navMenuConfig[1].children.push(child);
+      // }
       this.listLoading = false;
     },
-  }
+  },
 };
 </script>
 

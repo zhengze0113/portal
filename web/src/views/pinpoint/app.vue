@@ -637,6 +637,7 @@ import {
 import Vue from "vue";
 import { postOrders } from "../../api/shoplist";
 import { requestParams } from "../../utils/urlParam";
+import { delete } from 'vue/types/umd';
 const baseURL = require(".././../../../web/src/api/app");
 export default {
   name: "App",
@@ -770,7 +771,7 @@ export default {
       //表单数据
       pinpointFrom: {
         pvcName: "",
-        muntPath: "",
+        montPath: "",
         volumes: [], //pvc
         projectNo: "",
         componentResourceLevel: 1,
@@ -1331,7 +1332,7 @@ export default {
         );
 
         this.pinpointFrom.pvcName = this.pinpointFrom.volumes[0].name;
-        this.pinpointFrom.muntPath = this.pinpointFrom.volumes[0].path;
+        this.pinpointFrom.montPath = this.pinpointFrom.volumes[0].path;
         console.log(this.pinpointFrom.volumes);
         // delete this.pinpointFrom.volumes;
         this.addorder.amount = this.sum;
@@ -1346,6 +1347,7 @@ export default {
         this.mode == "MONTH" ? (duration = "月") : (duration = "年");
         this.addorder.items[0].duration = this.time + duration;
         // 存储
+        delete this.addorder.orderResourceType;
         var data = JSON.stringify(this.addorder);
         sessionStorage.setItem("order", data);
         // delete this.pinpointFrom.volumes;

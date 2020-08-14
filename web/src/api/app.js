@@ -16,18 +16,28 @@ let baseURL = {
     DataInterfaceConsole: "http://10.72.78.125:9527",
     DataInterface3scale: "http://10.72.78.125:8810",
     // cms路径
-    DATAURL: "http://10.72.78.125:1337"
-        //测试提交
+    DATAURL: "http://10.72.78.125:1337",
+    // DomainName: ".apps.paas.cnooc",
+    DomainName: "localhost",
+    //测试提交
+    /**
+     * DATAURL|http://strapi:1337;
+     * portalPath|http://121.37.230.252:8090/html;
+     * devOpsPath|http://121.37.230.252:9529;
+     * elasticearchPath|http://121.37.230.252:9530;
+     * microservicePath|http://121.37.230.252:9528;
+     * workbenchPath|http://121.37.230.252:9526
+     */
 };
 /**
  * 以下代码本地启动需要注释掉
  */
 
-const arr = document.querySelector("html").dataset.promiseBaseUrl.split(";");
-arr.forEach(item => {
-    const path = item.split("|");
-    baseURL[path[0]] = path[1];
-});
+// const arr = document.querySelector("html").dataset.promiseBaseUrl.split(";");
+// arr.forEach(item => {
+//     const path = item.split("|");
+//     baseURL[path[0]] = path[1];
+// });
 
 
 //****************/
