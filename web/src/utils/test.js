@@ -37,6 +37,42 @@ const paramsObj = [
   }
 ];
 
+//统一创建服务
+export function createService(form, addorder, paramsPar) {
+
+  //服务请求信息
+  let params = JSON.stringify(form);
+  let platformParams = paramsObj;
+  platformParams[0].requestModeParams.requestPath =paramsPar.requestPath;
+  platformParams[0].requestModeParams.httpMethod = paramsPar.httpMethod;
+  platformParams[0].params = params;
+  platformParams[0].headers = "";
+  addorder.items[0].platformParams = JSON.stringify(platformParams);
+  console.log(addorder);
+  //创建订单
+  postOrders(addorder).then(r => {
+    console.log(r);
+    if (r.code == 201) {
+      v.$notify({
+        type: "success",
+        message: r.message
+      });
+    } else {
+      v.$notify({
+        type: "error",
+        message: r.message
+      });
+    }
+  });
+}
+
+
+
+
+
+
+
+
 //资源空间
 export function createProject(monitoring, addorder, orderData) {
   var code = 0;
@@ -1223,13 +1259,13 @@ export function createMysql(data, orderData) {
   platformParams[0].requestModeParams.requestPath =
     baseURL.DataInterfaceCmss +
     `/api/cloud/cmss/v1/project/${data.projectNo}/kubernetes/${
-      data.envId
+    data.envId
     }/namespace/${data.namespace}/mysql/install`;
- 
-  
+
+
   //服务请求信息
- 
-  
+
+
   Vue.delete(data, "projectNo");
   Vue.delete(data, "namespace");
   Vue.delete(data, "envId");

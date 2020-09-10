@@ -50,6 +50,22 @@ export function getResourcesSku(params) {
   });
 }
 
+//云资源的下参数组
+export function getResourcesParams(params) {
+  return request({
+    url: "/api/cloud/osms/v1/params",
+    method: "get",
+    params
+  });
+}
+// 获取参数组详情接口
+export function getParamsInfo(id) {
+  return request({
+    url: `/api/cloud/osms/v1/params/${id}`,
+    method: 'get'
+  });
+}
+
 //获取资源sku信息
 
 export function getResourcesSkuInfo(params) {

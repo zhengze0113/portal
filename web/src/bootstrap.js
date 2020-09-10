@@ -13,9 +13,11 @@ import Vue from 'vue';
 // 引入的element
 
 import Element from 'element-ui';
+// 引入form-create 表单生成器
+import formCreate from "@form-create/element-ui"
 Vue.use(Element);
 Vue.use(animated);
-
+Vue.use(formCreate);
 import 'swiper/dist/css/swiper.css'
 
 Vue.use(VueAwesomeSwiper);

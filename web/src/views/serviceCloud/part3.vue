@@ -208,7 +208,7 @@ export default {
   },
   created() {
     this.search1 = parseHash(this.search1);
-    this.fetchData();
+    // this.fetchData();
   },
   mounted() {
     // 监听滚动事件

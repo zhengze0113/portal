@@ -3,6 +3,7 @@ let root = process.env.NODE_ENV;
 let baseURL = {
     // 数据接口
     DataInterfaceOams: "http://10.72.78.125:8082",
+    // DataInterfaceOams: "http://10.64.39.254:8080",
     DataInterfaceIams: "http://10.72.78.125:8081",
     LoginHref: "/html/login.html",
     // LoginHref:"http://localhost:8088/toFront",

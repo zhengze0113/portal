@@ -180,7 +180,7 @@ export default {
   },
   created() {
     this.id = this.getId("id");
-    this.getFatherId(this.id);
+    // this.getFatherId(this.id);
     this.getProduct(this.id);
   },
   mounted() {

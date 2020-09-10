@@ -822,7 +822,7 @@ export default {
   },
 
   created() {
-    this.getFatherId(this.getId("id"));
+    // this.getFatherId(this.getId("id"));
     this.search = parseHash(this.search);
     this.fetchData().then(r => this.defalutSku(0, 0));
 
