@@ -292,6 +292,9 @@ export default {
       if (this.addorder.items[0].category == "mysql中间件") {
         createMysql(this.deployment, this.addorder);
       }
+       if (this.addorder.items[0].category == "nginx中间件") {
+        createNginx(this.deployment, this.addorder);
+      }
     },
     toggleSelection(rows) {
       if (rows) {

@@ -7,9 +7,9 @@
       <el-button v-if="isToken == false" type="primary" @click="handleConsole">
         登录
       </el-button>
-      <el-button v-else-if="isToken == true" type="primary" @click="logout()">
+      <!-- <el-button v-else-if="isToken == true" type="primary" @click="logout()">
         退出
-      </el-button>
+      </el-button> -->
     </div>
   </div>
 </template>

@@ -48,56 +48,14 @@ const user = {
 
   actions: {
     // 登录
-    Login({ commit }, userInfo) {
-      const username = userInfo.username.trim();
-      return new Promise((resolve, reject) => {
-        loginApi(username, userInfo.password)
-          .then(response => {
-            if (response.content.tokenInfo.access_token != null) {
-              const data = response.content;
-              const loginData = new Date().getTime() / 1000;
-              setAccessToken(data.tokenInfo.access_token);
-              setExpiresIn(data.tokenInfo.expires_in);
-              setRefreshToken(data.tokenInfo.refresh_token);
-              setRefreshExpiresIn(data.tokenInfo.refresh_expires_in);
-              setLoginDate(loginData);
-              setLoadAccessTokenDate(loginData);
-              setUserInfo(data.userTokenInfo);
-              setUserName(data.userTokenInfo.preferred_username);
-              Cookies.set("pinpoint_id", 220);
-              Cookies.set("newBuyDetail_id", 16);
-              Cookies.set("dataPVBuy_id", 17);
-              commit("SET_TOKEN", data.tokenInfo.access_token);
-              resolve();
-            } else {
-              Message({
-                center: true,
-                message: "账号或密码错误",
-                type: "error",
-                duration: 5 * 1000
-              });
-            }
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    // cas登录
     // Login({ commit }, userInfo) {
-    //   console.log(userInfo);
-    //   // const username = userInfo.username.trim();
-    //   let username = Cookies.get("username");
-    //   console.log(username);
+    //   const username = userInfo.username.trim();
     //   return new Promise((resolve, reject) => {
-    //     loginApi(username)
+    //     loginApi(username, userInfo.password)
     //       .then(response => {
-    //         console.log(response)
-    //         if (response.tokenInfo.access_token != null) {
-    //           console.log(response);
-    //           const data = response;
+    //         if (response.content.tokenInfo.access_token != null) {
+    //           const data = response.content;
     //           const loginData = new Date().getTime() / 1000;
-    //           console.log(loginData)
     //           setAccessToken(data.tokenInfo.access_token);
     //           setExpiresIn(data.tokenInfo.expires_in);
     //           setRefreshToken(data.tokenInfo.refresh_token);
@@ -125,6 +83,48 @@ const user = {
     //       });
     //   });
     // },
+    // cas登录
+    Login({ commit }, userInfo) {
+      console.log(userInfo);
+      // const username = userInfo.username.trim();
+      let username = Cookies.get("username");
+      console.log(username);
+      return new Promise((resolve, reject) => {
+        loginApi(username)
+          .then(response => {
+            console.log(response)
+            if (response.tokenInfo.access_token != null) {
+              console.log(response);
+              const data = response;
+              const loginData = new Date().getTime() / 1000;
+              console.log(loginData)
+              setAccessToken(data.tokenInfo.access_token);
+              setExpiresIn(data.tokenInfo.expires_in);
+              setRefreshToken(data.tokenInfo.refresh_token);
+              setRefreshExpiresIn(data.tokenInfo.refresh_expires_in);
+              setLoginDate(loginData);
+              setLoadAccessTokenDate(loginData);
+              setUserInfo(data.userTokenInfo);
+              setUserName(data.userTokenInfo.preferred_username);
+              Cookies.set("pinpoint_id", 220);
+              Cookies.set("newBuyDetail_id", 16);
+              Cookies.set("dataPVBuy_id", 17);
+              commit("SET_TOKEN", data.tokenInfo.access_token);
+              resolve();
+            } else {
+              Message({
+                center: true,
+                message: "账号或密码错误",
+                type: "error",
+                duration: 5 * 1000
+              });
+            }
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
     // 刷新token
     refreshToken({ commit }) {
       return new Promise((resolve, reject) => {

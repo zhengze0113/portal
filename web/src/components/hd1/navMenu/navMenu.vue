@@ -65,8 +65,8 @@ export default {
           }
           var childs = {
             menuTxt: null,
-            link: `/html/productIntroduction.html?productId=${this.list1[j].id}`,
-            // link: `/html/productDetail1.html?id=${this.list1[j].productId}&productName=${this.list1[j].name}&catalogId=${this.list[i].catalogId}&catalog=${this.list[i].name}&productId=${this.list1[j].id}`,
+            // link: `/html/productIntroduction.html?productId=${this.list1[j].id}`,
+            link: `/html/productDetail1.html?id=${this.list1[j].productId}&productName=${this.list1[j].name}&catalogId=${this.list[i].catalogId}&catalog=${this.list[i].name}&productId=${this.list1[j].id}`,
           };
           childs.menuTxt = this.list1[j].name;
           child.children.push(childs);

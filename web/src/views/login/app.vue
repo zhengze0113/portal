@@ -1,22 +1,22 @@
 <template>
   <div id="app">
     <img
-      style="width: 100%;margin-bottom: -4px;"
+      style="width: 100%; margin-bottom: -4px"
       src="@/static/images/loginImage2.jpg"
       :height="screenHeight + 'px'"
     />
     <div class="userPassword">
       <el-row>
-        <el-col :span="21" :offset="3" style="margin-top:16%;">
+        <el-col :span="21" :offset="3" style="margin-top: 16%">
           用户登录
         </el-col>
-        <el-col :span="18" :offset="3" style="margin-top:6%;">
+        <el-col :span="18" :offset="3" style="margin-top: 6%">
           <el-input
             v-model="loginForm.username"
             placeholder="手机号/邮箱/会员ID"
           />
         </el-col>
-        <el-col :span="18" :offset="3" style="margin-top:6%;">
+        <el-col :span="18" :offset="3" style="margin-top: 6%">
           <el-input
             v-model="loginForm.password"
             placeholder="密码"
@@ -25,9 +25,9 @@
             >
           </el-input>
         </el-col>
-        <el-col :span="18" :offset="3" style="margin-top:6%;">
+        <el-col :span="18" :offset="3" style="margin-top: 6%">
           <el-button
-            style="width:100%;"
+            style="width: 100%"
             type="primary"
             @click.native.prevent="handleLogin"
           >
@@ -37,9 +37,9 @@
         <el-col
           :offset="9"
           :span="10"
-          style="font-size:12px;margin-top:3%;color:#666666;"
+          style="font-size: 12px; margin-top: 3%; color: #666666"
         >
-          <div style="margin-bottom:25%;" />
+          <div style="margin-bottom: 25%" />
         </el-col>
       </el-row>
     </div>
@@ -57,15 +57,15 @@ import {
   getUserName,
   getLastUserName,
   getUserLocation,
-  removeUserLocation
+  removeUserLocation,
 } from "../../utils/auth";
 import Cookies from "js-cookie";
 export default {
   name: "App",
   components: {
-    topBar
+    topBar,
   },
-  data: function() {
+  data: function () {
     const validateUsername = (rule, value, callback) => {
       if (!isvalidUsername(value)) {
         callback(new Error("请输入正确的用户名"));
@@ -89,23 +89,25 @@ export default {
       pics: [
         "/web/static/images/banner.jpg",
         "/web/static/images/banner1.jpg",
-        "/web/static/images/banner2.jpg"
+        "/web/static/images/banner2.jpg",
       ],
       loginForm: {
         username: "liuxu",
-        password: "P@as142716"
+        password: "P@as142716",
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername }
+          { required: true, trigger: "blur", validator: validateUsername },
         ],
-        password: [{ required: true, trigger: "blur", validator: validatePass }]
+        password: [
+          { required: true, trigger: "blur", validator: validatePass },
+        ],
       },
       loading: false,
       pwdType: "password",
       redirect: undefined,
       errorMsg: "用户名或密码错误",
-      loginError: false
+      loginError: false,
     };
   },
   mounted() {
@@ -120,7 +122,7 @@ export default {
   },
   created() {
     let that = this;
-    document.onkeypress = function(e) {
+    document.onkeypress = function (e) {
       var keycode = document.all ? event.keyCode : e.which;
       if (keycode == 13) {
         that.handleLogin(); // 登录方法名
@@ -154,7 +156,11 @@ export default {
               if (getLastUserName() == getUserName()) {
                 if (getLocation() != undefined) {
                   const href = getLocation();
-                  location.href = href;
+                  if (href == undefined) {
+                    window.location.href = "/html";
+                  } else {
+                    location.href = href;
+                  }
                 } else {
                   const href = getUserLocation();
                   location.href = href;
@@ -169,8 +175,15 @@ export default {
             }
             removeUserLocation();
           } else {
-            window.history.back();
-            window.history.reload();
+            const href = getLocation();
+            if (href == undefined) {
+              window.location.href = "/html";
+            } else {
+              location.href = href;
+            }
+
+            // window.history.back();
+            // window.history.reload();
           }
         })
         .catch(() => {
@@ -181,8 +194,8 @@ export default {
       //     return false;
       //   }
       // });
-    }
-  }
+    },
+  },
 };
 </script>
 

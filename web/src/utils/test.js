@@ -1293,3 +1293,43 @@ export function createMysql(data, orderData) {
   });
   return code;
 }
+
+//创建Mysql 中间件
+export function createNginx(data, orderData) {
+  var code = 0;
+  let platformParams = paramsObj;
+  platformParams[0].requestModeParams.requestPath =
+    baseURL.DataInterfaceCmss +
+    `/api/cloud/cmss/v1/project/${data.projectNo}/kubernetes/${
+    data.envId
+    }/namespace/${data.namespace}/nginx/install`;
+
+
+  //服务请求信息
+  Vue.delete(data, "projectNo");
+  Vue.delete(data, "namespace");
+  Vue.delete(data, "envId");
+  var obj = JSON.parse(JSON.stringify(data));
+  let params = JSON.stringify(obj);
+  platformParams[0].requestModeParams.httpMethod = "post";
+  platformParams[0].params = params;
+  platformParams[0].headers = "";
+  orderData.items[0].platformParams = JSON.stringify(platformParams);
+  console.log(orderData);
+  // 创建订单
+  postOrders(orderData).then(r => {
+    console.log(r);
+    if (r.code == 201) {
+      v.$notify({
+        type: "success",
+        message: r.message
+      });
+    } else {
+      v.$notify({
+        type: "error",
+        message: r.message
+      });
+    }
+  });
+  return code;
+}

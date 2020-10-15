@@ -269,6 +269,15 @@ export default {
           }&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
+          if (name == "nginx中间件") {
+          window.location.href = `/html/middlewareNginx.html?id=${
+            this.id
+          }&productName=${this.productName}&catalogId=${
+            this.catalogId
+          }&catalog=${this.catalog}&productId=${this.productId}`;
+          return;
+        }
+        
         if (name == "索引中间件（elasticsearch）") {
           window.location.href = `/html/middlewareElasticearch.html?id=${
             this.id
