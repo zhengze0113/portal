@@ -47,43 +47,47 @@
                   </el-radio>
                 </template>
               </el-table-column>
-              <el-table-column label="规格名称" align="center">
-                <template slot-scope="scope">
-                  {{ scope.row.name }}
-                </template>
+              <el-table-column label="规格组" align="center">
+                <template slot-scope="scope">{{ scope.row.name }}</template>
               </el-table-column>
               <el-table-column label="cpu" align="center">
-                <template slot-scope="scope">
-                  {{ scope.row.cpu }}Core
-                </template>
+                <template slot-scope="scope">{{ scope.row.cpuCores }}</template>
               </el-table-column>
               <el-table-column label="内存" align="center">
-                <template slot-scope="scope">
-                  {{ scope.row.gb }}GB
-                </template>
+                <template slot-scope="scope">{{ scope.row.memory }}</template>
               </el-table-column>
-              <el-table-column label="硬盘" align="center">
-                <template slot-scope="scope">
-                  {{ scope.row.cckj }}GB
-                </template>
+              <el-table-column label="存储空间"  align="center">
+                <template slot-scope="scope"
+                  >{{ scope.row.storage }}</template
+                >
               </el-table-column>
 
               <!-- <el-table-column label="版本" align="center">
-                <template slot-scope="scope">
-                  {{ scope.row.version }}
-                </template>
+                <template slot-scope="scope">{{ scope.row.version }}</template>
               </el-table-column> -->
               <el-table-column label="参考价格" align="center">
-                <template slot-scope="scope">
-                  {{ scope.row.money }}元/年
-                </template>
+                <template slot-scope="scope"
+                  >{{ scope.row.price }}元/月</template
+                >
               </el-table-column>
             </el-table>
           </el-col>
-          <el-col :offset="2" style="margin-top:30px;margin-bottom:30px;">
+          <el-col
+            :offset="2"
+            :span="12"
+            style="margin-top: 30px; margin-bottom: 30px"
+          >
             <span class="skuDivFont">当前规格</span>
             <span class="specFont"
-              >{{ skuData.name }}/{{ skuData.cpu }}C/{{ skuData.gb }}GB</span
+              >{{ skuData.name }}/{{ skuData.cpuCores }}/{{
+                skuData.memory
+              }}  </span
+            >
+          </el-col>
+          <el-col :span="10" style="margin-top: 30px; margin-bottom: 30px">
+            <span class="skuDivFont">当前资源需求:</span>
+            <span class="skuDivFont"
+              >{{ skuData.cpuCores }}/{{ skuData.memory }}</span
             >
           </el-col>
         </el-row>
@@ -267,6 +271,7 @@ import {
   getProjectResource //资源空间
 } from "../../api/serviceOperating";
 import { requestParams } from "../../utils/urlParam";
+import { getProductMessage } from "../../api/CMSApi";
 export default {
   name: "App",
   data: function() {
@@ -354,7 +359,7 @@ export default {
         type: ""
       },
       search: {
-        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        params: '',
         page: 1,
         rows: 100
       },
@@ -619,67 +624,28 @@ export default {
     async fetchData() {
       this.listLoading = true;
       this.id = this.getId("id");
-      this.search.params = `[{"param":{"catalogId":${this.id}},"sign":"EQ"}]`;
+     
+      const resProduct = await requestParams(
+        getProductMessage,
+        this.getId("productId")
+      );
+      this.id = this.getId("id");
+      this.search.serviceCode = resProduct.serviceCode;
       this.search.page = 1;
       this.search.rows = 100;
       const res = await requestParams(getResourcesSku, this.search);
-
-      // if (res.content.content == 0) {
-      //   alert("该服务暂未开通，敬请期待");
-      //   window.location.href = document.referrer;
-      //   return;
-      // }
-
       var list = res.content.content;
-      this.radio = list[0].id;
-      const r1 = await requestParams(getResourcesSkuInfo, list[0].id);
-      this.sum = r1.content.price.price;
-      this.price = r1.content.price.price;
 
       this.duration = list;
-      console.log(this.duration);
-      for (var i = 0; i < list.length; i++) {
-        const r = await requestParams(getResourcesSkuInfo, list[i].id);
+      this.radio = list[0].id;
+      this.sum = list[0].price;
+      this.price = list[0].price;
+      this.skulist = list;
+      this.skuData = list[0];
 
-        var sku = r.content;
-
-        var skuObject = {
-          id: "",
-          name: "",
-          spec: "",
-          cpu: "",
-          gb: "",
-          cckj: "",
-          version: "V 1.0",
-          money: ""
-        };
-        skuObject.id = sku.id;
-        skuObject.name = sku.name;
-        skuObject.money = sku.price.price;
-        let arr = sku.storage.split(";");
-        for (let a = 0; a < arr.length; a++) {
-          let arr1 = arr[a].split(":");
-          if (arr1[0].trim() == "CPU") {
-            skuObject.cpu = arr1[1];
-          }
-
-          if (arr1[0].trim() == "内存") {
-            skuObject.gb = arr1[1];
-          }
-          if (arr1[0].trim() == "硬盘大小") {
-            skuObject.cckj = arr1[1];
-          }
-          if (arr1[0].trim() == "硬盘大小") {
-            skuObject.cckj = arr1[1];
-          }
-        }
-        this.skulist.push(skuObject);
-      }
-      this.skuData = this.skulist[0];
-
-      this.monitoringFrom.cpu = this.skuData.cpu;
-      this.monitoringFrom.mem = this.skuData.gb;
-      this.monitoringFrom.storage = this.skuData.cckj;
+      this.monitoringFrom.cpu = parseFloat(list[0].cpuCores);
+      this.monitoringFrom.mem = parseFloat(list[0].memory);
+      this.monitoringFrom.storage = parseFloat(list[0].storage);
     },
     //获取集群
     async getClusters() {

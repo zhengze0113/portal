@@ -637,7 +637,6 @@ import {
 import Vue from "vue";
 import { postOrders } from "../../api/shoplist";
 import { requestParams } from "../../utils/urlParam";
-import { delete } from 'vue/types/umd';
 const baseURL = require(".././../../../web/src/api/app");
 export default {
   name: "App",

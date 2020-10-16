@@ -326,14 +326,15 @@ export function createNexusApi(namespace, data) {
   });
 }
 
-// var jira_url = "http://10.72.76.55:9000";
+// var jira_url = "http://10.72.77.236:80";
 // var jira_admin = "admin";
 // var jira_admin_password = "1qaz2wsx!@#";
 //获取jira用户
 export function jiraGetUserApi() {
-  const pass = encodeURIComponent("kAUNkcQsTlG*V1d&");
+  // const pass = encodeURIComponent("kAUNkcQsTlG*V1d&");
+  const pass = encodeURIComponent("!d1wzjt85MDu");
   return request({
-    url: `/api/cloud/pdts/v1/namespace/jira/users?jira_url=http://10.72.76.55:9000&jira_admin=admin&jira_admin_password=${pass}`,
+    url: `/api/cloud/pdts/v1/namespace/jira/users?jira_url=http://10.72.77.236:80&jira_admin=wangxueqing&jira_admin_password=${pass}`,
     method: "get",
     type: "json"
   });

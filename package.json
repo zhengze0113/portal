@@ -43,6 +43,9 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@form-create/ant-design-vue": "^1.0.18",
+    "@form-create/element-ui": "^1.0.18",
+    "@form-create/iview4": "^1.0.18",
     "animate.css": "^3.7.2",
     "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",

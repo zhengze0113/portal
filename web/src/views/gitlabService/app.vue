@@ -1,9 +1,9 @@
 <template>
-  <div id="app" style="background-color: #E9E9E9">
-    <el-row style="height:100px;background: white;">
+  <div id="app" style="background-color: #e9e9e9">
+    <el-row style="height: 100px; background: white">
       <el-col :span="24"></el-col>
     </el-row>
-    <el-row style="height:70px;background:rgba(255,255,255,1);">
+    <el-row style="height: 70px; background: rgba(255, 255, 255, 1)">
       <el-col :span="24">
         <el-row>
           <el-col :offset="3" :span="2" class="buyTitle">服务购买</el-col>
@@ -14,8 +14,8 @@
       </el-col>
     </el-row>
     <!--参数项-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">资源选项</p>
         <el-col :offset="2">
           <el-form
@@ -23,7 +23,7 @@
             ref="monitoringFrom"
             :label-position="labelPosition"
             label-width="120px"
-            style="width:60%"
+            style="width: 60%"
             class="demo-ruleForm"
           >
             <el-form-item
@@ -35,7 +35,7 @@
                 v-model="monitoringFrom.namespace"
                 filterable
                 placeholder="请选择"
-                style="width:100%"
+                style="width: 100%"
                 @change="clickName"
               >
                 <el-option
@@ -55,7 +55,7 @@
                 v-model="monitoringFrom.envId"
                 filterable
                 placeholder="请选择"
-                style="width:100%"
+                style="width: 100%"
               >
                 <el-option
                   v-for="item in edit"
@@ -70,7 +70,7 @@
               prop="gitlab_url"
               :rules="[
                 { required: true, message: 'gitlab地址不能为空' },
-                { type: 'url', message: '请填写正确的gitlab地址' }
+                { type: 'url', message: '请填写正确的gitlab地址' },
               ]"
             >
               <el-input
@@ -92,42 +92,47 @@
       </el-col>
     </el-row>
     <!--订购-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">订购</p>
         <el-row>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">计费方式</span>
             <el-button
-              style="border-radius:0;height:30px;background:rgba(3,97,167,1);padding-left: 14px;"
+              style="
+                border-radius: 0;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">包年</span>
             </el-button>
           </el-col>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">购买时长</span>
             <el-select v-model="mode" size="small" @change="countMonth">
               <el-option
                 v-for="item in duration"
                 :key="item.value"
-                :label="item.name"
-                :value="item.id"
-              ></el-option>
+                :label="item.label"
+                :value="item.value"
+              />
             </el-select>
           </el-col>
         </el-row>
       </el-col>
     </el-row>
     <!--服务协议-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <el-col :span="3"> <p class="skuFont">服务协议</p></el-col>
 
         <el-col :span="21">
           <el-checkbox
             @change="confirm()"
             class="skuFont"
-            style="margin-bottom:10px"
+            style="margin-bottom: 10px"
           >
             <el-link type="primary" @click="agreement()">《服务条款》</el-link>
           </el-checkbox>
@@ -136,17 +141,24 @@
     </el-row>
 
     <!--提交订单-->
-    <el-row style="margin-top:30px;height:100px;">
+    <el-row style="margin-top: 30px; height: 100px">
       <el-col
         :span="24"
-        style="background: #FFF;height:100px;"
+        style="background: #fff; height: 100px"
         :class="isFixed ? 'fixed' : ''"
       >
-        <el-col :offset="15" style="color: #666666;line-height: 100px;">
+        <el-col :offset="15" style="color: #666666; line-height: 100px">
           服务费用：
           <span class="money">￥{{ sum }}</span>
           <el-button
-            style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);padding-left: 14px;margin-left:5%;"
+            style="
+              border-radius: 0;
+              width: 87px;
+              height: 30px;
+              background: rgba(3, 97, 167, 1);
+              padding-left: 14px;
+              margin-left: 5%;
+            "
             @click="submitForm('monitoringFrom')"
             v-if="disable == true"
           >
@@ -161,7 +173,14 @@
           >
             <el-button
               slot="reference"
-              style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);margin-left:5%;padding-left: 14px;"
+              style="
+                border-radius: 0;
+                width: 87px;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                margin-left: 5%;
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">提交订单</span>
             </el-button>
@@ -179,12 +198,13 @@ import {
   getResourcesSkuInfo, //查询详细sku信息
   getCloudServiceCatalogsC,
   getClusters, //获取集群
-  getProject //项目信息
+  getProject, //项目信息
 } from "../../api/serviceOperating";
 import { requestParams } from "../../utils/urlParam";
+import { getProductMessage } from "../../api/CMSApi";
 export default {
   name: "App",
-  data: function() {
+  data: function () {
     return {
       isFixed: true,
       input1: "",
@@ -235,14 +255,14 @@ export default {
             params: "",
             payMode: "AFTERWARDS",
             skuId: 0,
-            tags: ""
-          }
+            tags: "",
+          },
         ],
         name: "",
         payMode: "AFTERWARDS",
         tags: "",
         userId: "1",
-        tenantId: "1"
+        tenantId: "1",
       },
       skulist: [],
       skuInfoSpecs: [],
@@ -252,12 +272,12 @@ export default {
       formLabelAlign: {
         name: "",
         region: "",
-        type: ""
+        type: "",
       },
       search: {
-        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        params: "",
         page: 1,
-        rows: 100
+        rows: 100,
       },
       //表单数据
       monitoringFrom: {
@@ -265,14 +285,14 @@ export default {
         namespace: "",
         uid: "", // 唯一 id - 订单id
         gitlab_url: "", // 从云平台获取 nexus url 信息
-        life_limit: 1 // 用户选择的使用年限来传给后端
-      }
+        life_limit: 1, // 用户选择的使用年限来传给后端
+      },
     };
   },
   methods: {
     clickName(data) {
       let obj = {};
-      obj = this.optionProject.find(item => {
+      obj = this.optionProject.find((item) => {
         //model就是上面的数据源
         return item.projectNo === data; //筛选出匹配数据
       });
@@ -291,7 +311,7 @@ export default {
     },
     // 不知道
     getFatherId(id) {
-      getServiceCatalogsInfo(id).then(r => {
+      getServiceCatalogsInfo(id).then((r) => {
         this.objectCloud = r.content;
         this.id = id;
         this.name = r.content.name;
@@ -342,7 +362,7 @@ export default {
     },
     //表单验证
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.commitOrder();
         } else {
@@ -358,42 +378,28 @@ export default {
       console.log(r);
 
       this.skuInfo = r.content;
-      // this.skuInfoSpecs = r.content.specs;
       this.skuInfo.category = this.name;
-      console.log(this.monitoringFrom.namespace);
-      //项目创建
-      console.log(this.monitoringFrom);
-      let arr = r.content.storage.split(";");
-      for (let a = 0; a < arr.length; a++) {
-        let arr1 = arr[a].split(":");
-        let params = { name: "", paramValue: "" };
-        if (arr1[0].trim() == "Jira地址") {
-          params.name = arr1[0];
-          params.paramValue = this.monitoringFrom.jira_url;
-          this.skuInfoSpecs.push(params);
-        }
+   
 
-        if (arr1[0].trim() == "项目信息") {
-          params.name = arr1[0];
-          params.paramValue = this.getObjectName(this.monitoringFrom.namespace);
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "gitlab地址") {
-          params.name = arr1[0];
-          params.paramValue = this.monitoringFrom.gitlab_url;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "使用年限") {
-          params.name = arr1[0];
-          params.paramValue = this.monitoringFrom.life_limit + "年";
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "用户数量") {
-          params.name = arr1[0];
-          params.paramValue = this.monitoringFrom.userNumber + "人";
-          this.skuInfoSpecs.push(params);
-        }
-      }
+      let params1 = { name: "", paramValue: "" };
+      params1.name = "项目信息";
+      params1.paramValue = this.getObjectName(this.monitoringFrom.namespace);
+      this.skuInfoSpecs.push(params1);
+      let params2 = { name: "", paramValue: "" };
+      params2.name = "gitlab地址";
+      params2.paramValue = this.monitoringFrom.gitlab_url;
+      this.skuInfoSpecs.push(params2);
+      let params3 = { name: "", paramValue: "" };
+      params3.name = "使用年限";
+      params3.paramValue = this.monitoringFrom.life_limit + "年";
+      this.skuInfoSpecs.push(params3);
+      let params4 = { name: "", paramValue: "" };
+      params4.name = "用户数量";
+      params4.paramValue = this.monitoringFrom.userNumber + "人";
+      this.skuInfoSpecs.push(params4);
+
+    
+      
       if (this.disable == true) {
         for (var key in this.addorder.items[0]) {
           for (var key1 in this.skuInfo) {
@@ -436,87 +442,49 @@ export default {
     },
     //选择时长
     async countMonth(data) {
-      const r = await requestParams(getResourcesSkuInfo, data);
-      this.price = r.content.price.price;
-      this.sum = this.monitoringFrom.userNumber * this.price;
-      if (r.content.name == "1年") {
-        this.monitoringFrom.life_limit = 1;
-      }
-      if (r.content.name == "3年") {
-        this.monitoringFrom.life_limit = 3;
-      }
-      if (r.content.name == "5年") {
-        this.monitoringFrom.life_limit = 5;
-      }
+      console.log(data);
+      this.price = data;
+      this.sum = this.monitoringFrom.userNumber * this.data;
+      let obj = {};
+      obj = this.duration.find((item) => {
+        return item.value == data;
+      });
+      let getName = "";
+      getName = parseFloat(obj.label);
+      console.log(getName);
+      this.monitoringFrom.life_limit = getName;
+      this.time = getName;
     },
-    //获取云资源下的sku
+    //初始化
     async fetchData() {
       this.listLoading = true;
       this.id = this.getId("id");
 
-      this.search.params = `[{"param":{"catalogId":${this.id}},"sign":"EQ"}]`;
+      const resProduct = await requestParams(
+        getProductMessage,
+        this.getId("productId")
+      );
+      this.id = this.getId("id");
+      this.search.serviceCode = resProduct.serviceCode;
       this.search.page = 1;
       this.search.rows = 100;
       const res = await requestParams(getResourcesSku, this.search);
-
-      // if(res.content.content == 0){
-      //   alert("该服务暂未开通，敬请期待")
-      //   window.location.href = document.referrer
-      //   return;
-      // }
-
       var list = res.content.content;
-      this.duration = list;
-      console.log(this.duration);
-      this.mode = this.duration[0].id;
-      if (this.duration[0].name == "1年") {
-        this.monitoringFrom.life_limit = 1;
-      }
-      if (this.duration[0].name == "3年") {
-        this.monitoringFrom.life_limit = 3;
-      }
-      if (this.duration[0].name == "5年") {
-        this.monitoringFrom.life_limit = 5;
-      }
-      this.radio = list[0].id;
-      const r1 = await requestParams(getResourcesSkuInfo, list[0].id);
-      this.sum = r1.content.price.price;
-      this.price = r1.content.price.price;
-
-      for (var i = 0; i < list.length; i++) {
-        const r = await requestParams(getResourcesSkuInfo, list[i].id);
-
-        var sku = r.content;
-
-        var skuObject = {
-          id: "",
-          name: "",
-          spec: "",
-          cpu: "",
-          gb: "",
-          cckj: "",
-          version: "V 1.0",
-          money: ""
+      list.forEach((item) => {
+        var skuparam = {
+          value: item.price,
+          label: item.name,
         };
-        skuObject.id = sku.id;
-        skuObject.name = sku.name;
-        skuObject.money = sku.price.price;
-        let arr = r.content.storage.split(";");
-        for (let a = 0; a < arr.length; a++) {
-          let arr1 = arr[a].split(":");
-          if (arr1[0].trim() == "CPU") {
-            skuObject.cpu = arr1[1];
-          }
-          if (arr1[0].trim() == "内存") {
-            skuObject.gb = arr1[1];
-          }
-          if (arr1[0].trim() == "存储空间") {
-            skuObject.cckj = arr1[1];
-          }
-        }
-        this.skulist.push(skuObject);
-      }
-      this.skuData = this.skulist[0];
+        this.duration.push(skuparam);
+      });
+      this.mode = list[0].price;
+      console.log(list);
+      this.sum = list[0].price;
+      this.price = list[0].price;
+      this.radio = list[0].id;
+
+      this.monitoringFrom.life_limit = parseFloat(list[0].name);
+      this.time = parseFloat(list[0].name);
     },
     //获取集群
     async getClusters() {
@@ -525,7 +493,7 @@ export default {
       for (var i = 0; i < res1.content.content.length; i++) {
         var data = {
           value: res1.content.content[i].id,
-          label: res1.content.content[i].name
+          label: res1.content.content[i].name,
         };
         this.edit.push(data);
       }
@@ -542,7 +510,7 @@ export default {
     },
     getClustersLabel(val) {
       let obj = {};
-      obj = this.edit.find(item => {
+      obj = this.edit.find((item) => {
         return item.value == val;
       });
       let getName = "";
@@ -552,14 +520,14 @@ export default {
     },
     getObjectName(val) {
       let obj = {};
-      obj = this.optionProject.find(item => {
+      obj = this.optionProject.find((item) => {
         return item.projectNo == val;
       });
       let getName = "";
       console.log(obj);
       getName = obj.projectName;
       return getName;
-    }
+    },
   },
 
   created() {
@@ -578,7 +546,7 @@ export default {
       document.body.offsetHeight - document.documentElement.clientHeight > 300;
     // window.addEventListener('mousewheel',this.handleScroll,false);
     window.addEventListener("scroll", this.handleScroll);
-  }
+  },
 };
 </script>
 

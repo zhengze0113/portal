@@ -1,9 +1,9 @@
 <template>
-  <div id="app" style="background-color: #E9E9E9">
-    <el-row style="height:100px;background: white;">
+  <div id="app" style="background-color: #e9e9e9">
+    <el-row style="height: 100px; background: white">
       <el-col :span="24"></el-col>
     </el-row>
-    <el-row style="height:70px;background:rgba(255,255,255,1);">
+    <el-row style="height: 70px; background: rgba(255, 255, 255, 1)">
       <el-col :span="24">
         <el-row>
           <el-col :offset="3" :span="2" class="buyTitle">服务购买</el-col>
@@ -13,8 +13,8 @@
         </el-row>
       </el-col>
     </el-row>
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">SKU资源</p>
         <el-row>
           <el-col :offset="2">
@@ -41,18 +41,14 @@
                 <template slot-scope="scope">{{ scope.row.name }}</template>
               </el-table-column>
               <el-table-column label="cpu" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.cpu }}Core</template
-                >
+                <template slot-scope="scope">{{ scope.row.cpuCores }}</template>
               </el-table-column>
               <el-table-column label="内存" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.gb }}GB</template
-                >
+                <template slot-scope="scope">{{ scope.row.memory }}GB</template>
               </el-table-column>
               <el-table-column label="存储空间" v-if="id == 15" align="center">
                 <template slot-scope="scope"
-                  >{{ scope.row.cckj }}GB</template
+                  >{{ scope.row.storage }}GB</template
                 >
               </el-table-column>
 
@@ -61,7 +57,7 @@
               </el-table-column> -->
               <el-table-column label="参考价格" align="center">
                 <template slot-scope="scope"
-                  >{{ scope.row.money }}元/月</template
+                  >{{ scope.row.price }}元/月</template
                 >
               </el-table-column>
             </el-table>
@@ -69,25 +65,27 @@
           <el-col
             :offset="2"
             :span="12"
-            style="margin-top:30px;margin-bottom:30px;"
+            style="margin-top: 30px; margin-bottom: 30px"
           >
             <span class="skuDivFont">当前规格</span>
             <span class="specFont"
-              >{{ skuData.name }}/{{ skuData.cpu }}Core/{{ skuData.gb }}GB</span
+              >{{ skuData.name }}/{{ skuData.cpuCores }}Core/{{
+                skuData.memory
+              }}GB</span
             >
           </el-col>
-          <el-col :span="10" style="margin-top:30px;margin-bottom:30px;">
+          <el-col :span="10" style="margin-top: 30px; margin-bottom: 30px">
             <span class="skuDivFont">当前资源需求:</span>
             <span class="skuDivFont"
-              >{{ skuData.cpu }}Core/{{ skuData.gb }}GB</span
+              >{{ skuData.cpuCores }}Core/{{ skuData.memory }}GB</span
             >
           </el-col>
         </el-row>
       </el-col>
     </el-row>
     <!--参数项-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">资源选项</p>
         <el-row>
           <el-col :offset="2">
@@ -97,7 +95,7 @@
                 :model="monitoringFrom"
                 :label-position="labelPosition"
                 label-width="150px"
-                style="width:60%"
+                style="width: 60%"
                 class="demo-ruleForm"
               >
                 <el-form-item
@@ -111,7 +109,7 @@
                     v-model="monitoringFrom.configure"
                     filterable
                     placeholder="请选择项目"
-                    style="width: 100%;"
+                    style="width: 100%"
                     @change="getProjectContent($event)"
                   >
                     <el-option
@@ -128,7 +126,7 @@
                     v-model="monitoringFrom.envId"
                     filterable
                     placeholder="请选择集群"
-                    style="width: 100%;"
+                    style="width: 100%"
                   >
                     <el-option
                       v-for="item in envs"
@@ -148,8 +146,8 @@
                       pattern: /^[[a-z0-9]([-a-z0-9]*[a-z0-9])?]*$/,
                       message:
                         '资源空间名称中只能包含小写英文字母和数字及连接号',
-                      trigger: 'blur'
-                    }
+                      trigger: 'blur',
+                    },
                   ]"
                 >
                   <el-input
@@ -180,7 +178,7 @@
             </el-row>
             <el-row v-if="id == 16">
               <!--  -->
-              <el-col :offset="2" style="padding: 10px 0px;">
+              <el-col :offset="2" style="padding: 10px 0px">
                 <el-radio v-model="establish" label="1"
                   >镜像仓库:通过镜像仓库创建应用</el-radio
                 >
@@ -195,14 +193,12 @@
                   :rules="rules"
                   :label-position="labelPosition"
                   label-width="100px"
-                  style="width:60%"
+                  style="width: 60%"
                   class="demo-ruleForm"
                 >
                   <el-col>
                     <div class="item-content">
-                      <div class="item-label">
-                        基本信息
-                      </div>
+                      <div class="item-label">基本信息</div>
                     </div>
                   </el-col>
                   <el-col :offset="3">
@@ -215,7 +211,7 @@
                       <el-select
                         v-model="deployment.projectNo"
                         placeholder="请选择项目"
-                        style="width: 100%;"
+                        style="width: 100%"
                         @change="selectModel($event)"
                       >
                         <el-option
@@ -236,7 +232,7 @@
                         v-model="deployment.envId"
                         filterable
                         placeholder="请选择集群"
-                        style="width: 100%;"
+                        style="width: 100%"
                       >
                         <el-option
                           v-for="item in envs"
@@ -250,14 +246,12 @@
                       label="资源空间:"
                       class="skuDivFont"
                       prop="namespace"
-                      :rules="[
-                        { required: true, message: '资源空间不能为空' }
-                      ]"
+                      :rules="[{ required: true, message: '资源空间不能为空' }]"
                     >
                       <el-select
                         v-model="deployment.namespace"
                         placeholder="请选择资源空间"
-                        style="width: 100%;"
+                        style="width: 100%"
                         @visible-change="clickNamespace"
                         @change="resourceValidation"
                       >
@@ -280,8 +274,8 @@
                           pattern: /^[\u0391-\uFFE5_a-z0-9\.]+[\u0391-\uFFE5a-z0-9]$/,
                           message:
                             '名称由中文、小写字母、数字、横线(-)和点(.)组成,且必须以中文、字母或数字结尾',
-                          trigger: 'blur'
-                        }
+                          trigger: 'blur',
+                        },
                       ]"
                     >
                       <el-input
@@ -319,13 +313,13 @@
                           class="skuDivFont"
                           prop="imageUrlLocation"
                           :rules="[
-                            { required: true, message: '镜像名称不能为空' }
+                            { required: true, message: '镜像名称不能为空' },
                           ]"
                         >
                           <el-select
                             v-model="deployment.imageUrlLocation"
                             placeholder="请选择镜像"
-                            style="width: 100%;"
+                            style="width: 100%"
                             @change="imagec"
                             filterable
                             @visible-change="imageInit"
@@ -343,7 +337,7 @@
                       <el-col :span="6" class="skuDivFont">
                         <el-select
                           v-model="Imaedition"
-                          style="width: 100%;line-height: 40px;"
+                          style="width: 100%; line-height: 40px"
                           @change="imageEd"
                         >
                           <el-option
@@ -382,20 +376,16 @@
                   </el-col>
                   <el-col>
                     <div class="item-content">
-                      <div class="item-label">
-                        部署信息
-                      </div>
+                      <div class="item-label">部署信息</div>
                     </div>
-                    <el-row style="padding: 35px 0px;">
+                    <el-row style="padding: 35px 0px">
                       <el-col :offset="3" :span="4">
-                        <span class="skuDivFont">
-                          部署策略：
-                        </span>
+                        <span class="skuDivFont"> 部署策略： </span>
                       </el-col>
                       <el-col :span="15">
                         <div class="form-box">
                           <el-radio-group
-                            style="width: 100%;"
+                            style="width: 100%"
                             v-model="deployment.strategy.type"
                           >
                             <el-col :span="8">
@@ -426,14 +416,16 @@
                   </el-col>
                   <el-col>
                     <div class="item-content">
-                      <div class="item-label">
-                        性能管理
-                      </div>
+                      <div class="item-label">性能管理</div>
                     </div>
-                    <el-row style="padding: 35px 0px;">
+                    <el-row style="padding: 35px 0px">
                       <el-col :offset="3" :span="4">
                         <span
-                          style="font-size: 12px;font-family: Microsoft YaHei;color: #333333;"
+                          style="
+                            font-size: 12px;
+                            font-family: Microsoft YaHei;
+                            color: #333333;
+                          "
                         >
                           APM
                           <el-tooltip
@@ -455,14 +447,17 @@
                             </div>
                             <el-button
                               type="button"
-                              style="padding:0px;"
+                              style="padding: 0px"
                               class="el-button el-tooltip el-button--text el-button--small"
                               aria-describedby="el-tooltip-1548"
                               tabindex="0"
                             >
                               <i
                                 class="el-icon-question"
-                                style="font-size: 16px; color: rgb(230, 162, 60);"
+                                style="
+                                  font-size: 16px;
+                                  color: rgb(230, 162, 60);
+                                "
                               ></i></el-button></el-tooltip
                           >：
                         </span>
@@ -470,7 +465,7 @@
                       <el-col :span="15">
                         <div class="form-box">
                           <el-radio-group
-                            style="width: 100%;"
+                            style="width: 100%"
                             v-model="deployment.openApm"
                           >
                             <el-col :span="8">
@@ -486,12 +481,12 @@
                       </el-col>
                     </el-row>
                   </el-col>
-                  <el-col style="padding-bottom:25px">
+                  <el-col style="padding-bottom: 25px">
                     <div class="item-content">
                       <div class="item-label">
                         高级设置
                         <el-switch
-                          style="padding-left: 12px;"
+                          style="padding-left: 12px"
                           active-color="#0261a7"
                           v-model="deployment.envStatus"
                           @change="advanceds"
@@ -501,16 +496,16 @@
                     </div>
                   </el-col>
                   <el-col v-if="deployment.envStatus" :gutter="20">
-                    <el-col :offset="3" :span="3" style="padding:10px 0;">
+                    <el-col :offset="3" :span="3" style="padding: 10px 0">
                       <p class="textContent">环境变量：</p>
                     </el-col>
                     <el-col
                       :span="16"
-                      style="padding: 10px 0px;line-height: 38px;"
+                      style="padding: 10px 0px; line-height: 38px"
                     >
                       <div class="form-box">
                         <el-switch
-                          style="padding-left: 12px;"
+                          style="padding-left: 12px"
                           active-color="#0261a7"
                           v-model="isEnvStatus"
                         ></el-switch>
@@ -529,8 +524,8 @@
                                   {
                                     pattern: /[a-zA-Z0-9_]([A-Za-z0-9_])?$/,
                                     message: '由大小写字母、数字、下划线组成',
-                                    trigger: 'blur'
-                                  }
+                                    trigger: 'blur',
+                                  },
                                 ]"
                               >
                                 <el-input
@@ -543,13 +538,13 @@
                           <el-table-column
                             label="VALUE"
                             align="center"
-                            style="padding:0"
+                            style="padding: 0"
                           >
                             <template slot-scope="scope">
                               <el-form-item
                                 :prop="'envarr.' + scope.$index + '.key'"
                                 :rules="[
-                                  { required: true, message: 'VALUE不能为空' }
+                                  { required: true, message: 'VALUE不能为空' },
                                 ]"
                               >
                                 <el-input
@@ -566,7 +561,7 @@
                           >
                             <template slot-scope="scope">
                               <el-link
-                                style="margin-bottom: 16px;"
+                                style="margin-bottom: 16px"
                                 class="link"
                                 type="danger"
                                 @click="deleteList(scope.row)"
@@ -576,8 +571,8 @@
                           </el-table-column>
                         </el-table>
                       </el-col>
-                      <el-col :offset="5" style="padding:0">
-                        <el-col style="margin-top: 19px;">
+                      <el-col :offset="5" style="padding: 0">
+                        <el-col style="margin-top: 19px">
                           <el-link
                             @click="add()"
                             type="primary"
@@ -586,13 +581,13 @@
                             <img
                               src="@/static/images/jiahao.png"
                               alt
-                              style="width:16px;margin: 0px 5px -3px 0px;"
+                              style="width: 16px; margin: 0px 5px -3px 0px"
                             />添加环境变量</el-link
                           >
                         </el-col>
                       </el-col>
                     </el-col>
-                    <el-col :offset="3" style="padding:10px 0;">
+                    <el-col :offset="3" style="padding: 10px 0">
                       <p class="textContent">配置文件：</p>
                     </el-col>
                     <el-col :offset="5" class="mt30">
@@ -613,13 +608,13 @@
                             <el-form-item
                               :prop="'cmVolume.' + scope.$index + '.name'"
                               :rules="[
-                                { required: true, message: '请选择configmap' }
+                                { required: true, message: '请选择configmap' },
                               ]"
                             >
                               <el-select
                                 v-model="scope.row.name"
                                 placeholder="请选择configmap"
-                                style="width: 100%;"
+                                style="width: 100%"
                               >
                                 <el-option
                                   v-for="item in configmaps"
@@ -640,9 +635,9 @@
                                 {
                                   pattern: /[a-zA-Z0-9_]([A-Za-z0-9_])?$/,
                                   message: '由大小写字母、数字、下划线组成',
-                                  trigger: 'blur'
+                                  trigger: 'blur',
                                 },
-                                { validator: configmapUrl, trigger: 'blur' }
+                                { validator: configmapUrl, trigger: 'blur' },
                               ]"
                             >
                               <el-input
@@ -659,7 +654,7 @@
                         >
                           <template slot-scope="scope">
                             <el-link
-                              style="margin-bottom: 16px;"
+                              style="margin-bottom: 16px"
                               class="link"
                               type="danger"
                               @click="deleteConfigMap(scope.row)"
@@ -668,7 +663,7 @@
                           </template>
                         </el-table-column>
                       </el-table>
-                      <el-col style="margin-top: 19px;">
+                      <el-col style="margin-top: 19px">
                         <el-link
                           @click="addConfigMap()"
                           type="primary"
@@ -677,7 +672,7 @@
                           <img
                             src="@/static/images/jiahao.png"
                             alt
-                            style="width:16px;margin: 0px 5px -3px 0px;"
+                            style="width: 16px; margin: 0px 5px -3px 0px"
                           />添加configmap</el-link
                         >
                       </el-col>
@@ -685,7 +680,7 @@
                     <el-col
                       :offset="5"
                       class="mt30"
-                      style="margin-bottom: 30px;"
+                      style="margin-bottom: 30px"
                     >
                       <el-checkbox fill="#000" v-model="secretJudge"
                         >secret</el-checkbox
@@ -704,13 +699,13 @@
                             <el-form-item
                               :prop="'secrets.' + scope.$index + '.name'"
                               :rules="[
-                                { required: true, message: '请选择secrets' }
+                                { required: true, message: '请选择secrets' },
                               ]"
                             >
                               <el-select
                                 v-model="scope.row.name"
                                 placeholder="请选择secrets"
-                                style="width: 100%;"
+                                style="width: 100%"
                               >
                                 <el-option
                                   v-for="item in secrets"
@@ -731,9 +726,9 @@
                                 {
                                   pattern: /[a-zA-Z0-9_]([A-Za-z0-9_])?$/,
                                   message: '由大小写字母、数字、下划线组成',
-                                  trigger: 'blur'
+                                  trigger: 'blur',
                                 },
-                                { validator: secretUrl, trigger: 'blur' }
+                                { validator: secretUrl, trigger: 'blur' },
                               ]"
                             >
                               <el-input
@@ -750,7 +745,7 @@
                         >
                           <template slot-scope="scope">
                             <el-link
-                              style="margin-bottom: 16px;"
+                              style="margin-bottom: 16px"
                               class="link"
                               type="danger"
                               @click="deleteSecrets(scope.row)"
@@ -759,7 +754,7 @@
                           </template>
                         </el-table-column>
                       </el-table>
-                      <el-col style="margin-top: 19px;">
+                      <el-col style="margin-top: 19px">
                         <el-link
                           @click="addSecrets()"
                           type="primary"
@@ -768,22 +763,22 @@
                           <img
                             src="@/static/images/jiahao.png"
                             alt
-                            style="width:16px;margin: 0px 5px -3px 0px;"
+                            style="width: 16px; margin: 0px 5px -3px 0px"
                           />添加secret</el-link
                         >
                       </el-col>
                     </el-col>
 
-                    <el-col :offset="3" :span="3" style="padding:10px 0;">
+                    <el-col :offset="3" :span="3" style="padding: 10px 0">
                       <p class="textContent">添加存储：</p>
                     </el-col>
                     <el-col
                       :span="16"
-                      style="padding: 10px 0px;line-height: 38px;"
+                      style="padding: 10px 0px; line-height: 38px"
                     >
                       <div class="form-box">
                         <el-switch
-                          style="padding-left: 12px;"
+                          style="padding-left: 12px"
                           active-color="#0261a7"
                           v-model="isStorage"
                         ></el-switch>
@@ -808,7 +803,7 @@
                           <el-table-column
                             label="选择PVC"
                             align="center"
-                            style="width:80px"
+                            style="width: 80px"
                           >
                             <template slot-scope="scope">
                               <el-form-item
@@ -816,19 +811,19 @@
                                 :rules="[
                                   {
                                     required: true,
-                                    message: '挂载路径不能为空'
+                                    message: '挂载路径不能为空',
                                   },
                                   {
                                     pattern: /[a-zA-Z0-9_]([A-Za-z0-9_])?$/,
                                     message: '由大小写字母、数字、下划线组成',
-                                    trigger: 'blur'
-                                  }
+                                    trigger: 'blur',
+                                  },
                                 ]"
                               >
                                 <el-select
                                   v-model="scope.row.pvName"
                                   placeholder="请选择PVC"
-                                  style="width: 100%;"
+                                  style="width: 100%"
                                   @blur="pvcrow(scope.row)"
                                 >
                                   <el-option
@@ -867,13 +862,13 @@
                                     pattern: /^[\/]{1}([a-zA-Z0-9]|[-_*]|[\/]){1,49}$/,
                                     message:
                                       '以/开头,由数字、字母、中划线、*、下划线组成',
-                                    trigger: 'blur'
+                                    trigger: 'blur',
                                   },
                                   {
                                     required: true,
-                                    message: '挂载路径不能为空'
+                                    message: '挂载路径不能为空',
                                   },
-                                  { validator: volumesUrl, trigger: 'blur' }
+                                  { validator: volumesUrl, trigger: 'blur' },
                                 ]"
                               >
                                 <el-input
@@ -892,8 +887,8 @@
                                     pattern: /^[a-zA-Z0-9-_*]{1}([a-zA-Z0-9]|[-_*]|[\/]){1,49}$/,
                                     message:
                                       '不能以/开头,由数字、字母、中划线、*、下划线组成',
-                                    trigger: 'blur'
-                                  }
+                                    trigger: 'blur',
+                                  },
                                 ]"
                               >
                                 <el-input
@@ -910,7 +905,7 @@
                           >
                             <template slot-scope="scope">
                               <el-link
-                                style="margin-bottom: 38px;"
+                                style="margin-bottom: 38px"
                                 class="link"
                                 type="danger"
                                 @click="deletePvcList(scope.row)"
@@ -920,8 +915,8 @@
                           </el-table-column>
                         </el-table>
                       </el-col>
-                      <el-col :offset="5" style="padding:0">
-                        <el-col style="margin-top: 19px;">
+                      <el-col :offset="5" style="padding: 0">
+                        <el-col style="margin-top: 19px">
                           <el-link
                             @click="addPvclist()"
                             type="primary"
@@ -930,18 +925,16 @@
                             <img
                               src="@/static/images/jiahao.png"
                               alt
-                              style="width:16px;margin: 0px 5px -3px 0px;"
+                              style="width: 16px; margin: 0px 5px -3px 0px"
                             />添加PVC</el-link
                           >
                         </el-col>
                       </el-col>
                     </el-col>
-                    <el-col :offset="3" :span="4" style="padding: 35px 0px;">
-                      <span class="skuDivFont">
-                        扩缩容策略：
-                      </span>
+                    <el-col :offset="3" :span="4" style="padding: 35px 0px">
+                      <span class="skuDivFont"> 扩缩容策略： </span>
                     </el-col>
-                    <el-col :span="16" style="padding: 35px 0px;">
+                    <el-col :span="16" style="padding: 35px 0px">
                       <div class="form-box">
                         <el-radio-group
                           v-model="strategy"
@@ -980,7 +973,7 @@
                             :max="deployment.scale.maxReplicas"
                           ></el-slider>
                         </el-col>
-                        <el-col :span="2" style="text-align: center;">
+                        <el-col :span="2" style="text-align: center">
                           <p class="textContent">
                             {{ deployment.scale.maxReplicas }}
                           </p>
@@ -999,7 +992,7 @@
                             :max="10"
                           ></el-slider>
                         </el-col>
-                        <el-col :span="2" style="text-align: center;">
+                        <el-col :span="2" style="text-align: center">
                           <p class="textContent">10</p>
                         </el-col>
                       </el-row>
@@ -1014,7 +1007,7 @@
                             :step="1"
                           ></el-slider>
                         </el-col>
-                        <el-col :span="2" style="text-align: center;">
+                        <el-col :span="2" style="text-align: center">
                           <p class="textContent">100%</p>
                         </el-col>
                       </el-row>
@@ -1069,7 +1062,7 @@
                         </el-col>
                       </el-row>
                     </el-col> -->
-                    <el-col :offset="3" style="padding:10px 0;">
+                    <el-col :offset="3" style="padding: 10px 0">
                       <p class="textContent">健康检查：</p>
                     </el-col>
                     <el-col :offset="5">
@@ -1095,7 +1088,7 @@
                                 deployment.healthCheck.readinessProbe.type
                               "
                               placeholder="请选择类型"
-                              style="width: 100%;"
+                              style="width: 100%"
                             >
                               <el-option
                                 v-for="item in RSrequestType"
@@ -1109,7 +1102,7 @@
                             label="请求路径："
                             v-if="
                               deployment.healthCheck.readinessProbe.type ==
-                                'HTTP'
+                              'HTTP'
                             "
                             prop="healthCheck.readinessProbe.path"
                             :rules="[
@@ -1118,8 +1111,8 @@
                                 pattern: /^[\/]{1}([a-zA-Z0-9]|[-_*]|[\/]){1,49}$/,
                                 message:
                                   '以/开头,由数字、字母、中划线、*、下划线组成',
-                                trigger: 'blur'
-                              }
+                                trigger: 'blur',
+                              },
                             ]"
                           >
                             <el-input
@@ -1133,7 +1126,7 @@
                           <el-form-item
                             v-if="
                               deployment.healthCheck.readinessProbe.type ==
-                                'EXEC'
+                              'EXEC'
                             "
                             label="命令："
                           >
@@ -1147,7 +1140,10 @@
                               <el-col :span="6" :offset="1">
                                 <el-button
                                   size="mini"
-                                  style="border-radius:0;background:rgba(3,97,167,1);"
+                                  style="
+                                    border-radius: 0;
+                                    background: rgba(3, 97, 167, 1);
+                                  "
                                   v-if="index != RSrobecommands.length - 1"
                                   icon="el-icon-minus"
                                   type="primary"
@@ -1156,7 +1152,10 @@
                                 />
                                 <el-button
                                   size="mini"
-                                  style="border-radius:0;background:rgba(3,97,167,1);"
+                                  style="
+                                    border-radius: 0;
+                                    background: rgba(3, 97, 167, 1);
+                                  "
                                   v-if="index == RSrobecommands.length - 1"
                                   icon="el-icon-plus"
                                   type="primary"
@@ -1170,7 +1169,7 @@
                             label="端口："
                             v-if="
                               deployment.healthCheck.readinessProbe.type !=
-                                'EXEC'
+                              'EXEC'
                             "
                             prop="healthCheck.readinessProbe.port"
                             :rules="[{ required: true, message: '请输入内容' }]"
@@ -1180,7 +1179,7 @@
                                 deployment.healthCheck.readinessProbe.port
                               "
                               placeholder="请选择端口"
-                              style="width: 100%;"
+                              style="width: 100%"
                             >
                               <el-option
                                 v-for="item in exposedPort"
@@ -1202,7 +1201,7 @@
                               "
                               controls-position="right"
                               placeholder="等待时间"
-                              style="width:250px"
+                              style="width: 250px"
                               :min="1"
                               :max="10"
                             ></el-input-number>
@@ -1220,7 +1219,7 @@
                               "
                               controls-position="right"
                               placeholder="超时时间"
-                              style="width:250px"
+                              style="width: 250px"
                               :min="1"
                               :max="10"
                             ></el-input-number>
@@ -1232,7 +1231,7 @@
                     <el-col
                       :offset="5"
                       class="mt30"
-                      style="padding-bottom:30px"
+                      style="padding-bottom: 30px"
                     >
                       <el-checkbox v-model="LivenessJudge"
                         >Liveness</el-checkbox
@@ -1243,7 +1242,7 @@
                       :offset="5"
                       id="jianc"
                       class="mt30"
-                      style="padding-bottom:30px"
+                      style="padding-bottom: 30px"
                     >
                       <el-row>
                         <el-col :offset="1">
@@ -1257,7 +1256,7 @@
                                 deployment.healthCheck.livenessProbe.type
                               "
                               placeholder="请选择类型"
-                              style="width: 100%;"
+                              style="width: 100%"
                             >
                               <el-option
                                 v-for="item in LSrequestType"
@@ -1271,7 +1270,7 @@
                           <el-form-item
                             v-if="
                               deployment.healthCheck.livenessProbe.type ==
-                                'EXEC'
+                              'EXEC'
                             "
                             label="命令："
                           >
@@ -1285,7 +1284,10 @@
                               <el-col :span="6" :offset="1">
                                 <el-button
                                   size="mini"
-                                  style="border-radius:0;background:rgba(3,97,167,1);"
+                                  style="
+                                    border-radius: 0;
+                                    background: rgba(3, 97, 167, 1);
+                                  "
                                   v-if="index != LSrobecommands.length - 1"
                                   icon="el-icon-minus"
                                   type="primary"
@@ -1294,7 +1296,10 @@
                                 />
                                 <el-button
                                   size="mini"
-                                  style="border-radius:0;background:rgba(3,97,167,1);"
+                                  style="
+                                    border-radius: 0;
+                                    background: rgba(3, 97, 167, 1);
+                                  "
                                   v-if="index == LSrobecommands.length - 1"
                                   icon="el-icon-plus"
                                   type="primary"
@@ -1308,7 +1313,7 @@
                             label="请求路径："
                             v-if="
                               deployment.healthCheck.livenessProbe.type ==
-                                'HTTP'
+                              'HTTP'
                             "
                             prop="healthCheck.livenessProbe.path"
                             :rules="[
@@ -1317,8 +1322,8 @@
                                 pattern: /^[\/]{1}([a-zA-Z0-9]|[-_*]|[\/]){1,49}$/,
                                 message:
                                   '以/开头,由数字、字母、中划线、*、下划线组成',
-                                trigger: 'blur'
-                              }
+                                trigger: 'blur',
+                              },
                             ]"
                           >
                             <el-input
@@ -1333,7 +1338,7 @@
                             label="端口："
                             v-if="
                               deployment.healthCheck.livenessProbe.type !=
-                                'EXEC'
+                              'EXEC'
                             "
                             prop="healthCheck.livenessProbe.port"
                             :rules="[{ required: true, message: '请输入内容' }]"
@@ -1343,7 +1348,7 @@
                                 deployment.healthCheck.livenessProbe.port
                               "
                               placeholder="请选择端口"
-                              style="width: 100%;"
+                              style="width: 100%"
                             >
                               <el-option
                                 v-for="item in exposedPort"
@@ -1365,7 +1370,7 @@
                               "
                               controls-position="right"
                               placeholder="等待时间"
-                              style="width:250px"
+                              style="width: 250px"
                               :min="1"
                               :max="10"
                             ></el-input-number>
@@ -1383,7 +1388,7 @@
                               "
                               controls-position="right"
                               placeholder="超时时间"
-                              style="width:250px"
+                              style="width: 250px"
                               :min="1"
                               :max="10"
                             ></el-input-number>
@@ -1402,32 +1407,37 @@
       </el-col>
     </el-row>
     <!--订购-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">订购</p>
         <el-row>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">计费方式</span>
             <el-button
-              style="border-radius:0;height:30px;background:rgba(3,97,167,1);padding-left: 14px;"
+              style="
+                border-radius: 0;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">包年包月</span>
             </el-button>
           </el-col>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">购买时长</span>
             <el-input-number
               v-model="time"
               :min="1"
               :max="12"
               size="mini"
-              style="width:130px"
+              style="width: 130px"
               @change="countTime"
             ></el-input-number>
             <el-select
               v-model="mode"
               size="mini"
-              style="width: 80px; margin-left: 30px;margin-bottom: 0px;"
+              style="width: 80px; margin-left: 30px; margin-bottom: 0px"
               @change="countMonth"
             >
               <el-option
@@ -1454,14 +1464,14 @@
       </el-col>
     </el-row>
     <!--服务协议-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <el-col :span="3"> <p class="skuFont">服务协议</p></el-col>
 
         <el-col :span="21">
           <el-checkbox
             class="skuFont"
-            style="margin-bottom:10px"
+            style="margin-bottom: 10px"
             v-model="disable"
           >
             <el-link type="primary" @click="agreement()">《服务条款》</el-link>
@@ -1471,22 +1481,29 @@
     </el-row>
 
     <!--提交订单-->
-    <el-row style="margin-top:30px;height:100px;">
+    <el-row style="margin-top: 30px; height: 100px">
       <el-col
         :span="24"
-        style="background: #FFF;height:100px;"
+        style="background: #fff; height: 100px"
         :class="isFixed ? 'fixed' : ''"
       >
         <!-- 资源空间 -->
         <el-col
           v-if="id == 15"
           :offset="15"
-          style="color: #666666;line-height: 100px;"
+          style="color: #666666; line-height: 100px"
         >
           服务费用：
           <span class="money">￥{{ sum }}</span>
           <el-button
-            style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);padding-left: 14px;margin-left:5%;"
+            style="
+              border-radius: 0;
+              width: 87px;
+              height: 30px;
+              background: rgba(3, 97, 167, 1);
+              padding-left: 14px;
+              margin-left: 5%;
+            "
             @click="submitForm('monitoringFrom')"
             deployment
             v-if="disable == true"
@@ -1502,7 +1519,14 @@
           >
             <el-button
               slot="reference"
-              style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);margin-left:5%;padding-left: 14px;"
+              style="
+                border-radius: 0;
+                width: 87px;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                margin-left: 5%;
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">提交订单</span>
             </el-button>
@@ -1512,12 +1536,19 @@
         <el-col
           v-if="id == 16"
           :offset="15"
-          style="color: #666666;line-height: 100px;"
+          style="color: #666666; line-height: 100px"
         >
           服务费用：
           <span class="money">￥{{ sum }}</span>
           <el-button
-            style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);padding-left: 14px;margin-left:5%;"
+            style="
+              border-radius: 0;
+              width: 87px;
+              height: 30px;
+              background: rgba(3, 97, 167, 1);
+              padding-left: 14px;
+              margin-left: 5%;
+            "
             @click="submitDeployment('deployment')"
             deployment
             v-if="disable == true"
@@ -1533,7 +1564,14 @@
           >
             <el-button
               slot="reference"
-              style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);margin-left:5%;padding-left: 14px;"
+              style="
+                border-radius: 0;
+                width: 87px;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                margin-left: 5%;
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">提交订单</span>
             </el-button>
@@ -1567,7 +1605,7 @@
             v-model="pvcvolume.projectNo"
             placeholder="请选择项目"
             disabled
-            style="width: 100%;"
+            style="width: 100%"
           >
             <el-option
               v-for="item in project"
@@ -1588,7 +1626,7 @@
             filterable
             disabled
             placeholder="请选择集群"
-            style="width: 100%;"
+            style="width: 100%"
             @change="clicksclist"
           >
             <el-option
@@ -1609,7 +1647,7 @@
             v-model="pvcvolume.namespace"
             placeholder="请选择资源空间"
             disabled
-            style="width: 100%;"
+            style="width: 100%"
             @visible-change="clickPVCNamespace"
           >
             <el-option
@@ -1631,9 +1669,9 @@
               pattern: /^[a-z0-9]([-a-z0-9.]*[a-z0-9])?$/,
               message:
                 '名称由小写字母、数字、横线(-)和点(.)组成,且必须以字母或数字开头结尾',
-              trigger: 'blur'
+              trigger: 'blur',
             },
-            { validator: checkPVCName, trigger: 'blur' }
+            { validator: checkPVCName, trigger: 'blur' },
           ]"
         >
           <el-input
@@ -1649,14 +1687,14 @@
             {
               required: true,
               message: '请选择Storage Class',
-              trigger: 'blur'
-            }
+              trigger: 'blur',
+            },
           ]"
         >
           <el-select
             v-model="pvcvolume.strogeclassName"
             placeholder="请选择Storage Class"
-            style="width: 100%;"
+            style="width: 100%"
           >
             <el-option
               v-for="item in sclist"
@@ -1672,13 +1710,13 @@
           prop="accessMode"
           class="skuDivFont"
           :rules="[
-            { required: true, message: '请选择访问模式', trigger: 'blur' }
+            { required: true, message: '请选择访问模式', trigger: 'blur' },
           ]"
         >
           <el-select
             v-model="pvcvolume.accessMode"
             placeholder="请选择访问模式"
-            style="width: 100%;"
+            style="width: 100%"
           >
             <el-option
               v-for="item in accessModelist"
@@ -1723,10 +1761,10 @@
             <el-table-column
               label="KEY"
               align="center"
-              style="line-height: 25px;"
+              style="line-height: 25px"
             >
               <template slot-scope="scope">
-                <el-form-item style="margin:0">
+                <el-form-item style="margin: 0">
                   <el-input
                     placeholder="请输入KEY"
                     v-model="scope.row.key"
@@ -1734,9 +1772,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="VALUE" align="center" style="padding:0">
+            <el-table-column label="VALUE" align="center" style="padding: 0">
               <template slot-scope="scope">
-                <el-form-item style="margin:0">
+                <el-form-item style="margin: 0">
                   <el-input
                     placeholder="请输入VALUE"
                     v-model="scope.row.value"
@@ -1755,12 +1793,12 @@
               </template>
             </el-table-column>
           </el-table>
-          <el-col style="margin-top: 10px;">
+          <el-col style="margin-top: 10px">
             <el-link @click="addLabels()" type="primary" :underline="false">
               <img
                 src="@/static/images/jiahao.png"
                 alt
-                style="width:16px;margin: 0px 5px -3px 0px;"
+                style="width: 16px; margin: 0px 5px -3px 0px"
               />新增标签</el-link
             >
           </el-col>
@@ -1776,7 +1814,12 @@
         </el-button>
         <el-button
           style="
-          border-radius: 0;width: 87px;height: 30px;margin-left: 5%;padding-left: 14px;"
+            border-radius: 0;
+            width: 87px;
+            height: 30px;
+            margin-left: 5%;
+            padding-left: 14px;
+          "
           @click="addPvc()"
           >取 消</el-button
         >
@@ -1809,7 +1852,7 @@ import {
   persistentVolumeClaimCheck,
   getOcpExternalImages, //查询ocp外部仓库下的镜像列表
   getOcpExternalImagesitems, //查询 外部  ImageStream下某一版本的image详情
-  verificationPinpointService
+  verificationPinpointService,
 } from "../../api/serviceOperating";
 import { requestParams } from "../../utils/urlParam";
 import { getUserInfo } from "../../utils/auth";
@@ -1818,7 +1861,7 @@ import { postOrders } from "../../api/shoplist";
 import Vue from "vue";
 export default {
   name: "App",
-  data: function() {
+  data: function () {
     const isNum = (rule, value, callback) => {
       const key = /^(?!-)[\u4e00-\u9fa5-a-z0-9](?!.*-$)/;
       if (!key.test(value)) {
@@ -1836,8 +1879,8 @@ export default {
       domains: [
         {
           key: "",
-          value: ""
-        }
+          value: "",
+        },
       ],
       randomNum: ("000000" + Math.floor(Math.random() * 999999)).slice(-6),
       senior: true,
@@ -1880,7 +1923,7 @@ export default {
         projectName: "",
         configure: "", //调度配置
         projectDescription: "", //项目描述
-        name: ""
+        name: "",
       },
       isFixed: true,
       input1: "",
@@ -1904,8 +1947,8 @@ export default {
       options: [
         {
           value: "MONTH",
-          label: "月"
-        }
+          label: "月",
+        },
       ],
       disable: false,
       sum: 0,
@@ -1935,14 +1978,14 @@ export default {
             payMode: "AFTERWARDS",
             skuId: 0,
             tags: "",
-            platformParams: ""
-          }
+            platformParams: "",
+          },
         ],
         name: "",
         payMode: "AFTERWARDS",
         tags: "",
         userId: "1",
-        tenantId: "1"
+        tenantId: "1",
       },
       skulist: [],
       skuInfoSpecs: [],
@@ -1954,32 +1997,24 @@ export default {
       formLabelAlign: {
         name: "",
         region: "",
-        type: ""
+        type: "",
       },
       search: {
         params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
         page: 1,
-        rows: 100
+        rows: 100,
       },
       search1: {
         page: 1,
         pageSize: 100,
-        sort: ""
+        sort: "",
       },
       imSearch: {
         kubernetes_urn: "",
         namespace: "",
         name: "",
         page: 1,
-        pageSize: 100
-      },
-      skuObject: {
-        id: "",
-        spec: "",
-        cpu: "",
-        gb: "",
-        version: "",
-        money: ""
+        pageSize: 100,
       },
 
       personnelState: false,
@@ -2011,14 +2046,14 @@ export default {
       namespace: "", //资源空间
       rules: {
         applicationName: [
-          { required: true, message: "请输入应用名称", trigger: "blur" }
+          { required: true, message: "请输入应用名称", trigger: "blur" },
         ],
         replicas: [
-          { required: true, message: "请输入实例数量", trigger: "blur" }
+          { required: true, message: "请输入实例数量", trigger: "blur" },
         ],
         purchase: [
-          { required: true, message: "请输入申请时长", trigger: "blur" }
-        ]
+          { required: true, message: "请输入申请时长", trigger: "blur" },
+        ],
       },
       configmapList: [],
       secretsList: [],
@@ -2042,15 +2077,15 @@ export default {
           requests: {
             //容器规格
             memory: 0,
-            cpu: 0
+            cpu: 0,
           },
-          type: "cpu"
+          type: "cpu",
         },
         scale: {
           //扩缩容策略
           maxReplicas: 0, //最小实例数
           minReplicas: 0, //最大实例数
-          cpuPercent: 0 // CPU请求阀值
+          cpuPercent: 0, // CPU请求阀值
         },
         description: "", //描述
         envarr: [],
@@ -2066,7 +2101,7 @@ export default {
             port: "", //端口
             initialDelaySeconds: 1, //初始检查等待时间
             timeoutSeconds: 1, //检查超时时间：
-            command: []
+            command: [],
           },
           readinessProbe: {
             type: "TCP", //类型
@@ -2074,27 +2109,27 @@ export default {
             port: "", //端口
             initialDelaySeconds: 1, //初始检查等待时间
             timeoutSeconds: 1, //检查超时时间：
-            command: []
-          }
+            command: [],
+          },
         },
         namespace: "", //资源空间
         referenceimage: "",
         containerPorts: {
-          "": ""
+          "": "",
         },
         strategy: {
           //部署策略
-          type: "Rolling"
+          type: "Rolling",
         },
         order: {
           amount: 0,
           skuId: 0,
-          basePrice: 0
+          basePrice: 0,
         },
         projectName: "", //项目
         projectNo: "",
         applicationName: "", //应用名称：
-        deployStatus: "Deployment" // 服务类型
+        deployStatus: "Deployment", // 服务类型
       },
       namespaces: "",
       checked1: true,
@@ -2116,9 +2151,9 @@ export default {
         name: "", //pvc 名称
         purchase: 1,
         skuId: "",
-        strogeclassName: "" //strogeclass
+        strogeclassName: "", //strogeclass
       },
-      imagecIndex: 0
+      imagecIndex: 0,
     };
   },
   methods: {
@@ -2131,14 +2166,14 @@ export default {
       if (this.Imaedition == "" || this.Imaedition == null) {
         this.$notify({
           type: "warning",
-          message: "请先选择镜像"
+          message: "请先选择镜像",
         });
         this.deployment.openApm = "false";
       } else {
         if (this.targetExecuteDir == "" || this.targetExecuteDir == null) {
           this.$notify({
             type: "warning",
-            message: "当前镜像不可以开启APM监控"
+            message: "当前镜像不可以开启APM监控",
           });
           this.deployment.openApm = "false";
         } else if (
@@ -2147,19 +2182,19 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: "请选择一个PVC"
+            message: "请选择一个PVC",
           });
           this.deployment.openApm = "false";
         } else {
           verificationPinpointService(
             this.deployment.envId,
             this.deployment.namespace
-          ).then(r => {
+          ).then((r) => {
             console.log(r);
             if (!r.content) {
               this.$notify({
                 type: "warning",
-                message: "请先安装pinpoint-service组件"
+                message: "请先安装pinpoint-service组件",
               });
               this.deployment.openApm = "false";
             }
@@ -2180,7 +2215,7 @@ export default {
       getResourceSpaceNameInfo(
         this.deployment.envId,
         this.deployment.namespace
-      ).then(r => {
+      ).then((r) => {
         let cpu = r.content.cpu == null ? 0 : r.content.cpu;
         let memory = r.content.memory == null ? 0 : r.content.memory;
         this.deployment.scale.maxReplicas;
@@ -2200,7 +2235,7 @@ export default {
         if (r.content.cpu < this.deployment.resources.requests.cpu * row) {
           this.$notify({
             type: "warning",
-            message: messagemin
+            message: messagemin,
           });
           this.deployment.scale.minReplicas = 0;
         } else if (
@@ -2209,7 +2244,7 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: messageminto
+            message: messageminto,
           });
         } else if (
           r.content.memory <
@@ -2217,7 +2252,7 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: messagemin
+            message: messagemin,
           });
           this.deployment.scale.minReplicas = 0;
         } else if (
@@ -2226,7 +2261,7 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: messageminto
+            message: messageminto,
           });
         }
       });
@@ -2236,7 +2271,7 @@ export default {
       getResourceSpaceNameInfo(
         this.deployment.envId,
         this.deployment.namespace
-      ).then(r => {
+      ).then((r) => {
         let cpu = r.content.cpu == null ? 0 : r.content.cpu;
         let memory = r.content.memory == null ? 0 : r.content.memory;
 
@@ -2256,7 +2291,7 @@ export default {
         if (r.content.cpu < this.deployment.resources.requests.cpu * row) {
           this.$notify({
             type: "warning",
-            message: messagemin
+            message: messagemin,
           });
           this.deployment.scale.maxReplicas = 0;
         } else if (
@@ -2265,7 +2300,7 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: messageminto
+            message: messageminto,
           });
         } else if (
           r.content.memory <
@@ -2273,7 +2308,7 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: messagemin
+            message: messagemin,
           });
           this.deployment.scale.maxReplicas = 0;
         } else if (
@@ -2282,7 +2317,7 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: messageminto
+            message: messageminto,
           });
         }
       });
@@ -2314,7 +2349,7 @@ export default {
       getResourceSpaceNameInfo(
         this.pvcvolume.kubernetes_urn,
         this.pvcvolume.namespace
-      ).then(r => {
+      ).then((r) => {
         if (r.content.storage <= parseInt(row)) {
           let storage = r.content.storage == null ? 0 : r.content.storage;
           let message =
@@ -2323,7 +2358,7 @@ export default {
             "G）";
           this.$notify({
             type: "warning",
-            message: "该资源空间资源剩余容量资源不足"
+            message: "该资源空间资源剩余容量资源不足",
           });
           this.pvcvolume.capacity = "";
         }
@@ -2334,7 +2369,7 @@ export default {
       getResourceSpaceNameInfo(
         this.deployment.envId,
         this.deployment.namespace
-      ).then(r => {
+      ).then((r) => {
         let cpu = r.content.cpu == null ? 0 : r.content.cpu;
         let memory = r.content.memory == null ? 0 : r.content.memory;
         const message =
@@ -2355,7 +2390,7 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: message
+            message: message,
           });
           this.deployment.replicas = 1;
         } else if (
@@ -2364,7 +2399,7 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: message
+            message: message,
           });
           this.deployment.replicas = 1;
         } else if (
@@ -2373,7 +2408,7 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: messageto
+            message: messageto,
           });
         } else if (
           r.content.memory ==
@@ -2381,14 +2416,14 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: messageto
+            message: messageto,
           });
         }
       });
     },
     selectModel(name) {
       let obj = {};
-      obj = this.project.find(item => {
+      obj = this.project.find((item) => {
         //model就是上面的数据源
         return item.projectNo === name; //筛选出匹配数据
       });
@@ -2407,7 +2442,7 @@ export default {
     },
     addDomain() {
       this.RSrobecommands.push({
-        command: ""
+        command: "",
       });
     },
     // LS动态添加/删除
@@ -2419,17 +2454,17 @@ export default {
     },
     addLS() {
       this.LSrobecommands.push({
-        command: ""
+        command: "",
       });
     },
     //验证别名是否重复
     clickProject(data) {
       if (this.envId != "") {
-        aliasWhetherRepeat(this.monitoringFrom.envId, data).then(r => {
+        aliasWhetherRepeat(this.monitoringFrom.envId, data).then((r) => {
           if (r.content == 1) {
             const h = this.$createElement;
             this.$notify({
-              message: h("i", { style: "color: red" }, "该资源空间重复")
+              message: h("i", { style: "color: red" }, "该资源空间重复"),
             });
             this.monitoringFrom.name = "";
           }
@@ -2463,7 +2498,7 @@ export default {
           if (this.deployment.namespace == "") {
             this.$notify({
               type: "warning",
-              message: "请先完善集群、资源空间等信息"
+              message: "请先完善集群、资源空间等信息",
             });
           } else {
             this.imSearch.kubernetes_urn = this.projectResource.envId;
@@ -2472,7 +2507,7 @@ export default {
               this.projectResource.envId,
               this.deployment.namespace,
               this.imSearch
-            ).then(imageRes => {
+            ).then((imageRes) => {
               this.imagesName = imageRes.content.content;
             });
           }
@@ -2522,7 +2557,7 @@ export default {
           this.deployment.envId,
           this.deployment.namespace,
           imageUrl
-        ).then(res => {
+        ).then((res) => {
           console.log(res);
           for (let i = 0; i < res.content.env.length; i++) {
             var val = res.content.env[i].split("=");
@@ -2545,7 +2580,7 @@ export default {
         this.deployment.projectNo,
         this.deployment.envId,
         this.deployment.namespace
-      ).then(r => {
+      ).then((r) => {
         if (r.content != null) {
           for (let i = 0; i < r.content.length; i++) {
             let config = { name: "" };
@@ -2558,7 +2593,7 @@ export default {
         this.deployment.projectNo,
         this.deployment.envId,
         this.deployment.namespace
-      ).then(r => {
+      ).then((r) => {
         if (r.content.length) {
           for (let i = 0; i < r.content.length; i++) {
             let secret = { name: "" };
@@ -2575,7 +2610,7 @@ export default {
         this.deployment.envId,
         this.imageName,
         name
-      ).then(res => {
+      ).then((res) => {
         this.targetExecuteDir = res.content.targetExecuteDir;
         console.log(this.targetExecuteDir);
         for (let i = 0; i < res.content.env.length; i++) {
@@ -2599,7 +2634,7 @@ export default {
         this.deployment.projectNo,
         this.deployment.envId,
         this.deployment.namespace
-      ).then(r => {
+      ).then((r) => {
         this.pvcsList = r.content.content;
       });
       (this.pvcvolume.projectNo = this.deployment.projectNo),
@@ -2618,7 +2653,7 @@ export default {
     },
     // 不知道
     getFatherId(id) {
-      getServiceCatalogsInfo(id).then(r => {
+      getServiceCatalogsInfo(id).then((r) => {
         this.objectCloud = r.content;
         this.id = id;
         this.name = r.content.name;
@@ -2642,10 +2677,8 @@ export default {
     async rowClick(row, column, event) {
       this.skuData = row;
       this.radio = row.id;
-      const r = await requestParams(getResourcesSkuInfo, row.id);
-      let arr = r.content.storage.split(";");
-      this.deployment.resources.requests.cpu = parseFloat(row.cpu);
-      this.deployment.resources.requests.memory = parseFloat(row.gb);
+      this.deployment.resources.requests.cpu = parseFloat(row.cpuCores);
+      this.deployment.resources.requests.memory = parseFloat(row.memory);
       if (
         this.deployment.namespace != null &&
         this.deployment.nameSpace != ""
@@ -2653,7 +2686,7 @@ export default {
         getResourceSpaceNameInfo(
           this.deployment.envId,
           this.deployment.namespace
-        ).then(r => {
+        ).then((r) => {
           if (r.content.cpu < this.deployment.resources.requests.cpu) {
             this.deployment.namespace = "";
           } else if (
@@ -2663,9 +2696,9 @@ export default {
           }
         });
       }
-      this.price = r.content.price.price;
+      this.price = row.price;
       if (this.mode == "MONTH") {
-        this.sum = r.content.price.price * this.time;
+        this.sum = row.price * this.time;
         this.sum = Math.floor(this.sum * 100) / 100;
       }
     },
@@ -2682,13 +2715,13 @@ export default {
     },
     getProjectContent(name) {
       let obj = {};
-      obj = this.project.find(item => {
+      obj = this.project.find((item) => {
         //model就是上面的数据源
         return item.projectNo === name; //筛选出匹配数据
       });
       this.addorder.projectId = obj.id;
       this.addorder.projectName = obj.projectName;
-      console.log(this.addorder)
+      console.log(this.addorder);
     },
     //提交订单
     async commitOrder() {
@@ -2697,57 +2730,44 @@ export default {
       this.skuInfo = r.content;
       console.log(r);
       this.skuInfo.category = this.name;
-      //项目创建
-      if (this.id == 15) {
-        let arr = r.content.storage.split(";");
 
-        for (let a = 0; a < arr.length; a++) {
-          let arr1 = arr[a].split(":");
-          let params = { name: "", paramValue: "" };
-          if (arr1[0].trim() == "资源空间名称") {
-            params.name = arr1[0];
-            params.paramValue = this.monitoringFrom.name;
-            this.skuInfoSpecs.push(params);
-          }
-          if (arr1[0].trim() == "资源空间别名") {
-            params.name = arr1[0];
-            params.paramValue = this.monitoringFrom.projectName;
-            this.skuInfoSpecs.push(params);
-          }
-          if (arr1[0].trim() == "项目名称") {
-            params.name = arr1[0];
-            params.paramValue = this.getProjectLabel1(
-              this.monitoringFrom.configure
-            );
-            this.skuInfoSpecs.push(params);
-          }
-          if (arr1[0].trim() == "资源空间描述") {
-            params.name = arr1[0];
-            params.paramValue = this.monitoringFrom.projectDescription;
-            this.skuInfoSpecs.push(params);
-          }
-          if (arr1[0].trim() == "时长") {
-            params.name = arr1[0];
-            params.paramValue = this.time + "月";
-            this.skuInfoSpecs.push(params);
-          }
-          if (arr1[0].trim() == "CPU") {
-            params.name = arr1[0];
-            params.paramValue = this.skuData.cpu;
-            this.skuInfoSpecs.push(params);
-          }
-          if (arr1[0].trim() == "内存") {
-            params.name = arr1[0];
-            params.paramValue = this.skuData.gb;
-            this.skuInfoSpecs.push(params);
-          }
-          if (arr1[0].trim() == "存储空间") {
-            params.name = arr1[0];
-            params.paramValue = this.skuData.cckj;
-            this.skuInfoSpecs.push(params);
-          }
-        }
-      }
+      let params1 = { name: "", paramValue: "" };
+      params1.name = "资源空间名称";
+      params1.paramValue = this.monitoringFrom.name;
+      this.skuInfoSpecs.push(params1);
+      let params2 = { name: "", paramValue: "" };
+      params2.name = "资源空间别名";
+      params2.paramValue = this.monitoringFrom.projectName;
+      this.skuInfoSpecs.push(params2);
+      let params3 = { name: "", paramValue: "" };
+      params3.name = "项目名称";
+      params3.paramValue = this.getProjectLabel1(this.monitoringFrom.configure);
+      this.skuInfoSpecs.push(params3);
+      let params4 = { name: "", paramValue: "" };
+      params4.name = "资源空间描述";
+      params4.paramValue = this.monitoringFrom.projectDescription;
+      this.skuInfoSpecs.push(params4);
+      let params5 = { name: "", paramValue: "" };
+      params5.name = "资源空间名称";
+      params5.paramValue = this.monitoringFrom.name;
+      this.skuInfoSpecs.push(params5);
+      let params6 = { name: "", paramValue: "" };
+      params6.name = "时长";
+      params6.paramValue = this.time + "月";
+      this.skuInfoSpecs.push(params6);
+      let params7 = { name: "", paramValue: "" };
+      params7.name = "CPU";
+      params7.paramValue = this.skuData.cpuCores;
+      this.skuInfoSpecs.push(params7);
+      let params8 = { name: "", paramValue: "" };
+      params8.name = "内存";
+      params8.paramValue = this.skuData.memory;
+      this.skuInfoSpecs.push(params8);
+      let params9 = { name: "", paramValue: "" };
+      params9.name = "存储空间";
+      params9.paramValue = this.skuData.storage;
+      this.skuInfoSpecs.push(params9);
+
       if (this.disable == true) {
         this.addorder.amount = this.sum;
         this.addorder.items[0].amount = this.time;
@@ -2814,10 +2834,10 @@ export default {
       this.monitoringFrom.configure = this.project[0].projectNo;
       this.deployment.projectNo = this.project[0].projectNo;
       this.deployment.projectName = this.project[0].projectName;
-      
+
       this.addorder.projectId = this.project[0].id;
       this.addorder.projectName = this.project[0].projectName;
-      console.log(this.addorder)
+      console.log(this.addorder);
       const res1 = await requestParams(whetherExistPersonnel, this.search);
       if (res1.content.content.length >= 0) {
         this.personnelState = true;
@@ -2832,82 +2852,20 @@ export default {
       this.search.page = 1;
       this.search.rows = 100;
       const res = await requestParams(getResourcesSku, this.search);
-      if (res.content.content == 0) {
-        alert("该服务暂未开通，敬请期待");
-        window.location.href = document.referrer;
-        return;
-      }
 
       var list = res.content.content;
       this.radio = list[0].id;
-      const r1 = await requestParams(getResourcesSkuInfo, list[0].id);
-      console.log(r1)
-      this.sum = r1.content.price.price;
-      this.price = r1.content.price.price;
-
-      for (var i = 0; i < list.length; i++) {
-        const r = await requestParams(getResourcesSkuInfo, list[i].id);
-        console.log(r)
-        if (i == 0) {
-          var sku = r.content;
-          let arr = sku.storage.split(";");
-          for (let a = 0; a < arr.length; a++) {
-            let arr2 = arr[a].split(":");
-            if (arr2[0].trim() == "CPU") {
-              this.deployment.resources.requests.cpu = parseFloat(
-                arr2[1].trim()
-              );
-              // this.limitsCPu = parseFloat(arr2[1].trim());
-            }
-            if (arr2[0].trim() == "内存") {
-              this.deployment.resources.requests.memory = parseFloat(
-                arr2[1].trim()
-              );
-
-              // this.limitsMemory = parseFloat(arr2[1].trim());
-            }
-          }
-        }
-        var sku = r.content;
-
-        var skuObject = {
-          id: "",
-          name: "",
-          spec: "",
-          cpu: "",
-          gb: "",
-          cckj: "",
-          version: "V 1.0",
-          money: ""
-        };
-        skuObject.id = sku.id;
-        skuObject.name = sku.name;
-        skuObject.money = sku.price.price;
-
-        let arr = sku.storage.split(";");
-
-        for (let a = 0; a < arr.length; a++) {
-          let arr1 = arr[a].split(":");
-
-          if (arr1[0].trim() == "CPU") {
-            skuObject.cpu = arr1[1].trim();
-          }
-          if (arr1[0].trim() == "内存") {
-            skuObject.gb = arr1[1].trim();
-          }
-          if (arr1[0].trim() == "存储空间") {
-            skuObject.cckj = arr1[1].trim();
-          }
-        }
-
-        this.skulist.push(skuObject);
-      }
-      this.skuData = this.skulist[0];
+      this.sum = list[0].price;
+      this.price = list[0].price;
+      this.deployment.resources.requests.cpu = parseFloat(list[0].cpuCores);
+      this.deployment.resources.requests.memory = parseFloat(list[0].memory);
+      this.skulist = list;
+      this.skuData = list[0];
       this.getPVCSku();
       //共有镜像
       if (this.imageState == "gongyou") {
         getOcpExternalImages(this.deployment.envId, this.searchImage).then(
-          r => {
+          (r) => {
             this.imagesName = r.content.content;
             this.imagesName1 = r.content.content;
           }
@@ -2923,7 +2881,7 @@ export default {
       this.projectResource.envId = this.deployment.envId;
       this.projectResource.projectNo = this.deployment.projectNo;
 
-      getProjectResource(this.projectResource).then(r => {
+      getProjectResource(this.projectResource).then((r) => {
         this.namespaces = r.content;
       });
     },
@@ -2951,7 +2909,7 @@ export default {
       if (judge) {
         this.projectResource.envId = this.deployment.envId;
         this.projectResource.projectNo = this.deployment.projectNo;
-        getProjectResource(this.projectResource).then(r => {
+        getProjectResource(this.projectResource).then((r) => {
           this.namespaces = r.content;
         });
       }
@@ -2961,7 +2919,7 @@ export default {
       getResourceSpaceNameInfo(
         this.deployment.envId,
         this.deployment.namespace
-      ).then(r => {
+      ).then((r) => {
         let cpu = r.content.cpu == null ? 0 : r.content.cpu;
         let memory = r.content.memory == null ? 0 : r.content.memory;
         const message =
@@ -2979,7 +2937,7 @@ export default {
         if (r.content.cpu < this.deployment.resources.requests.cpu) {
           this.$notify({
             type: "warning",
-            message: message
+            message: message,
           });
           this.deployment.namespace = "";
         } else if (
@@ -2987,13 +2945,13 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: message
+            message: message,
           });
           this.deployment.namespace = "";
         } else if (r.content.cpu == this.deployment.resources.requests.cpu) {
           this.$notify({
             type: "warning",
-            message: messageto
+            message: messageto,
           });
           this.deployment.namespace = "";
         } else if (
@@ -3001,7 +2959,7 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: messageto
+            message: messageto,
           });
           this.deployment.namespace = "";
         } else {
@@ -3017,15 +2975,15 @@ export default {
         if (this.projectResource.envId == "") {
           this.$notify({
             type: "warning",
-            message: "请选择集群"
+            message: "请选择集群",
           });
         } else if (this.projectResource.projectNo == "") {
           this.$notify({
             type: "warning",
-            message: "请选择项目"
+            message: "请选择项目",
           });
         } else {
-          getProjectResource(this.projectResource).then(r => {
+          getProjectResource(this.projectResource).then((r) => {
             this.PVCnamespaces = r.content;
           });
         }
@@ -3037,7 +2995,7 @@ export default {
       console.log(val);
       let obj = {};
       console.log(this.envs);
-      obj = this.envs.find(item => {
+      obj = this.envs.find((item) => {
         return item.id == val;
       });
       let getName = "";
@@ -3047,7 +3005,7 @@ export default {
     },
     getProjectLabel(val) {
       let obj = {};
-      obj = this.optionProject.find(item => {
+      obj = this.optionProject.find((item) => {
         return item.name == val;
       });
       let getName = "";
@@ -3056,7 +3014,7 @@ export default {
     },
     getProjectLabel1(val) {
       let obj = {};
-      obj = this.project.find(item => {
+      obj = this.project.find((item) => {
         return item.projectNo == val;
       });
       let getName = "";
@@ -3064,7 +3022,7 @@ export default {
       return getName;
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.commitOrder();
         } else {
@@ -3074,7 +3032,7 @@ export default {
     },
     // 容器部署应用提价订单
     async submitDeployment(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.disable == true) {
             if (this.deployment.envarr.length > 0) {
@@ -3118,7 +3076,7 @@ export default {
             }
 
             //提交订单参数
-            getResourcesSkuInfo(this.radio).then(r => {
+            getResourcesSkuInfo(this.radio).then((r) => {
               this.skuInfo = r.content;
               this.skuInfo.category = this.name;
               let skuInfoSpecs = [];
@@ -3261,7 +3219,7 @@ export default {
     getObject(val) {
       let obj = {};
       console.log(this.envs);
-      obj = this.envs.find(item => {
+      obj = this.envs.find((item) => {
         return item.id == val;
       });
       let getName = "";
@@ -3285,7 +3243,7 @@ export default {
         capacity: "",
         path: "",
         pvName: "",
-        subPath: ""
+        subPath: "",
       });
     },
     addLabels() {
@@ -3326,7 +3284,7 @@ export default {
     },
     //  获取sc list
     clicksclist(kubernetes_urn) {
-      gerStrogeclass(kubernetes_urn).then(r => {
+      gerStrogeclass(kubernetes_urn).then((r) => {
         this.sclist = r.content;
       });
     },
@@ -3334,10 +3292,10 @@ export default {
       return val + "%";
     },
     async submitPvc(pvcvolume) {
-      this.$refs[pvcvolume].validate(valid => {
+      this.$refs[pvcvolume].validate((valid) => {
         if (valid) {
           let skuInfoSpecs = [];
-          getResourcesSkuInfo(this.pvcvolume.skuId).then(r => {
+          getResourcesSkuInfo(this.pvcvolume.skuId).then((r) => {
             this.skuInfo = r.content;
             let arr = r.content.storage.split(";");
             for (let a = 0; a < arr.length; a++) {
@@ -3420,11 +3378,11 @@ export default {
                   protocol: "http",
                   requestPath: "",
                   httpMethod: "",
-                  ParamFormat: "json"
+                  ParamFormat: "json",
                 },
                 params: "",
-                headers: ""
-              }
+                headers: "",
+              },
             ];
             platformParams[0].requestModeParams.requestPath =
               baseURL.DataInterfaceCmss +
@@ -3448,18 +3406,18 @@ export default {
             );
             Vue.set(this.addorder, "orderResourceType", "APPLICATION");
             //创建订单
-            postOrders(this.addorder).then(r => {
+            postOrders(this.addorder).then((r) => {
               if (r.code == 201) {
                 this.pvcStatus = !this.pvcStatus;
                 this.initPvc();
                 this.$notify({
                   type: "success",
-                  message: r.message
+                  message: r.message,
                 });
               } else {
                 this.$notify({
                   type: "error",
-                  message: r.message
+                  message: r.message,
                 });
               }
             });
@@ -3472,7 +3430,7 @@ export default {
     checkName(rule, value, callback) {
       if (value) {
         checkApplication(this.deployment.applicationName)
-          .then(res => {
+          .then((res) => {
             if (res.code == 200) {
               if (res.content) {
                 callback();
@@ -3482,7 +3440,7 @@ export default {
             } else {
             }
           })
-          .catch(e => {
+          .catch((e) => {
             this.$message.error(e.message);
           });
       }
@@ -3494,7 +3452,7 @@ export default {
           this.pvcvolume.namespace,
           this.pvcvolume.name
         )
-          .then(res => {
+          .then((res) => {
             if (res.code == 200) {
               if (res.content) {
                 callback();
@@ -3504,7 +3462,7 @@ export default {
             } else {
             }
           })
-          .catch(e => {
+          .catch((e) => {
             this.$message.error(e.message);
           });
       }
@@ -3573,7 +3531,7 @@ export default {
     ANChange() {
       this.deployment.appName =
         this.deployment.applicationName + this.randomNum;
-    }
+    },
   },
   created() {
     this.getFatherId(this.getId("id"));
@@ -3589,7 +3547,7 @@ export default {
     this.isFixed =
       document.body.offsetHeight - document.documentElement.clientHeight > 300;
     window.addEventListener("scroll", this.handleScroll);
-  }
+  },
 };
 </script>
 

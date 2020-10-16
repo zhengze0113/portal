@@ -1,14 +1,12 @@
 <template>
-  <div id="app" style="background-color: #E9E9E9">
-    <el-row style="height:100px;background: white;">
+  <div id="app" style="background-color: #e9e9e9">
+    <el-row style="height: 100px; background: white">
       <el-col :span="24" />
     </el-row>
-    <el-row style="height:70px;background:rgba(255,255,255,1);">
+    <el-row style="height: 70px; background: rgba(255, 255, 255, 1)">
       <el-col :span="24">
         <el-row>
-          <el-col :offset="3" :span="2" class="buyTitle">
-            服务购买
-          </el-col>
+          <el-col :offset="3" :span="2" class="buyTitle"> 服务购买 </el-col>
           <el-col :span="12" class="smallBuyTitle">{{
             addorder.productName
           }}</el-col>
@@ -16,11 +14,9 @@
       </el-col>
     </el-row>
     <!--参数项-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
-        <p class="skuFont">
-          资源选项
-        </p>
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
+        <p class="skuFont">资源选项</p>
         <el-col :offset="2">
           <el-form
             ref="monitoringFrom"
@@ -28,15 +24,15 @@
             :rules="rules"
             :label-position="labelPosition"
             label-width="120px"
-            style="width:60%"
+            style="width: 60%"
             class="demo-ruleForm"
           >
-            <el-form-item label="选择资源空间：" prop="namespace">
+            <el-form-item label="选择集群：" prop="namespace">
               <el-select
                 v-model="monitoringFrom.namespace"
                 filterable
                 placeholder="请选择"
-                style="width:100%"
+                style="width: 100%"
                 @change="clickName"
               >
                 <el-option
@@ -60,7 +56,7 @@
                 v-model="monitoringFrom.project_type"
                 filterable
                 placeholder="请选择项目类型"
-                style="width:100%"
+                style="width: 100%"
               >
                 <el-option
                   v-for="item in projectType"
@@ -75,7 +71,7 @@
                 v-model="monitoringFrom.project_admin"
                 filterable
                 placeholder="请选择管理员"
-                style="width:100%"
+                style="width: 100%"
               >
                 <el-option
                   v-for="item in jiraUserList"
@@ -111,28 +107,31 @@
       </el-col>
     </el-row>
     <!--订购-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
-        <p class="skuFont">
-          订购
-        </p>
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
+        <p class="skuFont">订购</p>
         <el-row>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">计费方式</span>
             <el-button
-              style="border-radius:0;height:30px;background:rgba(3,97,167,1);padding-left: 14px;"
+              style="
+                border-radius: 0;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">包年</span>
             </el-button>
           </el-col>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">购买时长</span>
             <el-select v-model="mode" size="small" @change="countMonth">
               <el-option
                 v-for="item in duration"
                 :key="item.value"
-                :label="item.name"
-                :value="item.id"
+                :label="item.label"
+                :value="item.value"
               />
             </el-select>
           </el-col>
@@ -140,15 +139,15 @@
       </el-col>
     </el-row>
     <!--服务协议-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <el-col :span="3"> <p class="skuFont">服务协议</p></el-col>
 
         <el-col :span="21">
           <el-checkbox
             @change="confirm()"
             class="skuFont"
-            style="margin-bottom:10px"
+            style="margin-bottom: 10px"
           >
             <el-link type="primary" @click="agreement()">《服务条款》</el-link>
           </el-checkbox>
@@ -157,18 +156,25 @@
     </el-row>
 
     <!--提交订单-->
-    <el-row style="margin-top:30px;height:100px;">
+    <el-row style="margin-top: 30px; height: 100px">
       <el-col
         :span="24"
-        style="background: #FFF;height:100px;"
+        style="background: #fff; height: 100px"
         :class="isFixed ? 'fixed' : ''"
       >
-        <el-col :offset="15" style="color: #666666;line-height: 100px;">
+        <el-col :offset="15" style="color: #666666; line-height: 100px">
           服务费用：
           <span class="money">￥{{ sum }}</span>
           <el-button
             v-if="disable == true"
-            style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);padding-left: 14px;margin-left:5%;"
+            style="
+              border-radius: 0;
+              width: 87px;
+              height: 30px;
+              background: rgba(3, 97, 167, 1);
+              padding-left: 14px;
+              margin-left: 5%;
+            "
             @click="submitForm('monitoringFrom')"
           >
             <span class="rightFont">提交订单</span>
@@ -182,7 +188,14 @@
           >
             <el-button
               slot="reference"
-              style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);margin-left:5%;padding-left: 14px;"
+              style="
+                border-radius: 0;
+                width: 87px;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                margin-left: 5%;
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">提交订单</span>
             </el-button>
@@ -202,12 +215,13 @@ import {
   getClusters, //获取集群
   getProject, //项目信息
   jiraGetUserApi,
-  jiraParameterCalibrationApi //参数验证
+  jiraParameterCalibrationApi, //参数验证
 } from "../../api/serviceOperating";
 import { requestParams } from "../../utils/urlParam";
+import { getProductMessage } from "../../api/CMSApi";
 export default {
   name: "App",
-  data: function() {
+  data: function () {
     const isNum = (rule, value, callback) => {
       const key = /^[0-9A-Z]*$/g;
       if (!key.test(value)) {
@@ -222,16 +236,16 @@ export default {
       rules: {
         jira_url: [
           { required: true, message: "jira地址不能为空" },
-          { type: "url", message: "请填写正确的jira地址" }
+          { type: "url", message: "请填写正确的jira地址" },
         ],
         key: [
           { required: true, message: "项目key不能为空" },
-          { validator: isNum, trigger: "blur" }
+          { validator: isNum, trigger: "blur" },
         ],
         project_type: [{ required: true, message: "项目类型不能为空" }],
         project_admin: [{ required: true, message: "管理员名称不能为空" }],
         project_name: [{ required: true, message: "项目名称不能为空" }],
-        namespace: [{ required: true, message: "项目信息不能为空" }]
+        namespace: [{ required: true, message: "项目信息不能为空" }],
       },
       isFixed: true,
       input1: "",
@@ -252,7 +266,7 @@ export default {
       count: 1,
       price: 0,
       number: 1,
-      mode: "MONTH",
+      mode: "",
       edit: [],
       skuData: "",
       disable: false,
@@ -282,14 +296,14 @@ export default {
             params: "",
             payMode: "AFTERWARDS",
             skuId: 0,
-            tags: ""
-          }
+            tags: "",
+          },
         ],
         name: "",
         payMode: "AFTERWARDS",
         tags: "",
         userId: "1",
-        tenantId: "1"
+        tenantId: "1",
       },
       skulist: [],
       skuInfoSpecs: [],
@@ -299,41 +313,41 @@ export default {
       formLabelAlign: {
         name: "",
         region: "",
-        type: ""
+        type: "",
       },
       search: {
-        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        params: "",
         page: 1,
-        rows: 100
+        rows: 100,
       },
       options: [
         {
           value: "lihaorong",
-          label: "lihaorong"
-        }
+          label: "lihaorong",
+        },
       ],
       projectType: [
         {
           value: "Software",
-          label: "Software"
+          label: "Software",
         },
         {
           value: "Business",
-          label: "Business"
-        }
+          label: "Business",
+        },
       ],
       //表单数据
       monitoringFrom: {
         userNumber: 1,
         uid: "",
         life_limit: 1,
-        jira_url: "http://10.72.76.55:9000", // 以 http[s]:// 开头，否则返回 400
+        jira_url: "http://10.72.77.236:80", // 以 http[s]:// 开头，否则返回 400
         key: "", // 项目 key, 用户输入，只能输入 英文+数字，转换为大写
         project_type: "", // 项目类型，单选项， 一个 Software, Business
         project_admin: "", // 管理员名称
         project_name: "", // 项目名称，用户输入
-        namespace: ""
-      }
+        namespace: "",
+      },
     };
   },
 
@@ -379,7 +393,7 @@ export default {
     },
     // 不知道
     getFatherId(id) {
-      getServiceCatalogsInfo(id).then(r => {
+      getServiceCatalogsInfo(id).then((r) => {
         this.objectCloud = r.content;
         this.id = id;
         this.name = r.content.name;
@@ -403,22 +417,7 @@ export default {
         this.isFixed = false;
       }
     },
-    //点击事件
-    async rowClick(row, column, event) {
-      this.skuData = row;
-      this.radio = row.id;
-      const r = await requestParams(getResourcesSkuInfo, row.id);
-      this.price = r.content.price.price;
 
-      if (this.mode == "MONTH") {
-        this.sum = r.content.price.price * this.time;
-        this.sum = Math.floor(this.sum * 100) / 100;
-      }
-      if (this.mode == "YEAR") {
-        this.sum = r.content.price.price * this.time * 12;
-        this.sum = Math.floor(this.sum * 100) / 100;
-      }
-    },
     confirm() {
       if (this.disable == true) {
         this.disable = false;
@@ -428,25 +427,25 @@ export default {
     },
     //表单验证
     submitForm(monitoringFrom) {
-      this.$refs[monitoringFrom].validate(valid => {
+      this.$refs[monitoringFrom].validate((valid) => {
         if (valid) {
           var data = {
             jira_url: this.monitoringFrom.jira_url, // 以 http[s]:// 开头，否则返回 400
             key: this.monitoringFrom.key, // 项目 key, 用户输入，只能输入 英文+数字，转换为大写
             project_name: this.monitoringFrom.project_name, // 项目名称，用户输入
-            jira_url: "http://10.72.76.55:9000",
-            jira_admin: "admin",
-            jira_admin_password: "kAUNkcQsTlG*V1d&"
+            jira_url: "http://10.72.77.236:80",
+            jira_admin: "wangxueqing",
+            jira_admin_password: "!d1wzjt85MDu",
           };
           jiraParameterCalibrationApi(this.monitoringFrom.namespace, data).then(
-            r => {
+            (r) => {
               if (r.code == 200) {
                 this.commitOrder();
                 return true;
               } else {
                 this.$notify({
                   type: "success",
-                  message: r.message + "请重新添加"
+                  message: r.message + "请重新添加",
                 });
                 return false;
               }
@@ -466,53 +465,39 @@ export default {
       this.skuInfo = r.content;
       // this.skuInfoSpecs = r.content.storage;
       this.skuInfo.category = this.name;
+      let params1 = { name: "", paramValue: "" };
+      params1.name = "项目信息";
+      params1.paramValue = this.monitoringFrom.namespace;
+      this.skuInfoSpecs.push(params1);
+      let params2 = { name: "", paramValue: "" };
+      params2.name = "jira地址";
+      params2.paramValue = this.monitoringFrom.jira_url;
+      this.skuInfoSpecs.push(params2);
+      let params3 = { name: "", paramValue: "" };
+      params3.name = "项目Key";
+      params3.paramValue = this.monitoringFrom.key;
+      this.skuInfoSpecs.push(params3);
+      let params4 = { name: "", paramValue: "" };
+      params4.name = "项目类型";
+      params4.paramValue = this.monitoringFrom.project_type;
+      this.skuInfoSpecs.push(params4);
+      let params5 = { name: "", paramValue: "" };
+      params5.name = "管理员名称";
+      params5.paramValue = this.monitoringFrom.project_admin;
+      this.skuInfoSpecs.push(params5);
+      let params6 = { name: "", paramValue: "" };
+      params6.name = "项目名称";
+      params6.paramValue = this.monitoringFrom.project_name;
+      this.skuInfoSpecs.push(params6);
+      let params7 = { name: "", paramValue: "" };
+      params7.name = "使用年限";
+      params7.paramValue = this.monitoringFrom.life_limit + "年";
+      this.skuInfoSpecs.push(params7);
+      let params8 = { name: "", paramValue: "" };
+      params8.name = "用户数量";
+      params8.paramValue = this.monitoringFrom.userNumber + "人";
+      this.skuInfoSpecs.push(params8);
 
-      let arr = r.content.storage.split(";");
-      for (let a = 0; a < arr.length; a++) {
-        let arr1 = arr[a].split(":");
-        let params = { name: "", paramValue: "" };
-        if (arr1[0].trim() == "项目信息") {
-          params.name = arr1[0];
-          params.paramValue = this.monitoringFrom.namespace;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "jira地址") {
-          params.name = arr1[0];
-          params.paramValue = this.monitoringFrom.jira_url;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "项目Key") {
-          params.name = arr1[0];
-          params.paramValue = this.monitoringFrom.key;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "项目类型") {
-          params.name = arr1[0];
-          params.paramValue = this.monitoringFrom.project_type;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "管理员名称") {
-          params.name = arr1[0];
-          params.paramValue = this.monitoringFrom.project_admin;
-          this.skuInfoSpecs.push(params);
-        }
-
-        if (arr1[0].trim() == "项目名称") {
-          params.name = arr1[0];
-          params.paramValue = this.monitoringFrom.project_name;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "使用年限") {
-          params.name = arr1[0];
-          params.paramValue = this.monitoringFrom.life_limit + "年";
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "用户数量") {
-          params.name = arr1[0];
-          params.paramValue = this.monitoringFrom.userNumber + "人";
-          this.skuInfoSpecs.push(params);
-        }
-      }
       if (this.disable == true) {
         for (var key in this.addorder.items[0]) {
           for (var key1 in this.skuInfo) {
@@ -547,54 +532,49 @@ export default {
 
     //选择时长
     async countMonth(data) {
-      const r = await requestParams(getResourcesSkuInfo, data);
-      this.price = r.content.price.price;
-      this.sum = this.monitoringFrom.userNumber * this.price;
-      if (r.content.name == "1年") {
-        this.monitoringFrom.life_limit = 1;
-        this.time = 1;
-      }
-      if (r.content.name == "3年") {
-        this.monitoringFrom.life_limit = 3;
-        this.time = 3;
-      }
-      if (r.content.name == "5年") {
-        this.monitoringFrom.life_limit = 5;
-        this.time = 5;
-      }
+      console.log(data);
+      this.price = data;
+      this.sum = this.monitoringFrom.userNumber * this.data;
+      let obj = {};
+      obj = this.duration.find((item) => {
+        return item.value == data;
+      });
+      let getName = "";
+      getName = parseFloat(obj.label);
+      console.log(getName);
+      this.monitoringFrom.life_limit = getName;
+      this.time = getName;
     },
-    //获取云资源下的sku
+    //初始化
     async fetchData() {
       this.listLoading = true;
       this.id = this.getId("id");
 
-      this.search.params = `[{"param":{"catalogId":${this.id}},"sign":"EQ"}]`;
+      const resProduct = await requestParams(
+        getProductMessage,
+        this.getId("productId")
+      );
+      this.id = this.getId("id");
+      this.search.serviceCode = resProduct.serviceCode;
       this.search.page = 1;
       this.search.rows = 100;
       const res = await requestParams(getResourcesSku, this.search);
-
-      // if(res.content.content == 0){
-      //   alert("该服务暂未开通，敬请期待")
-      //   window.location.href = document.referrer
-      //   return;
-      // }
-
       var list = res.content.content;
-      this.duration = list;
-      this.mode = this.duration[0].id;
-      if (this.duration[0].name == "1年") {
-        this.monitoringFrom.life_limit = 1;
-      }
-      if (this.duration[0].name == "3年") {
-        this.monitoringFrom.life_limit = 3;
-      }
-      if (this.duration[0].name == "5年") {
-        this.monitoringFrom.life_limit = 5;
-      }
+      list.forEach((item) => {
+        var skuparam = {
+          value: item.price,
+          label: item.name,
+        };
+        this.duration.push(skuparam);
+      });
+      this.mode = list[0].price;
+      console.log(list);
+      this.sum = list[0].price;
+      this.price = list[0].price;
       this.radio = list[0].id;
-      const r1 = await requestParams(getResourcesSkuInfo, list[0].id);
-      this.sum = r1.content.price.price;
-      this.price = r1.content.price.price;
+
+      this.monitoringFrom.life_limit = parseFloat(list[0].name);
+      this.time = parseFloat(list[0].name);
     },
     //获取集群
     async getClusters() {
@@ -603,7 +583,7 @@ export default {
       for (var i = 0; i < res1.content.content.length; i++) {
         var data = {
           value: res1.content.content[i].id,
-          label: res1.content.content[i].name
+          label: res1.content.content[i].name,
         };
         this.edit.push(data);
       }
@@ -627,7 +607,7 @@ export default {
 
     clickName(data) {
       let obj = {};
-      obj = this.optionProject.find(item => {
+      obj = this.optionProject.find((item) => {
         //model就是上面的数据源
         return item.projectNo === data; //筛选出匹配数据
       });
@@ -636,7 +616,7 @@ export default {
     },
     getClustersLabel(val) {
       let obj = {};
-      obj = this.edit.find(item => {
+      obj = this.edit.find((item) => {
         return item.value == val;
       });
       let getName = "";
@@ -645,14 +625,14 @@ export default {
     },
     getObjectName(val) {
       let obj = {};
-      obj = this.optionProject.find(item => {
+      obj = this.optionProject.find((item) => {
         return item.name == val;
       });
       let getName = "";
       getName = obj.displayName;
       return getName;
-    }
-  }
+    },
+  },
 };
 </script>
 
