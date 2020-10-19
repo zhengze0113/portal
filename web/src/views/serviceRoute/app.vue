@@ -1,9 +1,9 @@
 <template>
-  <div id="app" style="background-color: #E9E9E9">
-    <el-row style="height:100px;background: white;">
+  <div id="app" style="background-color: #e9e9e9">
+    <el-row style="height: 100px; background: white">
       <el-col :span="24"></el-col>
     </el-row>
-    <el-row style="height:70px;background:rgba(255,255,255,1);">
+    <el-row style="height: 70px; background: rgba(255, 255, 255, 1)">
       <el-col :span="24">
         <el-row>
           <el-col :offset="3" :span="2" class="buyTitle">服务购买</el-col>
@@ -15,8 +15,8 @@
     </el-row>
 
     <!--sku-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">SKU资源</p>
         <el-row>
           <el-col :offset="2">
@@ -43,42 +43,49 @@
                 <template slot-scope="scope">{{ scope.row.name }}</template>
               </el-table-column>
               <el-table-column label="cpu" align="center">
-                <template slot-scope="scope"
-                  >/</template
-                >
+                <template >————</template>
               </el-table-column>
               <el-table-column label="内存" align="center">
-                <template slot-scope="scope"
-                  >/</template
-                >
+                <template >————</template>
               </el-table-column>
-              <el-table-column label="存储空间" v-if="id == 16" align="center">
-                <template slot-scope="scope">{{ scope.row.cckj }}</template>
+              <el-table-column label="存储空间" align="center">
+                <template >————</template>
               </el-table-column>
 
               <!-- <el-table-column label="版本" align="center">
                 <template slot-scope="scope">{{ scope.row.version }}</template>
               </el-table-column> -->
+              <el-table-column label="参考价格" align="center">
+                <template slot-scope="scope"
+                  >{{ scope.row.price }}元/月</template
+                >
+              </el-table-column>
             </el-table>
           </el-col>
           <el-col
             :offset="2"
             :span="12"
-            style="margin-top:30px;margin-bottom:30px;"
+            style="margin-top: 30px; margin-bottom: 30px"
           >
             <span class="skuDivFont">当前规格</span>
-            <span class="specFont">{{ skuData.name }}--Core/--GB</span>
+            <span class="specFont"
+              >{{ skuData.name }}/{{ skuData.cpuCores }}/{{
+                skuData.memory
+              }}</span
+            >
           </el-col>
-          <el-col :span="10" style="margin-top:30px;margin-bottom:30px;">
+          <el-col :span="10" style="margin-top: 30px; margin-bottom: 30px">
             <span class="skuDivFont">当前资源需求:</span>
-            <span class="specFont">--Core/--GB</span>
+            <span class="skuDivFont"
+              >{{ skuData.cpuCores }}/{{ skuData.memory }}</span
+            >
           </el-col>
         </el-row>
       </el-col>
     </el-row>
     <!--参数项-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">资源选项</p>
         <el-row>
           <el-col :offset="2">
@@ -88,7 +95,7 @@
               :model="form"
               label-width="100px"
             >
-              <div class="item-content" style="width: 70%;">
+              <div class="item-content" style="width: 70%">
                 <el-form-item
                   label="项目"
                   prop="projectName"
@@ -97,7 +104,7 @@
                   <el-select
                     v-model="form.projectName"
                     placeholder="请选择项目"
-                    style="width: 100%;"
+                    style="width: 100%"
                     @change="clickProject"
                   >
                     <el-option
@@ -117,7 +124,7 @@
                     v-model="form.kubernetesUrn"
                     filterable
                     placeholder="请选择集群"
-                    style="width: 100%;"
+                    style="width: 100%"
                   >
                     <el-option
                       v-for="item in envs"
@@ -135,7 +142,7 @@
                   <el-select
                     v-model="form.namespace"
                     placeholder="请选择资源空间"
-                    style="width: 100%;"
+                    style="width: 100%"
                     @visible-change="clickNamespace"
                     @change="namespaceChange"
                   >
@@ -151,7 +158,7 @@
                   label="名称"
                   prop="name"
                   :rules="[
-                    { required: true, validator: checkName, trigger: 'blur' }
+                    { required: true, validator: checkName, trigger: 'blur' },
                   ]"
                 >
                   <el-input
@@ -168,8 +175,8 @@
                     {
                       required: true,
                       validator: checkHostName,
-                      trigger: 'blur'
-                    }
+                      trigger: 'blur',
+                    },
                   ]"
                 >
                   <el-input
@@ -193,7 +200,7 @@
                     <el-select
                       @change="servicesChange"
                       @visible-change="clickToName"
-                      style="width: 50%;"
+                      style="width: 50%"
                       v-model="form.to.name"
                       placeholder="请选择服务"
                     >
@@ -207,17 +214,21 @@
                     <el-form-item
                       v-if="
                         form.alternateBackends.length != 0 &&
-                          alternateBackendsStatus == true
+                        alternateBackendsStatus == true
                       "
                       prop="to.weight"
                       :rules="[
                         {
                           required: true,
                           validator: checkWeight,
-                          trigger: 'blur'
-                        }
+                          trigger: 'blur',
+                        },
                       ]"
-                      style="display: inline-block;margin-bottom:0!important;margin-left:0 !important"
+                      style="
+                        display: inline-block;
+                        margin-bottom: 0 !important;
+                        margin-left: 0 !important;
+                      "
                     >
                       <el-input-number
                         @blur="blurWeight('to')"
@@ -239,10 +250,7 @@
                         content="权重值（当两个服务时权重总值100%,大于两个时单个权重小于256）"
                         placement="top"
                       >
-                        <i
-                          style="font-size: 14px;"
-                          class="el-icon-question"
-                        ></i>
+                        <i style="font-size: 14px" class="el-icon-question"></i>
                       </el-tooltip>
                     </el-form-item>
                   </el-form-item>
@@ -254,12 +262,12 @@
                     {
                       required: true,
                       message: '请选择目标端口',
-                      trigger: 'blur'
-                    }
+                      trigger: 'blur',
+                    },
                   ]"
                 >
                   <el-select
-                    style="width: 50%;"
+                    style="width: 50%"
                     v-model="form.port"
                     placeholder="请选择目标端口"
                   >
@@ -275,7 +283,7 @@
                   <div class="table-box">
                     <el-table
                       :data="form.labels"
-                      style="width: 100%; border: 1px solid #dcdfe6;"
+                      style="width: 100%; border: 1px solid #dcdfe6"
                     >
                       <el-table-column label="KEY" align="center">
                         <template slot-scope="scope">
@@ -285,8 +293,8 @@
                               {
                                 required: true,
                                 message: '请输入KEY',
-                                trigger: 'blur'
-                              }
+                                trigger: 'blur',
+                              },
                             ]"
                           >
                             <el-input
@@ -305,8 +313,8 @@
                               {
                                 required: true,
                                 message: '请输入VALUE',
-                                trigger: 'blur'
-                              }
+                                trigger: 'blur',
+                              },
                             ]"
                           >
                             <el-input
@@ -344,7 +352,7 @@
                     <div class="table-box">
                       <el-table
                         :data="form.alternateBackends"
-                        style="width: 100%; border: 1px solid #dcdfe6;"
+                        style="width: 100%; border: 1px solid #dcdfe6"
                       >
                         <el-table-column label="服务" align="center">
                           <template slot-scope="scope">
@@ -356,14 +364,14 @@
                                 {
                                   required: true,
                                   validator: checkServicesName,
-                                  trigger: 'blur'
-                                }
+                                  trigger: 'blur',
+                                },
                               ]"
                             >
                               <el-select
                                 clearable
                                 @change="checkServices"
-                                style="width: 100%;"
+                                style="width: 100%"
                                 v-model="
                                   form.alternateBackends[scope.$index].name
                                 "
@@ -389,7 +397,7 @@
                               placement="top"
                             >
                               <i
-                                style="font-size: 14px;"
+                                style="font-size: 14px"
                                 class="el-icon-question"
                               ></i>
                             </el-tooltip>
@@ -403,14 +411,14 @@
                                 {
                                   required: true,
                                   validator: checkWeight,
-                                  trigger: 'blur'
-                                }
+                                  trigger: 'blur',
+                                },
                               ]"
                             >
                               <el-input-number
                                 @blur="blurWeight('alternateBackends')"
                                 v-model="scope.row.weight"
-                                style="width:80%"
+                                style="width: 80%"
                                 controls-position="right"
                                 :min="0"
                                 :max="form.alternateBackends[scope.$index].max"
@@ -462,13 +470,13 @@
                       {
                         required: true,
                         message: '请选择TLS',
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-select
                       @change="tlsChange"
-                      style="width: 50%;"
+                      style="width: 50%"
                       v-model="form.tls.termination"
                       placeholder="请选择"
                     >
@@ -490,19 +498,19 @@
                       {
                         required: true,
                         message: '请选择不安全流量',
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-select
-                      style="width: 50%;"
+                      style="width: 50%"
                       v-model="form.tls.insecureEdgeTerminationPolicy"
                       placeholder="请选择"
                     >
                       <el-option
                         :disabled="
                           item == 'Allow' &&
-                            form.tls.termination == 'passthrought'
+                          form.tls.termination == 'passthrought'
                         "
                         v-for="item in insecureEdgeTerminationPolicy"
                         :key="item"
@@ -650,32 +658,37 @@
       </el-col>
     </el-row>
     <!--订购-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">订购</p>
         <el-row>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">计费方式</span>
             <el-button
-              style="border-radius:0;height:30px;background:rgba(3,97,167,1);padding-left: 14px;"
+              style="
+                border-radius: 0;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">包年包月</span>
             </el-button>
           </el-col>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">购买时长</span>
             <el-input-number
               v-model="time"
               :min="1"
               :max="999"
               size="mini"
-              style="width:130px"
+              style="width: 130px"
               @change="countTime"
             ></el-input-number>
             <el-select
               v-model="date"
               size="mini"
-              style="width: 80px; margin-left: 30px;margin-bottom: 0px;"
+              style="width: 80px; margin-left: 30px; margin-bottom: 0px"
               @change="countMonth"
             >
               <el-option
@@ -690,15 +703,15 @@
       </el-col>
     </el-row>
     <!--服务协议-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <el-col :span="3"> <p class="skuFont">服务协议</p></el-col>
 
         <el-col :span="21">
           <el-checkbox
             @change="confirm()"
             class="skuFont"
-            style="margin-bottom:10px"
+            style="margin-bottom: 10px"
           >
             <el-link type="primary" @click="agreement()">《服务条款》</el-link>
           </el-checkbox>
@@ -707,17 +720,24 @@
     </el-row>
 
     <!--提交订单-->
-    <el-row style="margin-top:30px;height:100px;">
+    <el-row style="margin-top: 30px; height: 100px">
       <el-col
         :span="24"
-        style="background: #FFF;height:100px;"
+        style="background: #fff; height: 100px"
         :class="isFixed ? 'fixed' : ''"
       >
-        <el-col :offset="15" style="color: #666666;line-height: 100px;">
+        <el-col :offset="15" style="color: #666666; line-height: 100px">
           服务费用：
           <span class="money">￥{{ sum }}</span>
           <el-button
-            style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);padding-left: 14px;margin-left:5%;"
+            style="
+              border-radius: 0;
+              width: 87px;
+              height: 30px;
+              background: rgba(3, 97, 167, 1);
+              padding-left: 14px;
+              margin-left: 5%;
+            "
             @click="commitOrder('form')"
             v-if="disable == true"
           >
@@ -732,7 +752,14 @@
           >
             <el-button
               slot="reference"
-              style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);margin-left:5%;padding-left: 14px;"
+              style="
+                border-radius: 0;
+                width: 87px;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                margin-left: 5%;
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">提交订单</span>
             </el-button>
@@ -755,14 +782,15 @@ import {
   getProjectResource,
   getRouterServices,
   getServicesDetails,
-  getRouteUpload
+  getRouteUpload,
 } from "../../api/serviceOperating";
 import { requestParams } from "../../utils/urlParam";
 import { getUserInfo } from "../../utils/auth";
 import baseURL from "../../api/app";
+import { getProductMessage } from "../../api/CMSApi";
 export default {
   name: "App",
-  data: function() {
+  data: function () {
     return {
       clustersList: [],
       clustersLoading: true,
@@ -796,7 +824,7 @@ export default {
       search1: {
         page: 1,
         pageSize: 100,
-        sort: ""
+        sort: "",
       },
       labelPVC: "right",
       project: [],
@@ -810,8 +838,8 @@ export default {
           {
             name: "",
             portType: "", //无用
-            weight: 0
-          }
+            weight: 0,
+          },
         ],
         gmtCreate: "", //无用
         hostName: "", //外网域名
@@ -829,14 +857,14 @@ export default {
           destinationCACertificate: "", //终点CA证书
           insecureEdgeTerminationPolicy: "", //不安全流量
           key: "", //密钥
-          termination: "" //TLS终止
+          termination: "", //TLS终止
         },
         to: {
           //服务
           name: "",
           portType: "", //不用传
-          weight: 0
-        }
+          weight: 0,
+        },
       },
 
       namespace: "",
@@ -859,12 +887,12 @@ export default {
       options: [
         {
           value: "MONTH",
-          label: "月"
+          label: "月",
         },
         {
           value: "YEAR",
-          label: "年"
-        }
+          label: "年",
+        },
       ],
       disable: false,
       sum: 0,
@@ -893,37 +921,37 @@ export default {
             params: "",
             payMode: "AFTERWARDS",
             skuId: 0,
-            tags: ""
-          }
+            tags: "",
+          },
         ],
         name: "",
         payMode: "AFTERWARDS",
         tags: "",
         userId: "1",
-        tenantId: "1"
+        tenantId: "1",
       },
       skulist: [],
       skuInfoSpecs: [],
       skuInfo: null,
       id: "",
       search: {
-        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        params: '',
         page: 1,
-        rows: 100
-      }
+        rows: 100,
+      },
     };
   },
   methods: {
     clickProject(data) {
       this.projectResource.envId = this.form.kubernetesUrn;
       this.projectResource.projectNo = this.form.projectName;
-      getProjectResource(this.projectResource).then(r => {
+      getProjectResource(this.projectResource).then((r) => {
         this.namespaces = r.content;
         this.form.namespace = this.namespaces[0].name;
       });
 
       let obj = {};
-      obj = this.project.find(item => {
+      obj = this.project.find((item) => {
         //model就是上面的数据源
         return item.projectNo === data; //筛选出匹配数据
       });
@@ -942,17 +970,17 @@ export default {
             this.form.kubernetesUrn,
             this.form.namespace
           )
-            .then(res => {
+            .then((res) => {
               console.log(res);
               this.servicesList = res.content;
               this.form.to.weight = 100;
               console.log(this.servicesList);
             })
-            .catch(e => {});
+            .catch((e) => {});
         } else {
           this.$notify({
             type: "warning",
-            message: "请将项目、集群、资源空间数据填写完整"
+            message: "请将项目、集群、资源空间数据填写完整",
           });
         }
       }
@@ -964,15 +992,15 @@ export default {
         if (this.projectResource.envId == "") {
           this.$notify({
             type: "warning",
-            message: "请选择集群"
+            message: "请选择集群",
           });
         } else if (this.projectResource.projectNo == "") {
           this.$notify({
             type: "warning",
-            message: "请选择项目"
+            message: "请选择项目",
           });
         } else {
-          getProjectResource(this.projectResource).then(r => {
+          getProjectResource(this.projectResource).then((r) => {
             this.namespaces = r.content;
             console.log(this.namespaces);
           });
@@ -1016,20 +1044,20 @@ export default {
         this.form.namespace,
         this.form.to.name
       )
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             let ports = [];
-            res.content.ports.forEach(item => {
+            res.content.ports.forEach((item) => {
               ports.push({
                 portAll: `${item.port}-${item.targetPort}(${item.protocol})`,
-                name: item.name
+                name: item.name,
               });
             });
             this.form.port = ports[0].name;
             this.portsList = ports;
           }
         })
-        .catch(e => {});
+        .catch((e) => {});
     },
     checkHostName(rule, value, callback) {
       if (value) {
@@ -1062,7 +1090,7 @@ export default {
       }
       let index = rule.field.split(".")[1];
       let payload = [];
-      this.form.alternateBackends.forEach(item => {
+      this.form.alternateBackends.forEach((item) => {
         payload.push(item.name);
       });
       payload.push(this.form.to.name);
@@ -1125,9 +1153,9 @@ export default {
       }
     },
     async nextStep() {
-      let params1 = JSON.parse(JSON.stringify(this.form));
+      let formParams= JSON.parse(JSON.stringify(this.form));
       let labels = {};
-      params1.labels.forEach(item => {
+      params1.labels.forEach((item) => {
         labels[item.key] = item.value;
       });
       if (!this.alternateBackendsStatus) {
@@ -1141,46 +1169,23 @@ export default {
       delete params1.project;
       this.submitLoading = true;
 
-      //提交订单参数
-      const r = await requestParams(getResourcesSkuInfo, this.radio);
-      this.skuInfo = r.content;
-      // this.skuInfoSpecs = r.content.storage;
-      this.skuInfo.category = this.name;
+      let params = { name: "", paramValue: "" };
+      params.name = "资源空间";
+      params.paramValue = tthis.form.namespace;
+      this.skuInfoSpecs.push(params);
+      let params1 = { name: "", paramValue: "" };
+      params1.name = "区域信息";
+      params1.paramValue = this.getClustersLabel(this.form.kubernetesUrn);
+      this.skuInfoSpecs.push(params1);
+      let params2 = { name: "", paramValue: "" };
+      params2.name = "项目信息";
+      params2.paramValue = this.getProjectLabel(this.form.projectName);
+      this.skuInfoSpecs.push(params2);
+      let params3 = { name: "", paramValue: "" };
+      params3.name = "service";
+      params3.paramValue = this.form.to.name;
+      this.skuInfoSpecs.push(params3);
 
-      let arr = r.content.storage.split(";");
-
-      for (let a = 0; a < arr.length; a++) {
-        let arr1 = arr[a].split(":");
-        let params = { name: "", paramValue: "" };
-        if (arr1[0].trim() == "资源空间") {
-          params.name = arr1[0];
-          params.paramValue = this.form.namespace;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "区域信息") {
-          params.name = arr1[0];
-          params.paramValue = this.getClustersLabel(this.form.kubernetesUrn);
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "项目信息") {
-          params.name = arr1[0];
-          params.paramValue = this.getProjectLabel(this.form.projectName);
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "service") {
-          params.name = arr1[0];
-          params.paramValue = this.form.to.name;
-          this.skuInfoSpecs.push(params);
-        }
-      }
-
-      for (var key in this.addorder.items[0]) {
-        for (var key1 in this.skuInfo) {
-          if (key == key1) {
-            this.addorder.items[0][key] = this.skuInfo[key1];
-          }
-        }
-      }
       this.addorder.amount = this.sum;
       this.addorder.items[0].amount = this.time;
       this.addorder.items[0].basicPrice = this.price;
@@ -1195,7 +1200,7 @@ export default {
       var data = JSON.stringify(this.addorder);
       console.log(data);
       sessionStorage.setItem("order", data);
-      sessionStorage.setItem("form", JSON.stringify(params1));
+      sessionStorage.setItem("form", JSON.stringify(formParams));
       console.log(sessionStorage);
       location.href = "/html/confirmOrder.html";
     },
@@ -1226,15 +1231,13 @@ export default {
       this.tableData = [];
     },
     namespaceChange() {
-      this.action = `/api/cloud/cmss/v1/kubernetes/${
-        this.form.kubernetesUrn
-      }/namespace/${this.form.namespace}/route/upload`;
+      this.action = `/api/cloud/cmss/v1/kubernetes/${this.form.kubernetesUrn}/namespace/${this.form.namespace}/route/upload`;
     },
 
     getClusters() {
       this.clustersLoading = true;
       this.get(`/clusters`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.clustersLoading = false;
             this.clustersList = res.data.content.content;
@@ -1245,7 +1248,7 @@ export default {
             }
           }
         })
-        .catch(e => {
+        .catch((e) => {
           this.projectLoading = false;
         });
     },
@@ -1275,7 +1278,7 @@ export default {
     //  获取sc list
     clicksclist(kubernetes_urn) {
       console.log(kubernetes_urn);
-      gerStrogeclass(kubernetes_urn).then(r => {
+      gerStrogeclass(kubernetes_urn).then((r) => {
         console.log(r);
         this.sclist = r.content;
       });
@@ -1289,15 +1292,15 @@ export default {
         if (this.projectResource.envId == "") {
           this.$notify({
             type: "warning",
-            message: "请选择集群"
+            message: "请选择集群",
           });
         } else if (this.projectResource.projectNo == "") {
           this.$notify({
             type: "warning",
-            message: "请选择项目"
+            message: "请选择项目",
           });
         } else {
-          getProjectResource(this.projectResource).then(r => {
+          getProjectResource(this.projectResource).then((r) => {
             this.PVCnamespaces = r.content;
           });
         }
@@ -1321,7 +1324,7 @@ export default {
     },
     // 不知道
     getFatherId(id) {
-      getServiceCatalogsInfo(id).then(r => {
+      getServiceCatalogsInfo(id).then((r) => {
         this.objectCloud = r.content;
         this.id = id;
         this.name = r.content.name;
@@ -1348,17 +1351,16 @@ export default {
     async rowClick(row, column, event) {
       this.skuData = row;
       this.radio = row.id;
-      const r = await requestParams(getResourcesSkuInfo, row.id);
-      this.price = r.content.price.price;
+      this.price = row.price;
 
       if (this.mode == "MONTH") {
         console.log(this.mode);
-        this.sum = r.content.price.price * this.time;
+        this.sum = row.price * this.time;
         this.sum = Math.floor(this.sum * 100) / 100;
       }
       if (this.mode == "YEAR") {
         console.log(this.mode);
-        this.sum = r.content.price.price * this.time * 12;
+        this.sum = row.price * this.time * 12;
         this.sum = Math.floor(this.sum * 100) / 100;
       }
     },
@@ -1373,7 +1375,7 @@ export default {
     async commitOrder(formName) {
       console.log(this.form);
       if (this.disable == true) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             this.nextStep();
           } else {
@@ -1428,51 +1430,23 @@ export default {
       this.listLoading = true;
       this.id = this.getId("id");
       //获取服务目录id
-      this.search.params = `[{"param":{"catalogId":${this.id}},"sign":"EQ"}]`;
+      const resProduct = await requestParams(
+        getProductMessage,
+        this.getId("productId")
+      );
+      this.id = this.getId("id");
+      this.search.serviceCode = resProduct.serviceCode;
       this.search.page = 1;
       this.search.rows = 100;
       const res = await requestParams(getResourcesSku, this.search);
       var list = res.content.content;
+
+      this.duration = list;
       this.radio = list[0].id;
-      const r1 = await requestParams(getResourcesSkuInfo, list[0].id);
-      this.sum = r1.content.price.price;
-      this.price = r1.content.price.price;
-      for (var i = 0; i < list.length; i++) {
-        const r = await requestParams(getResourcesSkuInfo, list[i].id);
-        var sku = r.content;
-        var skuObject = {
-          id: "",
-          name: "",
-          spec: "",
-          cpu: "",
-          gb: "",
-          cckj: "",
-          version: "V 1.0",
-          money: ""
-        };
-        skuObject.id = sku.id;
-        skuObject.name = sku.name;
-        skuObject.money = sku.price.price;
-
-        let arr = sku.storage.split(";");
-        console.log(arr);
-        for (let a = 0; a < arr.length; a++) {
-          let arr1 = arr[a].split(":");
-          console.log(arr1);
-          if (arr1[0].trim() == "CPU") {
-            skuObject.cpu = arr1[1];
-          }
-          if (arr1[0].trim() == "内存") {
-            skuObject.gb = arr1[1];
-          }
-          if (arr1[0].trim() == "存储空间") {
-            skuObject.cckj = arr1[1];
-          }
-        }
-
-        this.skulist.push(skuObject);
-      }
-      this.skuData = this.skulist[0];
+      this.sum = list[0].price;
+      this.price = list[0].price;
+      this.skulist = list;
+      this.skuData = list[0];
     },
 
     //获取服务
@@ -1493,7 +1467,7 @@ export default {
       let obj = {};
       console.log(val);
       console.log(this.envs);
-      obj = this.envs.find(item => {
+      obj = this.envs.find((item) => {
         return item.id == val;
       });
       let getName = "";
@@ -1504,14 +1478,14 @@ export default {
     },
     getProjectLabel(val) {
       let obj = {};
-      obj = this.project.find(item => {
+      obj = this.project.find((item) => {
         return item.projectNo == val;
       });
       let getName = "";
       console.log(obj);
       getName = obj.projectName;
       return getName;
-    }
+    },
   },
 
   created() {
@@ -1530,7 +1504,7 @@ export default {
       document.body.offsetHeight - document.documentElement.clientHeight > 300;
     // window.addEventListener('mousewheel',this.handleScroll,false);
     window.addEventListener("scroll", this.handleScroll);
-  }
+  },
 };
 </script>
 

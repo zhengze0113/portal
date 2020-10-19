@@ -1,23 +1,22 @@
 <template>
-  <div id="app" style="background-color: #E9E9E9">
-    <el-row style="height:100px;background: white;">
+  <div id="app" style="background-color: #e9e9e9">
+    <el-row style="height: 100px; background: white">
       <el-col :span="24"></el-col>
     </el-row>
-    <el-row style="height:70px;background:rgba(255,255,255,1);">
+    <el-row style="height: 70px; background: rgba(255, 255, 255, 1)">
       <el-col :span="24">
         <el-row>
           <el-col :offset="3" :span="2" class="buyTitle">服务购买</el-col>
           <el-col :span="12" class="smallBuyTitle">{{
             addorder.productName
           }}</el-col>
-     
         </el-row>
       </el-col>
     </el-row>
 
     <!--sku-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">SKU资源</p>
         <el-row>
           <el-col :offset="2">
@@ -40,48 +39,61 @@
                   >
                 </template>
               </el-table-column>
-              <el-table-column label="规格组" align="center">
-                <template slot-scope="scope">{{ scope.row.name }}</template>
+              <el-table-column label="规格名称" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.name }}
+                </template>
               </el-table-column>
               <el-table-column label="cpu" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.cpu }}Core</template
-                >
+                <template slot-scope="scope">
+                  {{ scope.row.cpuCores }}
+                </template>
               </el-table-column>
               <el-table-column label="内存" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.gb }}GB</template
-                >
+                <template slot-scope="scope">
+                  {{ scope.row.memory }}
+                </template>
+              </el-table-column>
+              <el-table-column label="硬盘" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.storage }}
+                </template>
+              </el-table-column>
+
+              <el-table-column label="版本" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.version }}
+                </template>
               </el-table-column>
               <el-table-column label="参考价格" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.money }}元/月</template
-                >
+                <template slot-scope="scope">
+                  {{ scope.row.price }}元/年
+                </template>
               </el-table-column>
             </el-table>
           </el-col>
           <el-col
             :offset="2"
             :span="12"
-            style="margin-top:30px;margin-bottom:30px;"
+            style="margin-top: 30px; margin-bottom: 30px"
           >
             <span class="skuDivFont">当前规格</span>
             <span class="specFont"
-              >{{ skuData.cpu }}Core/{{ skuData.gb }}GB</span
+              >{{ skuData.cpuCores }}/{{ skuData.memory }}</span
             >
           </el-col>
-          <el-col :span="10" style="margin-top:30px;margin-bottom:30px;">
+          <el-col :span="10" style="margin-top: 30px; margin-bottom: 30px">
             <span class="skuDivFont">当前资源需求:</span>
             <span class="specFont"
-              >{{ skuData.cpu }}Core/{{ skuData.gb }}GB</span
+              >{{ skuData.cpuCores }}/{{ skuData.memory }}</span
             >
           </el-col>
         </el-row>
       </el-col>
     </el-row>
     <!--参数项-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">资源选项</p>
         <el-row>
           <el-col :offset="2">
@@ -89,7 +101,7 @@
               :model="pinpointFrom"
               ref="pinpointFrom"
               label-width="200px"
-              style="width:100%"
+              style="width: 100%"
               class="demo-ruleForm"
             >
               <el-row>
@@ -102,7 +114,7 @@
                     <el-select
                       v-model="pinpointFrom.projectNo"
                       placeholder="请选择项目"
-                      style="width: 100%;"
+                      style="width: 100%"
                       @change="clickProject"
                     >
                       <el-option
@@ -122,7 +134,7 @@
                       v-model="pinpointFrom.envId"
                       filterable
                       placeholder="请选择"
-                      style="width:100%"
+                      style="width: 100%"
                     >
                       <el-option
                         v-for="item in edit"
@@ -140,7 +152,7 @@
                     <el-select
                       v-model="pinpointFrom.nameSpace"
                       placeholder="请选择资源空间"
-                      style="width: 100%;"
+                      style="width: 100%"
                       @visible-change="clickPVCNamespace"
                       @change="resourceValidation"
                     >
@@ -166,7 +178,7 @@
                     label="gitlab用户名："
                     prop="selfGitLab.gitUser"
                     :rules="[
-                      { required: true, message: 'gitlab用户名不能为空' }
+                      { required: true, message: 'gitlab用户名不能为空' },
                     ]"
                   >
                     <el-input
@@ -188,7 +200,7 @@
                     label="gitlab的token："
                     prop="selfGitLab.accessToken"
                     :rules="[
-                      { required: true, message: 'gitlab的token不能为空' }
+                      { required: true, message: 'gitlab的token不能为空' },
                     ]"
                   >
                     <el-input
@@ -204,8 +216,8 @@
       </el-col>
     </el-row>
     <!--安装组件详情-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">安装组件详情</p>
         <el-row class="mar_t">
           <el-col :span="2" class="mar_r">
@@ -322,32 +334,37 @@
       </el-col>
     </el-row>
     <!--订购-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">订购</p>
         <el-row>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">计费方式</span>
             <el-button
-              style="border-radius:0;height:30px;background:rgba(3,97,167,1);padding-left: 14px;"
+              style="
+                border-radius: 0;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">包年包月</span>
             </el-button>
           </el-col>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">购买时长</span>
             <el-input-number
               v-model="time"
               :min="1"
               :max="12"
               size="mini"
-              style="width:130px"
+              style="width: 130px"
               @change="countTime"
             ></el-input-number>
             <el-select
               v-model="date"
               size="mini"
-              style="width: 80px; margin-left: 30px;margin-bottom: 0px;"
+              style="width: 80px; margin-left: 30px; margin-bottom: 0px"
               @change="countMonth"
             >
               <el-option
@@ -362,15 +379,15 @@
       </el-col>
     </el-row>
     <!--服务协议-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <el-col :span="3"> <p class="skuFont">服务协议</p></el-col>
 
         <el-col :span="21">
           <el-checkbox
             @change="confirm()"
             class="skuFont"
-            style="margin-bottom:10px"
+            style="margin-bottom: 10px"
           >
             <el-link type="primary" @click="agreement()">《服务条款》</el-link>
           </el-checkbox>
@@ -379,17 +396,24 @@
     </el-row>
 
     <!--提交订单-->
-    <el-row style="margin-top:30px;height:100px;">
+    <el-row style="margin-top: 30px; height: 100px">
       <el-col
         :span="24"
-        style="background: #FFF;height:100px;"
+        style="background: #fff; height: 100px"
         :class="isFixed ? 'fixed' : ''"
       >
-        <el-col :offset="15" style="color: #666666;line-height: 100px;">
+        <el-col :offset="15" style="color: #666666; line-height: 100px">
           服务费用：
           <span class="money">￥{{ sum }}</span>
           <el-button
-            style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);padding-left: 14px;margin-left:5%;"
+            style="
+              border-radius: 0;
+              width: 87px;
+              height: 30px;
+              background: rgba(3, 97, 167, 1);
+              padding-left: 14px;
+              margin-left: 5%;
+            "
             @click="submitForm('pinpointFrom')"
             v-if="disable == true"
           >
@@ -404,7 +428,14 @@
           >
             <el-button
               slot="reference"
-              style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);margin-left:5%;padding-left: 14px;"
+              style="
+                border-radius: 0;
+                width: 87px;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                margin-left: 5%;
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">提交订单</span>
             </el-button>
@@ -425,12 +456,13 @@ import {
   getProject, //项目信息
   getProjectResource,
   getResourceSpaceNameInfo,
-  registration
+  registration,
 } from "../../api/serviceOperating";
 import { requestParams } from "../../utils/urlParam";
+import { getProductMessage } from "../../api/CMSApi";
 export default {
   name: "App",
-  data: function() {
+  data: function () {
     return {
       url: "/web/static/images/installation/Springcloud_logo_400.jpg",
       hystrix_logo: "/web/static/images/installation/hystrix-logo_1280.png",
@@ -466,12 +498,12 @@ export default {
       options: [
         {
           value: "MONTH",
-          label: "月"
+          label: "月",
         },
         {
           value: "YEAR",
-          label: "年"
-        }
+          label: "年",
+        },
       ],
       disable: false,
       sum: 0,
@@ -500,14 +532,14 @@ export default {
             params: "",
             payMode: "AFTERWARDS",
             skuId: 0,
-            tags: ""
-          }
+            tags: "",
+          },
         ],
         name: "",
         payMode: "AFTERWARDS",
         tags: "",
         userId: "1",
-        tenantId: "1"
+        tenantId: "1",
       },
       skulist: [],
       skuInfoSpecs: [],
@@ -517,12 +549,12 @@ export default {
       formLabelAlign: {
         name: "",
         region: "",
-        type: ""
+        type: "",
       },
       search: {
-        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        params: "",
         page: 1,
-        rows: 100
+        rows: 100,
       },
       skuObject: {
         id: "1",
@@ -530,7 +562,7 @@ export default {
         cpu: "王小虎",
         gb: "上海市普陀区金沙江路 1518 弄",
         version: "V 1.0",
-        money: "28.00/月"
+        money: "28.00/月",
       },
       //表单数据
       pinpointFrom: {
@@ -591,9 +623,9 @@ export default {
           accessToken: "",
           gitPwd: "",
           gitUrl: "",
-          gitUser: ""
-        }
-      }
+          gitUser: "",
+        },
+      },
     };
   },
   methods: {
@@ -606,15 +638,15 @@ export default {
         if (this.projectResource.envId == "") {
           this.$notify({
             type: "warning",
-            message: "请选择集群"
+            message: "请选择集群",
           });
         } else if (this.projectResource.projectNo == "") {
           this.$notify({
             type: "warning",
-            message: "请选择项目"
+            message: "请选择项目",
           });
         } else {
-          getProjectResource(this.projectResource).then(r => {
+          getProjectResource(this.projectResource).then((r) => {
             this.namespaces = r.content;
           });
         }
@@ -631,7 +663,7 @@ export default {
     },
     // 不知道
     getFatherId(id) {
-      getServiceCatalogsInfo(id).then(r => {
+      getServiceCatalogsInfo(id).then((r) => {
         this.objectCloud = r.content;
         this.id = id;
         this.name = r.content.name;
@@ -671,7 +703,7 @@ export default {
         getResourceSpaceNameInfo(
           this.pinpointFrom.envId,
           this.pinpointFrom.nameSpace
-        ).then(r => {
+        ).then((r) => {
           let cpu = r.content.cpu == null ? 0 : r.content.cpu;
           let memory = r.content.memory == null ? 0 : r.content.memory;
           const message =
@@ -689,25 +721,25 @@ export default {
           if (r.content.cpu < parseInt(this.cpu)) {
             this.$notify({
               type: "warning",
-              message: message
+              message: message,
             });
             this.pinpointFrom.nameSpace = "";
           } else if (r.content.memory < parseInt(this.memory)) {
             this.$notify({
               type: "warning",
-              message: message
+              message: message,
             });
             this.pinpointFrom.nameSpace = "";
           } else if (r.content.cpu == parseInt(this.cpu)) {
             this.$notify({
               type: "warning",
-              message: messageto
+              message: messageto,
             });
             this.pinpointFrom.nameSpace = "";
           } else if (r.content.memory == parseInt(this.memory)) {
             this.$notify({
               type: "warning",
-              message: messageto
+              message: messageto,
             });
             this.pinpointFrom.nameSpace = "";
           }
@@ -731,7 +763,7 @@ export default {
     },
     //表单验证
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.commitOrder();
         } else {
@@ -924,8 +956,6 @@ export default {
     },
     //增加时间
     countTime() {
-
-
       if (this.mode == "MONTH") {
         this.sum = this.time * this.price * this.number;
         this.sum = Math.floor(this.sum * 100) / 100;
@@ -951,63 +981,27 @@ export default {
     async fetchData() {
       this.listLoading = true;
       this.id = this.getId("id");
-
-      this.search.params = `[{"param":{"catalogId":${this.id}},"sign":"EQ"}]`;
+      const resProduct = await requestParams(
+        getProductMessage,
+        this.getId("productId")
+      );
+      this.id = this.getId("id");
+      this.search.serviceCode = resProduct.serviceCode;
       this.search.page = 1;
       this.search.rows = 100;
       const res = await requestParams(getResourcesSku, this.search);
 
-      // if(res.content.content == 0){
-      //   alert("该服务暂未开通，敬请期待")
-      //   window.location.href = document.referrer
-      //   return;
-      // }
-
       var list = res.content.content;
       this.radio = list[0].id;
-      const r1 = await requestParams(getResourcesSkuInfo, list[0].id);
-      this.sum = r1.content.price.price;
-      this.price = r1.content.price.price;
+      this.sum = list[0].price;
+      this.price = list[0].price;
 
-      for (var i = 0; i < list.length; i++) {
-        const r = await requestParams(getResourcesSkuInfo, list[i].id);
+      this.skulist = list;
+      this.skuData = list[0];
 
-        var sku = r.content;
-
-        var skuObject = {
-          id: "",
-          name: "",
-          spec: "",
-          cpu: "",
-          gb: "",
-          disks: "",
-          tags: "",
-          cckj: "",
-          version: "V 1.0",
-          money: ""
-        };
-        skuObject.id = sku.id;
-        skuObject.name = sku.name;
-        skuObject.money = sku.price.price;
-
-        let arr = sku.storage.split(";");
-        for (let a = 0; a < arr.length; a++) {
-          let arr1 = arr[a].split(":");
-          if (arr1[0].trim() == "CPU") {
-            skuObject.cpu = arr1[1].trim();
-          }
-          if (arr1[0].trim() == "内存") {
-            skuObject.gb = arr1[1].trim();
-          }
-          if (arr1[0].trim() == "容量上限") {
-            skuObject.tags = arr1[1].trim();
-          }
-        }
-        this.skulist.push(skuObject);
-      }
       this.skuData = this.skulist[0];
-      this.cpu = this.skulist[0].cpu;
-      this.memory = this.skulist[0].gb;
+      this.cpu = parseFloat(list[0].cpuCores) + "";
+      this.memory = parseFloat(list[0].memory) + "";
     },
     //获取集群
     async getClusters() {
@@ -1016,7 +1010,7 @@ export default {
       for (var i = 0; i < res1.content.content.length; i++) {
         var data = {
           value: res1.content.content[i].id,
-          label: res1.content.content[i].name
+          label: res1.content.content[i].name,
         };
         this.edit.push(data);
       }
@@ -1035,7 +1029,7 @@ export default {
     },
     getClustersLabel(val) {
       let obj = {};
-      obj = this.edit.find(item => {
+      obj = this.edit.find((item) => {
         return item.value == val;
       });
       let getName = "";
@@ -1044,7 +1038,7 @@ export default {
     },
     getObjectName(val) {
       let obj = {};
-      obj = this.optionProject.find(item => {
+      obj = this.optionProject.find((item) => {
         return item.projectNo == val;
       });
       let getName = "";
@@ -1054,7 +1048,7 @@ export default {
     clickProject(data) {
       this.pinpointFrom.nameSpace = "";
       let obj = {};
-      obj = this.optionProject.find(item => {
+      obj = this.optionProject.find((item) => {
         //model就是上面的数据源
         return item.projectNo === data; //筛选出匹配数据
       });
@@ -1066,7 +1060,7 @@ export default {
       getResourceSpaceNameInfo(
         this.pinpointFrom.envId,
         this.pinpointFrom.nameSpace
-      ).then(r => {
+      ).then((r) => {
         let cpu = r.content.cpu == null ? 0 : r.content.cpu;
         let memory = r.content.memory == null ? 0 : r.content.memory;
         const message =
@@ -1084,25 +1078,25 @@ export default {
         if (r.content.cpu < parseInt(this.cpu)) {
           this.$notify({
             type: "warning",
-            message: message
+            message: message,
           });
           this.pinpointFrom.nameSpace = "";
         } else if (r.content.memory < parseInt(this.memory)) {
           this.$notify({
             type: "warning",
-            message: message
+            message: message,
           });
           this.pinpointFrom.nameSpace = "";
         } else if (r.content.cpu == parseInt(this.cpu)) {
           this.$notify({
             type: "warning",
-            message: messageto
+            message: messageto,
           });
           this.pinpointFrom.nameSpace = "";
         } else if (r.content.memory == parseInt(this.memory)) {
           this.$notify({
             type: "warning",
-            message: messageto
+            message: messageto,
           });
           this.pinpointFrom.nameSpace = "";
         }
@@ -1111,7 +1105,7 @@ export default {
     //验证组件是否被注册
     verification(data) {
       let component = "spring-cloud-discovery";
-      registration(this.pinpointFrom.envId, component, data).then(r => {
+      registration(this.pinpointFrom.envId, component, data).then((r) => {
         if (r.content == 1) {
           const h = this.$createElement;
           this.$notify({
@@ -1119,12 +1113,12 @@ export default {
               "i",
               { style: "color: red" },
               "该项目下组件已安装请勿重复安装"
-            )
+            ),
           });
           this.pinpointFrom.nameSpace = "";
         }
       });
-    }
+    },
   },
   created() {
     this.addorder.productId = this.getId("id");
@@ -1142,7 +1136,7 @@ export default {
       document.body.offsetHeight - document.documentElement.clientHeight > 300;
     // window.addEventListener('mousewheel',this.handleScroll,false);
     window.addEventListener("scroll", this.handleScroll);
-  }
+  },
 };
 </script>
 

@@ -39,43 +39,53 @@
                   >
                 </template>
               </el-table-column>
-              <el-table-column label="规格组" align="center">
-                <template slot-scope="scope">{{ scope.row.name }}</template>
+              <el-table-column label="规格名称" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.name }}
+                </template>
               </el-table-column>
               <el-table-column label="cpu" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.cpu }}Core</template
-                >
+                <template slot-scope="scope">
+                  {{ scope.row.cpuCores }}
+                </template>
               </el-table-column>
               <el-table-column label="内存" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.gb }}GB</template
-                >
+                <template slot-scope="scope">
+                  {{ scope.row.memory }}
+                </template>
+              </el-table-column>
+              <el-table-column label="硬盘" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.storage }}
+                </template>
+              </el-table-column>
+
+              <el-table-column label="版本" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.version }}
+                </template>
               </el-table-column>
               <el-table-column label="参考价格" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.money }}元/月</template
-                >
+                <template slot-scope="scope">
+                  {{ scope.row.price }}元/年
+                </template>
               </el-table-column>
             </el-table>
           </el-col>
           <el-col
             :offset="2"
             :span="12"
-            style="margin-top:30px;margin-bottom:30px;"
+            style="margin-top: 30px; margin-bottom: 30px"
           >
             <span class="skuDivFont">当前规格</span>
             <span class="specFont"
-              >{{ skuData.cpu }}Core/{{ skuData.gb }}GB</span
+              >{{ skuData.cpuCores }}/{{ skuData.memory }}</span
             >
           </el-col>
-          <el-col :span="10" style="margin-top:30px;margin-bottom:30px;">
+          <el-col :span="10" style="margin-top: 30px; margin-bottom: 30px">
             <span class="skuDivFont">当前资源需求:</span>
-            <span class="skuDivFont"
-              >{{ skuData.cpu * 3 }}Core/{{ skuData.gb * 3 }}GB</span
-            >
-            <span class="specFont" v-if="capacityNo"
-              >PVC:{{ capacityshow }}</span
+            <span class="specFont"
+              >{{ skuData.cpuCores }}/{{ skuData.memory }}</span
             >
           </el-col>
         </el-row>
@@ -638,6 +648,7 @@ import Vue from "vue";
 import { postOrders } from "../../api/shoplist";
 import { requestParams } from "../../utils/urlParam";
 const baseURL = require(".././../../../web/src/api/app");
+import { getProductMessage } from "../../api/CMSApi";
 export default {
   name: "App",
   data: function() {
@@ -750,7 +761,7 @@ export default {
       },
       accessModelist: ["ReadWriteOnce", "ReadOnlyMany", "ReadWriteMany"], //访问模式下拉选项
       search: {
-        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        params: '',
         page: 1,
         rows: 100
       },
@@ -1389,67 +1400,32 @@ export default {
     async fetchData() {
       this.listLoading = true;
       this.id = this.getId("id");
-      this.search.params = `[{"param":{"catalogId":${this.id}},"sign":"EQ"}]`;
+      const resProduct = await requestParams(
+        getProductMessage,
+        this.getId("productId")
+      );
+      this.id = this.getId("id");
+      this.search.serviceCode = resProduct.serviceCode;
       this.search.page = 1;
       this.search.rows = 100;
       const res = await requestParams(getResourcesSku, this.search);
+
       var list = res.content.content;
-
       this.radio = list[0].id;
-      const r1 = await requestParams(getResourcesSkuInfo, list[0].id);
-      this.sum = r1.content.price.price;
-      this.price = r1.content.price.price;
+      this.sum = list[0].price;
+      this.price = list[0].price;
 
-      for (var i = 0; i < list.length; i++) {
-        const r = await requestParams(getResourcesSkuInfo, list[i].id);
-
-        var sku = r.content;
-
-        var skuObject = {
-          id: "",
-          name: "",
-          spec: "",
-          cpu: "",
-          gb: "",
-          disks: "",
-          tags: "",
-          cckj: "",
-          version: "V 1.0",
-          money: ""
-        };
-        skuObject.id = sku.id;
-        skuObject.name = sku.name;
-        skuObject.money = sku.price.price;
-
-        let arr = sku.storage.split(";");
-        for (let a = 0; a < arr.length; a++) {
-          let arr1 = arr[a].split(":");
-          if (arr1[0].trim() == "CPU") {
-            skuObject.cpu = arr1[1].trim();
-          }
-          if (arr1[0].trim() == "内存") {
-            skuObject.gb = arr1[1].trim();
-          }
-          if (arr1[0].trim() == "存储空间") {
-            skuObject.cckj = arr1[1].trim();
-          }
-          if (arr1[0].trim() == "最小缓存盘容量") {
-            skuObject.disks = arr1[1].trim();
-          }
-          if (arr1[0].trim() == "容量上限") {
-            skuObject.tags = arr1[1].trim();
-          }
-        }
-        this.skulist.push(skuObject);
-      }
+      this.skulist = list;
+      this.skuData = list[0];
+     
       this.skuData = this.skulist[0];
-      this.pinpointFrom.hbaseCpu = this.skulist[0].cpu;
-      this.pinpointFrom.hbaseMemory = this.skulist[0].gb;
+      this.pinpointFrom.hbaseCpu = parseFloat(list[0].cpuCores) + "";
+      this.pinpointFrom.hbaseMemory = parseFloat(list[0].memory) + "";
 
-      this.pinpointFrom.collectorCpu = this.skulist[0].cpu;
-      this.pinpointFrom.webMemory = this.skulist[0].gb;
-      this.pinpointFrom.webCpu = this.skulist[0].cpu;
-      this.pinpointFrom.collectorMemory = this.skulist[0].gb;
+      this.pinpointFrom.collectorCpu = parseFloat(list[0].cpuCores) + "";
+      this.pinpointFrom.webMemory = parseFloat(list[0].memory) + "";
+      this.pinpointFrom.webCpu = parseFloat(list[0].cpuCores) + "";
+      this.pinpointFrom.collectorMemory = parseFloat(list[0].memory) + "";
       const projectres = await requestParams(getProjects, this.search1);
       this.project = projectres.content.content;
       this.clicksclist(this.pinpointFrom.envId);

@@ -148,7 +148,7 @@ export default {
           }&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
-        if (name == "分布式服务 tx-lcn（提供sdk）") {
+        if (name == "分布式服务") {
           window.location.href = `/html/distributed.html?id=${
             this.id
           }&productName=${this.productName}&catalogId=${
@@ -156,7 +156,7 @@ export default {
           }&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
-        if (name == "注册中心服务") {
+        if (name == "注册中心服务（单机版）") {
           window.location.href = `/html/registryService.html?id=${
             this.id
           }&productName=${this.productName}&catalogId=${

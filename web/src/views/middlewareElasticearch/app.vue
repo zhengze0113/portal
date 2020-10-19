@@ -56,7 +56,6 @@
                     prop="envId"
                     :rules="[{ required: true, message: '集群信息不能为空' }]"
                   >
-                    <!-- :rules="[{ required: true, message: '集群信息不能为空' }]" -->
                     <el-select
                       v-model="redisFrom.envId"
                       filterable
@@ -77,7 +76,6 @@
                     prop="namespace"
                     :rules="[{ required: true, message: '资源空间不能为空' }]"
                   >
-                    <!-- :rules="[{ required: true, message: '资源空间不能为空' }]" -->
                     <el-select
                       v-model="redisFrom.namespace"
                       placeholder="请选择资源空间"
@@ -109,7 +107,7 @@
                     <el-input v-model="redisFrom.displayname"></el-input>
                   </el-form-item>
                   <el-form-item label="标签">
-                    <div class="table-box" style="margin-right:24px;">
+                    <div class="table-box" style="margin-right: 24px;">
                       <el-table
                         :data="redisFrom.label"
                         style="width: 100%; border: 1px solid #dcdfe6;"
@@ -125,7 +123,7 @@
                                   trigger: 'blur',
                                 },
                                 {
-                                  pattern: /(?!\d+$)[a-zA-Z0-9]([A-Za-z0-9/_])?$/,
+                                 pattern: /(?!\d+$)[a-zA-Z0-9]([A-Za-z0-9/_])?$/,
                                   message:
                                     '不能为纯数字,名称由字母、数字、(_)和(/)组成',
                                   trigger: 'blur',
@@ -155,7 +153,7 @@
                                   message:
                                     '不能为纯数字,名称由字母、数字、(_)和(/)组成',
                                   trigger: 'blur',
-                                },
+                                }
                               ]"
                             >
                               <el-input
@@ -183,13 +181,37 @@
                       >
                     </div>
                   </el-form-item>
-                  <el-form-item label="服务端口：" class="skuDivFont">
+
+                  <el-form-item
+                    label="服务端口："
+                    class="skuDivFont"
+                  >
                     <el-input
                       v-model="redisFrom.port"
                       :disabled="true"
                     ></el-input>
                   </el-form-item>
-
+                  <el-form-item label="集群配置：" class="skuDivFont">
+                    <el-switch
+                      v-model="redisFrom.cluster"
+                      @change="clusterChange"
+                    >
+                    </el-switch>
+                  </el-form-item>
+                  <el-form-item
+                    label="集群规模："
+                    prop="slaveCount"
+                    class="skuDivFont"
+                  >
+                    <el-radio-group
+                      v-model="redisFrom.slaveCount"
+                      :disabled="!redisFrom.cluster"
+                    >
+                      <el-radio label="3">3</el-radio>
+                      <el-radio label="5">5</el-radio>
+                      <el-radio label="7">7</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
                   <el-form-item label="CPU：" prop="cpu" class="skuDivFont">
                     <el-radio-group v-model="redisFrom.cpu" @change="cpuChange">
                       <el-radio label="100m">100m</el-radio>
@@ -218,11 +240,25 @@
                       v-model="redisFrom.storage"
                       @change="storageChange"
                     >
-                      <el-radio label="5Gi">5Gi</el-radio>
-                      <el-radio label="10Gi">10Gi</el-radio>
-                      <el-radio label="20Gi">20Gi</el-radio>
-                      <el-radio label="30Gi">30Gi</el-radio>
+                      <el-radio label="1Gi">1Gi</el-radio>
+                      <el-radio label="2Gi">2Gi</el-radio>
+                      <el-radio label="4Gi">4Gi</el-radio>
+                      <el-radio label="8Gi">8Gi</el-radio>
                     </el-radio-group>
+                  </el-form-item>
+                  <el-form-item
+                    label="配置密码："
+                    prop="password"
+                    class="skuDivFont"
+                  >
+                    <el-input
+                      v-model="redisFrom.password"
+                      placeholder="请输入redis密码"
+                      type="password"
+                      autocomplete="new-password"
+                      show-password
+                      clearable
+                    ></el-input>
                   </el-form-item>
                 </el-form>
               </el-col>
@@ -340,14 +376,10 @@ export default {
   name: "App",
   data: function() {
     return {
-      search1: {
-        page: 1,
-        pageSize: 100,
-        sort: "",
-      },
       cpuPrice: 100,
       memoryPrice: 256,
-      storagePrice: 50,
+      storagePrice: 10,
+      namespaces: "",
       cpuPrices: [
         { key: "100m", value: 100 },
         { key: "500m", value: 500 },
@@ -361,15 +393,15 @@ export default {
         { key: "2048Mi", value: 2048 },
       ],
       storagePrices: [
-        { key: "5Gi", value: 50 },
-        { key: "10Gi", value: 100 },
-        { key: "20Gi", value: 200 },
-        { key: "30Gi", value: 300 },
+        { key: "1Gi", value: 10 },
+        { key: "2Gi", value: 20 },
+        { key: "4Gi", value: 40 },
+        { key: "8Gi", value: 80 },
       ],
       skuInfo: null,
       skuInfoSpecs: [],
       search: {
-        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        params: '',
         page: 1,
         rows: 100,
       },
@@ -382,6 +414,7 @@ export default {
       sum: 0,
       radio: "",
       name: "",
+      envs: "",
       redisFrom: {
         envId: "",
         namespace: "",
@@ -389,22 +422,23 @@ export default {
         displayname: "",
         name: "",
         port: "",
+        cluster: false,
+        slaveCount: "1",
         cpu: "100m",
         memory: "256Mi",
-        storage: "5Gi",
-        slaveCount: "1",
-        label: [],
+        storage: "1Gi",
+        password: "",
+        label: [{ key: "", value: "" }],
       },
       price: 0,
-      time: 1,
-      project: "",
+      time: 0,
       addorder: {
         //提交订单数据
         amount: 0,
-        projectId: "", //所属项目id
-        projectName: "", //所属项目名称
         description: "订单",
         discount: 0,
+        projectId: "", //所属项目id
+        projectName: "", //所属项目名称
         productId: 0, //云产品id
         productName: "", //云产品名称
         catalogId: 0, //服务目录Id
@@ -442,12 +476,18 @@ export default {
           label: "月",
         },
       ],
-      envs: "",
-      namespaces: "",
+      search1: {
+        page: 1,
+        pageSize: 100,
+        sort: "",
+      },
+      project: "",
+      projectResource: { envId: "", projectNo: "" },
     };
   },
   methods: {
-    delEnv(row) {
+    //验证资源空间剩余空间
+   delEnv(row) {
       this.redisFrom.label.splice(row.$index, 1);
     },
     addEnv() {
@@ -518,18 +558,7 @@ export default {
       });
       this.countTime();
     },
-    addLS() {
-      this.redisFrom.label.push({
-        key: "",
-        value: "",
-      });
-    },
-    removeLS(item) {
-      var index = this.redisFrom.label.indexOf(item);
-      if (index !== -1) {
-        this.redisFrom.label.splice(index, 1);
-      }
-    },
+
     clusterChange(data) {
       if (!data) {
         this.redisFrom.slaveCount = "1";
@@ -573,7 +602,7 @@ export default {
       }
     },
     submitForm(formName) {
-      console.log(this.redisFrom.label);
+      console.log(this.redisFrom)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // alert("submit!");
@@ -628,6 +657,11 @@ export default {
           params.paramValue = this.redisFrom.slaveCount;
           this.skuInfoSpecs.push(params);
         }
+        if (arr1[0].trim() == "配置密码") {
+          params.name = arr1[0];
+          params.paramValue = this.redisFrom.password;
+          this.skuInfoSpecs.push(params);
+        }
         if (arr1[0].trim() == "标签") {
           params.name = arr1[0];
           params.paramValue = this.redisFrom.label;
@@ -642,7 +676,6 @@ export default {
             }
           }
         }
-        console.log(this.redisFrom);
 
         this.addorder.amount = this.sum;
         this.addorder.items[0].amount = this.time;
@@ -662,7 +695,7 @@ export default {
         sessionStorage.setItem("order", data);
         sessionStorage.setItem("redisFrom", JSON.stringify(this.redisFrom));
         console.log(sessionStorage);
-        // location.href = "/html/confirmOrder.html";
+        location.href = "/html/confirmOrder.html";
       } else if (this.disable == false) {
         this.disable = true;
       }
@@ -685,6 +718,7 @@ export default {
       this.search1.sort = this.user.uid;
       const projectres = await requestParams(getProjects, this.search1);
       this.project = projectres.content.content;
+
       this.countTime();
     },
   },

@@ -229,7 +229,7 @@ export default {
         type: ""
       },
       search: {
-        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        params: '',
         page: 1,
         rows: 100
       },

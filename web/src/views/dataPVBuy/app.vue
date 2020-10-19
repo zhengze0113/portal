@@ -1,9 +1,9 @@
 <template>
-  <div id="app" style="background-color: #E9E9E9">
-    <el-row style="height:100px;background: white;">
+  <div id="app" style="background-color: #e9e9e9">
+    <el-row style="height: 100px; background: white">
       <el-col :span="24"></el-col>
     </el-row>
-    <el-row style="height:70px;background:rgba(255,255,255,1);">
+    <el-row style="height: 70px; background: rgba(255, 255, 255, 1)">
       <el-col :span="24">
         <el-row>
           <el-col :offset="3" :span="2" class="buyTitle">服务购买</el-col>
@@ -15,8 +15,8 @@
     </el-row>
 
     <!--sku-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">SKU资源</p>
         <el-row>
           <el-col :offset="2">
@@ -42,11 +42,14 @@
               <el-table-column label="规格组" align="center">
                 <template slot-scope="scope">{{ scope.row.name }}</template>
               </el-table-column>
-
+              <el-table-column label="cpu" align="center">
+                <template slot-scope="scope">{{ scope.row.cpuCores }}</template>
+              </el-table-column>
+              <el-table-column label="内存" align="center">
+                <template slot-scope="scope">{{ scope.row.memory }}</template>
+              </el-table-column>
               <el-table-column label="存储空间" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.cckj }}GB</template
-                >
+                <template slot-scope="scope">{{ scope.row.storage }}</template>
               </el-table-column>
 
               <!-- <el-table-column label="版本" align="center">
@@ -54,7 +57,7 @@
               </el-table-column> -->
               <el-table-column label="参考价格" align="center">
                 <template slot-scope="scope"
-                  >{{ scope.row.money }}元/月</template
+                  >{{ scope.row.price }}元/月</template
                 >
               </el-table-column>
             </el-table>
@@ -62,23 +65,27 @@
           <el-col
             :offset="2"
             :span="12"
-            style="margin-top:30px;margin-bottom:30px;"
+            style="margin-top: 30px; margin-bottom: 30px"
           >
             <span class="skuDivFont">当前规格</span>
             <span class="specFont"
-              >{{ skuData.name }}/{{ skuData.cckj }}GB</span
+              >{{ skuData.name }}/{{ skuData.cpuCores }}/{{
+                skuData.memory
+              }}</span
             >
           </el-col>
-          <el-col :span="10" style="margin-top:30px;margin-bottom:30px;">
+          <el-col :span="10" style="margin-top: 30px; margin-bottom: 30px">
             <span class="skuDivFont">当前资源需求:</span>
-            <span class="specFont">{{ skuData.cckj }}GB</span>
+            <span class="skuDivFont"
+              >{{ skuData.cpuCores }}/{{ skuData.memory }}</span
+            >
           </el-col>
         </el-row>
       </el-col>
     </el-row>
     <!--参数项-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">资源选项</p>
         <el-row>
           <el-col :offset="2">
@@ -101,7 +108,7 @@
                     <el-select
                       v-model="pvcvolume.projectNo"
                       placeholder="请选择项目"
-                      style="width: 100%;"
+                      style="width: 100%"
                       @change="clickProject"
                     >
                       <el-option
@@ -122,7 +129,7 @@
                       v-model="pvcvolume.kubernetes_urn"
                       filterable
                       placeholder="请选择集群"
-                      style="width: 100%;"
+                      style="width: 100%"
                       @change="clicksclist"
                     >
                       <el-option
@@ -143,7 +150,7 @@
                     <el-select
                       v-model="pvcvolume.namespace"
                       placeholder="请选择资源空间"
-                      style="width: 100%;"
+                      style="width: 100%"
                       @visible-change="clickPVCNamespace"
                       @change="resourceValidation"
                     >
@@ -163,20 +170,20 @@
                       {
                         required: true,
                         message: '请输入pvc名称',
-                        trigger: 'blur'
+                        trigger: 'blur',
                       },
                       {
                         max: 253,
                         message: '长度最多253个字符',
-                        trigger: 'blur'
+                        trigger: 'blur',
                       },
                       {
                         pattern: /^[a-z0-9]([-a-z0-9.]*[a-z0-9])?$/,
                         message:
                           '名称由小写字母、数字、横线(-)和点(.)组成,且必须以字母或数字开头结尾',
-                        trigger: 'blur'
+                        trigger: 'blur',
                       },
-                      { validator: checkName, trigger: 'blur' }
+                      { validator: checkName, trigger: 'blur' },
                     ]"
                   >
                     <el-input
@@ -192,7 +199,7 @@
                     <el-select
                       v-model="pvcvolume.strogeclassName"
                       placeholder="请选择Storage Class"
-                      style="width: 100%;"
+                      style="width: 100%"
                       @visible-change="scChange"
                     >
                       <el-option
@@ -212,7 +219,7 @@
                     <el-select
                       v-model="pvcvolume.accessMode"
                       placeholder="请选择访问模式"
-                      style="width: 100%;"
+                      style="width: 100%"
                     >
                       <el-option
                         v-for="item in accessModelist"
@@ -231,8 +238,8 @@
                       {
                         required: true,
                         message: '请选择容量',
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-select
@@ -255,10 +262,10 @@
                       <el-table-column
                         label="KEY"
                         align="center"
-                        style="line-height: 25px;"
+                        style="line-height: 25px"
                       >
                         <template slot-scope="scope">
-                          <el-form-item style="margin:0">
+                          <el-form-item style="margin: 0">
                             <el-input
                               placeholder="请输入KEY"
                               v-model="scope.row.key"
@@ -269,10 +276,10 @@
                       <el-table-column
                         label="VALUE"
                         align="center"
-                        style="padding:0"
+                        style="padding: 0"
                       >
                         <template slot-scope="scope">
-                          <el-form-item style="margin:0">
+                          <el-form-item style="margin: 0">
                             <el-input
                               placeholder="请输入VALUE"
                               v-model="scope.row.value"
@@ -291,7 +298,7 @@
                         </template>
                       </el-table-column>
                     </el-table>
-                    <el-col style="margin-top: 10px;">
+                    <el-col style="margin-top: 10px">
                       <el-link
                         @click="addLabels()"
                         type="primary"
@@ -300,7 +307,7 @@
                         <img
                           src="@/static/images/jiahao.png"
                           alt
-                          style="width:16px;margin: 0px 5px -3px 0px;"
+                          style="width: 16px; margin: 0px 5px -3px 0px"
                         />新增标签</el-link
                       >
                     </el-col>
@@ -313,32 +320,37 @@
       </el-col>
     </el-row>
     <!--订购-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">订购</p>
         <el-row>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">计费方式</span>
             <el-button
-              style="border-radius:0;height:30px;background:rgba(3,97,167,1);padding-left: 14px;"
+              style="
+                border-radius: 0;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">包年包月</span>
             </el-button>
           </el-col>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">购买时长</span>
             <el-input-number
               v-model="time"
               :min="1"
               :max="12"
               size="mini"
-              style="width:130px"
+              style="width: 130px"
               @change="countTime"
             ></el-input-number>
             <el-select
               v-model="date"
               size="mini"
-              style="width: 80px; margin-left: 30px;margin-bottom: 0px;"
+              style="width: 80px; margin-left: 30px; margin-bottom: 0px"
               @change="countMonth"
             >
               <el-option
@@ -353,15 +365,15 @@
       </el-col>
     </el-row>
     <!--服务协议-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <el-col :span="3"> <p class="skuFont">服务协议</p></el-col>
 
         <el-col :span="21">
           <el-checkbox
             @change="confirm()"
             class="skuFont"
-            style="margin-bottom:10px"
+            style="margin-bottom: 10px"
           >
             <el-link type="primary" @click="agreement()">《服务条款》</el-link>
           </el-checkbox>
@@ -370,17 +382,24 @@
     </el-row>
 
     <!--提交订单-->
-    <el-row style="margin-top:30px;height:100px;">
+    <el-row style="margin-top: 30px; height: 100px">
       <el-col
         :span="24"
-        style="background: #FFF;height:100px;"
+        style="background: #fff; height: 100px"
         :class="isFixed ? 'fixed' : ''"
       >
-        <el-col :offset="15" style="color: #666666;line-height: 100px;">
+        <el-col :offset="15" style="color: #666666; line-height: 100px">
           服务费用：
           <span class="money">￥{{ sum }}</span>
           <el-button
-            style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);padding-left: 14px;margin-left:5%;"
+            style="
+              border-radius: 0;
+              width: 87px;
+              height: 30px;
+              background: rgba(3, 97, 167, 1);
+              padding-left: 14px;
+              margin-left: 5%;
+            "
             @click="submitForm('pvcvolume')"
             v-if="disable == true"
           >
@@ -395,7 +414,14 @@
           >
             <el-button
               slot="reference"
-              style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);margin-left:5%;padding-left: 14px;"
+              style="
+                border-radius: 0;
+                width: 87px;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                margin-left: 5%;
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">提交订单</span>
             </el-button>
@@ -417,13 +443,14 @@ import {
   getProjectResource, //获取项目下资源空间
   gerStrogeclass, //查询sc列表
   getResourceSpaceNameInfo, //获取资源空间剩余可用资源
-  persistentVolumeClaimCheck //资源对象pvc名称唯一性校验
+  persistentVolumeClaimCheck, //资源对象pvc名称唯一性校验
 } from "../../api/serviceOperating";
 import { requestParams } from "../../utils/urlParam";
 import { getUserInfo } from "../../utils/auth";
+import { getProductMessage } from "../../api/CMSApi";
 export default {
   name: "App",
-  data: function() {
+  data: function () {
     return {
       projectResource: { envId: "", projectNo: "" },
       sclist: "", //sc集合
@@ -454,8 +481,8 @@ export default {
       options: [
         {
           value: "MONTH",
-          label: "月"
-        }
+          label: "月",
+        },
       ],
       disable: false,
       sum: 0,
@@ -484,29 +511,29 @@ export default {
             params: "",
             payMode: "AFTERWARDS",
             skuId: 0,
-            tags: ""
-          }
+            tags: "",
+          },
         ],
         name: "",
         payMode: "AFTERWARDS",
         tags: "",
         userId: "1",
-        tenantId: "1"
+        tenantId: "1",
       },
       skulist: [],
       skuInfoSpecs: [],
       skuInfo: null,
       id: "",
       search: {
-        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        params: "",
         page: 1,
-        rows: 100
+        rows: 100,
       },
       labels: [],
       search1: {
         page: 1,
         pageSize: 100,
-        sort: ""
+        sort: "",
       },
       pvcvolume: {
         kubernetes_urn: "", //集群
@@ -522,8 +549,8 @@ export default {
         name: "", //pvc 名称
         purchase: 1,
         skuId: "",
-        strogeclassName: "" //strogeclass
-      }
+        strogeclassName: "", //strogeclass
+      },
     };
   },
   methods: {
@@ -534,7 +561,7 @@ export default {
           this.pvcvolume.namespace,
           this.pvcvolume.name
         )
-          .then(res => {
+          .then((res) => {
             console.log(res);
             console.log(res.code);
             if (res.code == 200) {
@@ -546,7 +573,7 @@ export default {
             } else {
             }
           })
-          .catch(e => {
+          .catch((e) => {
             this.$message.error(e.message);
           });
       }
@@ -554,7 +581,7 @@ export default {
     clickProject(data) {
       this.pvcvolume.namespace = "";
       let obj = {};
-      obj = this.project.find(item => {
+      obj = this.project.find((item) => {
         //model就是上面的数据源
         return item.projectNo === data; //筛选出匹配数据
       });
@@ -566,7 +593,7 @@ export default {
       getResourceSpaceNameInfo(
         this.pvcvolume.kubernetes_urn,
         this.pvcvolume.namespace
-      ).then(r => {
+      ).then((r) => {
         console.log(r);
         console.log(parseInt(this.pvcvolume.capacity));
         if (r.content.storage <= parseInt(this.pvcvolume.capacity)) {
@@ -577,7 +604,7 @@ export default {
             "G）";
           this.$notify({
             type: "warning",
-            message: message
+            message: message,
           });
           this.pvcvolume.namespace = "";
         }
@@ -595,7 +622,7 @@ export default {
     },
     // 不知道
     getFatherId(id) {
-      getServiceCatalogsInfo(id).then(r => {
+      getServiceCatalogsInfo(id).then((r) => {
         this.objectCloud = r.content;
         this.id = id;
         this.name = r.content.name;
@@ -623,10 +650,8 @@ export default {
       getResourceSpaceNameInfo(
         this.pvcvolume.kubernetes_urn,
         this.pvcvolume.namespace
-      ).then(r => {
-        console.log(r);
-        console.log(parseInt(this.pvcvolume.capacity));
-        if (r.content.storage <= parseInt(this.pvcvolume.capacity)) {
+      ).then((r) => {
+        if (r.content.storage <= parseFloat(row.storage)) {
           let storage = r.content.storage == null ? 0 : r.content.storage;
           let message =
             "资源空间达到资源上限，请您调整要创建容器的规格，或联系项目经理。（剩余容量:" +
@@ -634,25 +659,21 @@ export default {
             "G）";
           this.$notify({
             type: "warning",
-            message: message
+            message: message,
           });
           this.pvcvolume.namespace = "";
         }
       });
       this.skuData = row;
-      console.log(row);
-
-      this.pvcvolume.capacity = row.cckj + "Gi";
+      this.pvcvolume.capacity = parseFloat(row.storage) + "Gi";
       this.radio = row.id;
-      const r = await requestParams(getResourcesSkuInfo, row.id);
-      this.price = r.content.price.price;
-
+      this.price = row.price;
       if (this.mode == "MONTH") {
-        this.sum = r.content.price.price * this.time;
+        this.sum = row.price * this.time;
         this.sum = Math.floor(this.sum * 100) / 100;
       }
       if (this.mode == "YEAR") {
-        this.sum = r.content.price.price * this.time * 12;
+        this.sum = row.price * this.time * 12;
         this.sum = Math.floor(this.sum * 100) / 100;
       }
     },
@@ -664,7 +685,7 @@ export default {
       }
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           // alert("submit!");
           this.commitOrder();
@@ -677,68 +698,31 @@ export default {
     //提交订单
     async commitOrder() {
       //提交订单参数
-      const r = await requestParams(getResourcesSkuInfo, this.radio);
-      this.skuInfo = r.content;
-      // this.skuInfoSpecs = r.content.storage;
-      this.skuInfo.category = this.name;
-      //项目创建
-      let arr = r.content.storage.split(";");
-      for (let a = 0; a < arr.length; a++) {
-        let arr1 = arr[a].split(":");
-        let params = { name: "", paramValue: "" };
-        if (arr1[0].trim() == "区域信息") {
-          params.name = "集群";
-          params.paramValue = this.getClustersLabel(
-            this.pvcvolume.kubernetes_urn
-          );
-          this.skuInfoSpecs.push(params);
-          let params1 = { name: "", paramValue: "" };
-          params1.name = "项目";
-          params1.paramValue = this.pvcvolume.projectNo;
-          this.skuInfoSpecs.push(params1);
-          let params2 = { name: "", paramValue: "" };
-          params2.name = "资源空间";
-          params2.paramValue = this.pvcvolume.namespace;
-          this.skuInfoSpecs.push(params2);
-          let params3 = { name: "", paramValue: "" };
-          params3.name = "PVC名称";
-          params3.paramValue = this.pvcvolume.name;
-          this.skuInfoSpecs.push(params3);
-          let params4 = { name: "", paramValue: "" };
-          params4.name = "Storage Class";
-          params4.paramValue = this.pvcvolume.strogeclassName;
-          this.skuInfoSpecs.push(params4);
-          let params5 = { name: "", paramValue: "" };
-          params5.name = "请求容量";
-          params5.paramValue = this.pvcvolume.capacity;
-          this.skuInfoSpecs.push(params5);
-        }
 
-        if (arr1[0].trim() == "回收策略") {
-          params.name = arr1[0];
-          params.paramValue = this.reclaimPolicy;
-          this.pvcvolume.kubernetes_urn;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "访问模式") {
-          params.name = arr1[0];
-          params.paramValue = this.pvcvolume.kubernetes_urn;
-          this.skuInfoSpecs.push(params);
-        }
-      }
-
-      // if (this.pvType == "HOST_PATH") {
-      //   for (var i = 0; i < this.skuInfoSpecs.length; i++) {
-      //     if (this.skuInfoSpecs[i].name == "服务地址") {
-      //       this.skuInfoSpecs.splice(i, 1);
-      //     }
-      //   }
-      // }
-      // for (var i = 0; i < this.skuInfoSpecs.length; i++) {
-      //   if (this.skuInfoSpecs[i].name == "pv名称") {
-      //     this.skuInfoSpecs.splice(i, 1);
-      //   }
-      // }
+      let params = { name: "", paramValue: "" };
+      params.name = "集群";
+      params.paramValue = this.getClustersLabel(this.pvcvolume.kubernetes_urn);
+      this.skuInfoSpecs.push(params);
+      let params1 = { name: "", paramValue: "" };
+      params1.name = "项目";
+      params1.paramValue = this.pvcvolume.projectNo;
+      this.skuInfoSpecs.push(params1);
+      let params2 = { name: "", paramValue: "" };
+      params2.name = "资源空间";
+      params2.paramValue = this.pvcvolume.namespace;
+      this.skuInfoSpecs.push(params2);
+      let params3 = { name: "", paramValue: "" };
+      params3.name = "PVC名称";
+      params3.paramValue = this.pvcvolume.name;
+      this.skuInfoSpecs.push(params3);
+      let params4 = { name: "", paramValue: "" };
+      params4.name = "Storage Class";
+      params4.paramValue = this.pvcvolume.strogeclassName;
+      this.skuInfoSpecs.push(params4);
+      let params5 = { name: "", paramValue: "" };
+      params5.name = "请求容量";
+      params5.paramValue = this.pvcvolume.capacity;
+      this.skuInfoSpecs.push(params5);
 
       if (this.disable == true) {
         for (var key in this.addorder.items[0]) {
@@ -755,6 +739,7 @@ export default {
         this.addorder.items[0].skuId = this.radio; //
         this.addorder.items[0].category = this.name;
         this.addorder.items[0].name = this.name;
+        this.addorder.items[0].tags = this.skuData.name;
         console.log(this.skuInfoSpecs);
         this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
         this.addorder.items[0].duration = this.time + "月";
@@ -819,44 +804,24 @@ export default {
       this.addorder.projectName = this.project[0].projectName;
       this.listLoading = true;
       this.id = this.getId("id");
-      //获取服务目录id
-      this.search.params = `[{"param":{"catalogId":${this.id}},"sign":"EQ"}]`;
+      const resProduct = await requestParams(
+        getProductMessage,
+        this.getId("productId")
+      );
+      this.id = this.getId("id");
+      this.search.serviceCode = resProduct.serviceCode;
       this.search.page = 1;
       this.search.rows = 100;
       const res = await requestParams(getResourcesSku, this.search);
       var list = res.content.content;
+
+      this.duration = list;
       this.radio = list[0].id;
-      const r1 = await requestParams(getResourcesSkuInfo, list[0].id);
-      this.sum = r1.content.price.price;
-      this.price = r1.content.price.price;
-
-      for (var i = 0; i < list.length; i++) {
-        const r = await requestParams(getResourcesSkuInfo, list[i].id);
-        var sku = r.content;
-        var skuObject = {
-          id: "",
-          name: "",
-          spec: "",
-          cckj: "",
-          version: "V 1.0",
-          money: ""
-        };
-        skuObject.id = sku.id;
-        skuObject.name = sku.name;
-        skuObject.money = sku.price.price;
-
-        let arr = sku.storage.split(";");
-        for (let a = 0; a < arr.length; a++) {
-          let arr1 = arr[a].split(":");
-          if (arr1[0].trim() == "容量") {
-            skuObject.cckj = arr1[1].trim();
-            this.numberArr.push(arr1[1].trim() + "Gi");
-          }
-        }
-        this.pvcvolume.capacity = this.numberArr[0];
-        this.skulist.push(skuObject);
-      }
-      this.skuData = this.skulist[0];
+      this.sum = list[0].price;
+      this.price = list[0].price;
+      this.skulist = list;
+      this.skuData = list[0];
+      this.pvcvolume.capacity = parseFloat(list[0].storage) + "Gi";
     },
     //获取集群
     async getClusters() {
@@ -867,7 +832,7 @@ export default {
     getClustersLabel(val) {
       let obj = {};
       console.log(val);
-      obj = this.envs.find(item => {
+      obj = this.envs.find((item) => {
         console.log(item);
         return item.id == val;
       });
@@ -878,12 +843,12 @@ export default {
     },
     //  获取sc list
     clicksclist(kubernetes_urn) {
-      gerStrogeclass(kubernetes_urn).then(r => {
+      gerStrogeclass(kubernetes_urn).then((r) => {
         this.sclist = r.content;
       });
     },
     scChange() {
-      gerStrogeclass(this.pvcvolume.kubernetes_urn).then(r => {
+      gerStrogeclass(this.pvcvolume.kubernetes_urn).then((r) => {
         this.sclist = r.content;
       });
     },
@@ -902,20 +867,20 @@ export default {
         if (this.projectResource.envId == "") {
           this.$notify({
             type: "warning",
-            message: "请选择集群"
+            message: "请选择集群",
           });
         } else if (this.projectResource.projectNo == "") {
           this.$notify({
             type: "warning",
-            message: "请选择项目"
+            message: "请选择项目",
           });
         } else {
-          getProjectResource(this.projectResource).then(r => {
+          getProjectResource(this.projectResource).then((r) => {
             this.PVCnamespaces = r.content;
           });
         }
       }
-    }
+    },
   },
 
   created() {
@@ -933,7 +898,7 @@ export default {
       document.body.offsetHeight - document.documentElement.clientHeight > 300;
     // window.addEventListener('mousewheel',this.handleScroll,false);
     window.addEventListener("scroll", this.handleScroll);
-  }
+  },
 };
 </script>
 

@@ -1,9 +1,9 @@
 <template>
-  <div id="app" style="background-color: #E9E9E9">
-    <el-row style="height:100px;background: white;">
+  <div id="app" style="background-color: #e9e9e9">
+    <el-row style="height: 100px; background: white">
       <el-col :span="24"></el-col>
     </el-row>
-    <el-row style="height:70px;background:rgba(255,255,255,1);">
+    <el-row style="height: 70px; background: rgba(255, 255, 255, 1)">
       <el-col :span="24">
         <el-row>
           <el-col :offset="3" :span="2" class="buyTitle">服务购买</el-col>
@@ -13,8 +13,8 @@
         </el-row>
       </el-col>
     </el-row>
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">SKU资源</p>
         <el-row>
           <el-col :offset="2">
@@ -41,27 +41,21 @@
                 <template slot-scope="scope">{{ scope.row.name }}</template>
               </el-table-column>
               <el-table-column label="cpu" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.cpu }}Core</template
-                >
+                <template slot-scope="scope">{{ scope.row.cpuCores }}</template>
               </el-table-column>
               <el-table-column label="内存" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.gb }}GB</template
-                >
+                <template slot-scope="scope">{{ scope.row.memory }}</template>
               </el-table-column>
-              <!-- <el-table-column label="存储空间" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.cckj }}GB</template
-                >
-              </el-table-column> -->
+              <el-table-column label="存储空间" align="center">
+                <template slot-scope="scope">{{ scope.row.storage }}</template>
+              </el-table-column>
 
               <!-- <el-table-column label="版本" align="center">
                 <template slot-scope="scope">{{ scope.row.version }}</template>
               </el-table-column> -->
               <el-table-column label="参考价格" align="center">
                 <template slot-scope="scope"
-                  >{{ scope.row.money }}元/月</template
+                  >{{ scope.row.price }}元/月</template
                 >
               </el-table-column>
             </el-table>
@@ -69,25 +63,27 @@
           <el-col
             :offset="2"
             :span="12"
-            style="margin-top:30px;margin-bottom:30px;"
+            style="margin-top: 30px; margin-bottom: 30px"
           >
             <span class="skuDivFont">当前规格</span>
             <span class="specFont"
-              >{{ skuData.name }}/{{ skuData.cpu }}Core/{{ skuData.gb }}GB</span
+              >{{ skuData.name }}/{{ skuData.cpuCores }}/{{
+                skuData.memory
+              }}</span
             >
           </el-col>
-          <el-col :span="10" style="margin-top:30px;margin-bottom:30px;">
+          <el-col :span="10" style="margin-top: 30px; margin-bottom: 30px">
             <span class="skuDivFont">当前资源需求:</span>
             <span class="skuDivFont"
-              >{{ skuData.cpu }}Core/{{ skuData.gb }}GB</span
+              >{{ skuData.cpuCores }}/{{ skuData.memory }}</span
             >
           </el-col>
         </el-row>
       </el-col>
     </el-row>
     <!--参数项-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">资源选项</p>
         <el-row>
           <el-col :offset="2">
@@ -99,14 +95,12 @@
                   :rules="deployment"
                   :label-position="labelPosition"
                   label-width="100px"
-                  style="width:60%"
+                  style="width: 60%"
                   class="demo-ruleForm"
                 >
                   <el-col>
                     <div class="item-content">
-                      <div class="item-label">
-                        基本信息
-                      </div>
+                      <div class="item-label">基本信息</div>
                     </div>
                   </el-col>
                   <el-col :offset="3">
@@ -118,7 +112,7 @@
                       <el-select
                         v-model="deployment.projectNo"
                         placeholder="请选择项目"
-                        style="width: 100%;"
+                        style="width: 100%"
                         @change="selectModel($event)"
                       >
                         <el-option
@@ -138,7 +132,7 @@
                         v-model="deployment.envId"
                         filterable
                         placeholder="请选择集群"
-                        style="width: 100%;"
+                        style="width: 100%"
                       >
                         <el-option
                           v-for="item in envs"
@@ -153,13 +147,13 @@
                       prop="namespace"
                       :rules="[
                         { required: true, message: '资源空间不能为空' },
-                        { validator: checkName, trigger: 'blur' }
+                        { validator: checkName, trigger: 'blur' },
                       ]"
                     >
                       <el-select
                         v-model="deployment.namespace"
                         placeholder="请选择资源空间"
-                        style="width: 100%;"
+                        style="width: 100%"
                         @visible-change="clickNamespace"
                         @change="resourceValidation"
                       >
@@ -178,15 +172,15 @@
                         {
                           required: true,
                           message: '应用名称不能为空',
-                          trigger: 'blur'
+                          trigger: 'blur',
                         },
                         { validator: checkName, trigger: 'blur' },
                         {
                           pattern: /^[_a-z0-9\.]+[a-z0-9]$/,
                           message:
                             '小写字母、数字、横线(-)和点(.)组成,且必须以字母或数字结尾',
-                          trigger: 'blur'
-                        }
+                          trigger: 'blur',
+                        },
                       ]"
                     >
                       <el-input
@@ -212,9 +206,7 @@
                   </el-col>
                   <el-col>
                     <div class="item-content">
-                      <div class="item-label">
-                        部署信息
-                      </div>
+                      <div class="item-label">部署信息</div>
                     </div>
                   </el-col>
                   <el-col id="form_pvc">
@@ -233,7 +225,7 @@
                         <el-table-column
                           label="选择PVC"
                           align="center"
-                          style="width:80px"
+                          style="width: 80px"
                         >
                           <template slot-scope="scope">
                             <el-form-item
@@ -241,14 +233,14 @@
                               :rules="[
                                 {
                                   required: true,
-                                  message: 'PVC不能为空'
-                                }
+                                  message: 'PVC不能为空',
+                                },
                               ]"
                             >
                               <el-select
                                 v-model="scope.row.pvName"
                                 placeholder="请选择PVC"
-                                style="width: 100%;"
+                                style="width: 100%"
                                 @click="clickPvc"
                                 @change="pvcrow(scope.row)"
                               >
@@ -285,13 +277,13 @@
                                   pattern: /^[\/]{1}([a-zA-Z0-9]|[-_*]|[\/]){1,49}$/,
                                   message:
                                     '以/开头,由数字、字母、中划线、*、下划线组成',
-                                  trigger: 'blur'
+                                  trigger: 'blur',
                                 },
                                 {
                                   required: true,
-                                  message: '挂载路径不能为空'
+                                  message: '挂载路径不能为空',
                                 },
-                                { validator: volumesUrl, trigger: 'blur' }
+                                { validator: volumesUrl, trigger: 'blur' },
                               ]"
                             >
                               <el-input
@@ -310,8 +302,8 @@
                                   pattern: /^[a-zA-Z0-9-_*]{1}([a-zA-Z0-9]|[-_*]|[\/]){1,49}$/,
                                   message:
                                     '不能以/开头,由数字、字母、中划线、*、下划线组成',
-                                  trigger: 'blur'
-                                }
+                                  trigger: 'blur',
+                                },
                               ]"
                             >
                               <el-input
@@ -324,7 +316,7 @@
                       </el-table>
                     </el-col>
                     <el-col :offset="5">
-                      <div style="padding-top: 20px;">
+                      <div style="padding-top: 20px">
                         <el-form-item
                           v-for="(item, index) in deployment.parameters"
                           :key="index"
@@ -334,9 +326,9 @@
                             {
                               required: item.required,
                               message: ' ',
-                              trigger: 'blur'
+                              trigger: 'blur',
                             },
-                            { validator: checkMysqlName, trigger: 'blur' }
+                            { validator: checkMysqlName, trigger: 'blur' },
                           ]"
                         >
                           <!--  -->
@@ -344,22 +336,20 @@
                             v-model="item.value"
                             :disabled="
                               item.name == 'MEMORY_LIMIT' ||
-                                item.name == 'VOLUME_CAPACITY'
+                              item.name == 'VOLUME_CAPACITY'
                             "
                           ></el-input>
                           <div class="desc">{{ item.description }}</div>
                         </el-form-item>
                         <div>
-                          <div class="labels">
-                            Labels
-                          </div>
+                          <div class="labels">Labels</div>
                           <div class="desc">
                             Each label is applied to each created resource.
                           </div>
                           <div class="table-box">
                             <el-table
                               :data="deployment.labels"
-                              style="width: 100%;"
+                              style="width: 100%"
                             >
                               <el-table-column label="KEY" align="center">
                                 <template slot-scope="scope">
@@ -368,8 +358,8 @@
                                     :rules="[
                                       {
                                         required: true,
-                                        trigger: 'blur'
-                                      }
+                                        trigger: 'blur',
+                                      },
                                     ]"
                                   >
                                     <el-input
@@ -386,8 +376,8 @@
                                     :rules="[
                                       {
                                         required: true,
-                                        trigger: 'blur'
-                                      }
+                                        trigger: 'blur',
+                                      },
                                     ]"
                                   >
                                     <el-input
@@ -412,7 +402,7 @@
                           </div>
                           <div
                             class="add"
-                            style="margin-top: 19px;margin-bottom: 50px;"
+                            style="margin-top: 19px; margin-bottom: 50px"
                           >
                             <span @click="addEnv">
                               <i class="add-icon">+</i>Add Label
@@ -430,32 +420,37 @@
       </el-col>
     </el-row>
     <!--订购-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">订购</p>
         <el-row>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">计费方式</span>
             <el-button
-              style="border-radius:0;height:30px;background:rgba(3,97,167,1);padding-left: 14px;"
+              style="
+                border-radius: 0;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">包年包月</span>
             </el-button>
           </el-col>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">购买时长</span>
             <el-input-number
               v-model="time"
               :min="1"
               :max="12"
               size="mini"
-              style="width:130px"
+              style="width: 130px"
               @change="countTime"
             ></el-input-number>
             <el-select
               v-model="mode"
               size="mini"
-              style="width: 80px; margin-left: 30px;margin-bottom: 0px;"
+              style="width: 80px; margin-left: 30px; margin-bottom: 0px"
               @change="countMonth"
             >
               <el-option
@@ -470,14 +465,14 @@
       </el-col>
     </el-row>
     <!--服务协议-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <el-col :span="3"> <p class="skuFont">服务协议</p></el-col>
 
         <el-col :span="21">
           <el-checkbox
             class="skuFont"
-            style="margin-bottom:10px"
+            style="margin-bottom: 10px"
             v-model="disable"
           >
             <el-link type="primary" @click="agreement()">《服务条款》</el-link>
@@ -486,17 +481,24 @@
       </el-col>
     </el-row>
     <!--提交订单-->
-    <el-row style="margin-top:30px;height:100px;">
+    <el-row style="margin-top: 30px; height: 100px">
       <el-col
         :span="24"
-        style="background: #FFF;height:100px;"
+        style="background: #fff; height: 100px"
         :class="isFixed ? 'fixed' : ''"
       >
-        <el-col :offset="15" style="color: #666666;line-height: 100px;">
+        <el-col :offset="15" style="color: #666666; line-height: 100px">
           服务费用：
           <span class="money">￥{{ sum }}</span>
           <el-button
-            style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);padding-left: 14px;margin-left:5%;"
+            style="
+              border-radius: 0;
+              width: 87px;
+              height: 30px;
+              background: rgba(3, 97, 167, 1);
+              padding-left: 14px;
+              margin-left: 5%;
+            "
             @click="submitDeployment('deployment')"
             deployment
             v-if="disable == true"
@@ -512,7 +514,14 @@
           >
             <el-button
               slot="reference"
-              style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);margin-left:5%;padding-left: 14px;"
+              style="
+                border-radius: 0;
+                width: 87px;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                margin-left: 5%;
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">提交订单</span>
             </el-button>
@@ -546,7 +555,7 @@
             v-model="pvcvolume.projectNo"
             placeholder="请选择项目"
             disabled
-            style="width: 100%;"
+            style="width: 100%"
           >
             <el-option
               v-for="item in project"
@@ -567,7 +576,7 @@
             filterable
             disabled
             placeholder="请选择集群"
-            style="width: 100%;"
+            style="width: 100%"
             @change="clicksclist"
           >
             <el-option
@@ -588,7 +597,7 @@
             v-model="pvcvolume.namespace"
             placeholder="请选择资源空间"
             disabled
-            style="width: 100%;"
+            style="width: 100%"
             @visible-change="clickPVCNamespace"
           >
             <el-option
@@ -610,9 +619,9 @@
               pattern: /^[a-z0-9]([-a-z0-9.]*[a-z0-9])?$/,
               message:
                 '名称由小写字母、数字、横线(-)和点(.)组成,且必须以字母或数字开头结尾',
-              trigger: 'blur'
+              trigger: 'blur',
             },
-            { validator: checkPVCName, trigger: 'blur' }
+            { validator: checkPVCName, trigger: 'blur' },
           ]"
         >
           <el-input
@@ -628,14 +637,14 @@
             {
               required: true,
               message: '请选择Storage Class',
-              trigger: 'blur'
-            }
+              trigger: 'blur',
+            },
           ]"
         >
           <el-select
             v-model="pvcvolume.strogeclassName"
             placeholder="请选择Storage Class"
-            style="width: 100%;"
+            style="width: 100%"
           >
             <el-option
               v-for="item in sclist"
@@ -651,13 +660,13 @@
           prop="accessMode"
           class="skuDivFont"
           :rules="[
-            { required: true, message: '请选择访问模式', trigger: 'blur' }
+            { required: true, message: '请选择访问模式', trigger: 'blur' },
           ]"
         >
           <el-select
             v-model="pvcvolume.accessMode"
             placeholder="请选择访问模式"
-            style="width: 100%;"
+            style="width: 100%"
           >
             <el-option
               v-for="item in accessModelist"
@@ -702,10 +711,10 @@
             <el-table-column
               label="KEY"
               align="center"
-              style="line-height: 25px;"
+              style="line-height: 25px"
             >
               <template slot-scope="scope">
-                <el-form-item style="margin:0">
+                <el-form-item style="margin: 0">
                   <el-input
                     placeholder="请输入KEY"
                     v-model="scope.row.key"
@@ -713,9 +722,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="VALUE" align="center" style="padding:0">
+            <el-table-column label="VALUE" align="center" style="padding: 0">
               <template slot-scope="scope">
-                <el-form-item style="margin:0">
+                <el-form-item style="margin: 0">
                   <el-input
                     placeholder="请输入VALUE"
                     v-model="scope.row.value"
@@ -734,12 +743,12 @@
               </template>
             </el-table-column>
           </el-table>
-          <el-col style="margin-top: 10px;">
+          <el-col style="margin-top: 10px">
             <el-link @click="addLabels()" type="primary" :underline="false">
               <img
                 src="@/static/images/jiahao.png"
                 alt
-                style="width:16px;margin: 0px 5px -3px 0px;"
+                style="width: 16px; margin: 0px 5px -3px 0px"
               />新增标签</el-link
             >
           </el-col>
@@ -755,7 +764,12 @@
         </el-button>
         <el-button
           style="
-          border-radius: 0;width: 87px;height: 30px;margin-left: 5%;padding-left: 14px;"
+            border-radius: 0;
+            width: 87px;
+            height: 30px;
+            margin-left: 5%;
+            padding-left: 14px;
+          "
           @click="addPvc()"
           >取 消</el-button
         >
@@ -787,16 +801,17 @@ import {
   getResourceSpaceNameInfo, //获取资源空间剩余可用资源
   persistentVolumeClaimCheck,
   getOpenshiftTemplate, //获取 opensshift  模板
-  validityMysqlName
+  validityMysqlName,
 } from "../../api/serviceOperating";
 import { requestParams } from "../../utils/urlParam";
 import { getUserInfo } from "../../utils/auth";
 import baseURL from "../../api/app";
 import { postOrders } from "../../api/shoplist";
 import Vue from "vue";
+import { getProductMessage } from "../../api/CMSApi";
 export default {
   name: "App",
-  data: function() {
+  data: function () {
     const isNum = (rule, value, callback) => {
       const key = /^(?!-)[\u4e00-\u9fa5-a-z0-9](?!.*-$)/;
       if (!key.test(value)) {
@@ -832,8 +847,8 @@ export default {
       options: [
         {
           value: "MONTH",
-          label: "月"
-        }
+          label: "月",
+        },
       ],
       disable: false,
       sum: 0,
@@ -862,14 +877,14 @@ export default {
             payMode: "AFTERWARDS",
             skuId: 0,
             tags: "",
-            platformParams: ""
-          }
+            platformParams: "",
+          },
         ],
         name: "",
         payMode: "AFTERWARDS",
         tags: "",
         userId: "1",
-        tenantId: "1"
+        tenantId: "1",
       },
       skulist: [],
       skuInfoSpecs: [],
@@ -878,14 +893,14 @@ export default {
       labelPosition: "left",
       labelPVC: "right",
       search: {
-        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        params: "",
         page: 1,
-        rows: 100
+        rows: 100,
       },
       search1: {
         page: 1,
         pageSize: 100,
-        sort: ""
+        sort: "",
       },
       skuObject: {
         id: "",
@@ -893,7 +908,7 @@ export default {
         cpu: "",
         gb: "",
         version: "",
-        money: ""
+        money: "",
       },
 
       user: null,
@@ -909,7 +924,7 @@ export default {
       namespace: "", //资源空间
       deployment: {
         volumes: [
-          { name: "", capacity: "", path: "", pvName: "", subPath: "" }
+          { name: "", capacity: "", path: "", pvName: "", subPath: "" },
         ],
         projectNo: "", //*
         envId: "", //*
@@ -924,7 +939,7 @@ export default {
         pvcName: "", //*
         mountPath: "", //*
         subPath: "", //*
-        parameters: [] //*
+        parameters: [], //*
       },
       namespaces: "",
       PVCnamespaces: "",
@@ -944,8 +959,8 @@ export default {
         name: "", //pvc 名称
         purchase: 1,
         skuId: "",
-        strogeclassName: "" //strogeclass
-      }
+        strogeclassName: "", //strogeclass
+      },
     };
   },
   methods: {
@@ -968,7 +983,7 @@ export default {
       getResourceSpaceNameInfo(
         this.pvcvolume.kubernetes_urn,
         this.pvcvolume.namespace
-      ).then(r => {
+      ).then((r) => {
         if (r.content.storage <= parseInt(row)) {
           let storage = r.content.storage == null ? 0 : r.content.storage;
           let message =
@@ -977,7 +992,7 @@ export default {
             "G）";
           this.$notify({
             type: "warning",
-            message: "该资源空间资源剩余容量资源不足"
+            message: "该资源空间资源剩余容量资源不足",
           });
           this.pvcvolume.capacity = "";
         }
@@ -985,7 +1000,7 @@ export default {
     },
     selectModel(name) {
       let obj = {};
-      obj = this.project.find(item => {
+      obj = this.project.find((item) => {
         //model就是上面的数据源
         return item.projectNo === name; //筛选出匹配数据
       });
@@ -1017,7 +1032,7 @@ export default {
         this.deployment.projectNo,
         this.deployment.envId,
         this.deployment.namespace
-      ).then(r => {
+      ).then((r) => {
         this.pvcsList = r.content.content;
       });
       (this.pvcvolume.projectNo = this.deployment.projectNo),
@@ -1036,7 +1051,7 @@ export default {
     },
     // ***
     getFatherId(id) {
-      getServiceCatalogsInfo(id).then(r => {
+      getServiceCatalogsInfo(id).then((r) => {
         this.objectCloud = r.content;
         this.id = id;
         this.name = r.content.name;
@@ -1062,8 +1077,8 @@ export default {
       this.radio = row.id;
       const r = await requestParams(getResourcesSkuInfo, row.id);
       let arr = r.content.storage.split(";");
-      this.cpu = parseFloat(row.cpu);
-      this.memory = parseFloat(row.gb);
+      this.cpu = parseFloat(row.cpu) + "";
+      this.memory = parseFloat(row.gb) + "";
       if (
         this.deployment.namespace != null &&
         this.deployment.namespace != ""
@@ -1071,7 +1086,7 @@ export default {
         getResourceSpaceNameInfo(
           this.deployment.envId,
           this.deployment.namespace
-        ).then(r => {
+        ).then((r) => {
           if (r.content.cpu < this.cpu) {
             this.deployment.namespace = "";
           } else if (r.content.memory < this.memory) {
@@ -1136,64 +1151,27 @@ export default {
 
       this.listLoading = true;
       this.id = this.getId("id");
-      this.search.params = `[{"param":{"catalogId":${this.id}},"sign":"EQ"}]`;
+      const resProduct = await requestParams(
+        getProductMessage,
+        this.getId("productId")
+      );
+      this.id = this.getId("id");
+      this.search.serviceCode = resProduct.serviceCode;
       this.search.page = 1;
       this.search.rows = 100;
       const res = await requestParams(getResourcesSku, this.search);
-      if (res.content.content == 0) {
-        alert("该服务暂未开通，敬请期待");
-        window.location.href = document.referrer;
-        return;
-      }
       var list = res.content.content;
+
+      this.duration = list;
       this.radio = list[0].id;
-      const r1 = await requestParams(getResourcesSkuInfo, list[0].id);
-      this.sum = r1.content.price.price;
-      this.price = r1.content.price.price;
-      for (var i = 0; i < list.length; i++) {
-        const r = await requestParams(getResourcesSkuInfo, list[i].id);
-        if (i == 0) {
-          var sku = r.content;
-          let arr = sku.storage.split(";");
-          for (let a = 0; a < arr.length; a++) {
-            let arr2 = arr[a].split(":");
-          }
-        }
-        var sku = r.content;
+      this.sum = list[0].price;
+      this.price = list[0].price;
+      this.skulist = list;
+      this.skuData = list[0];
 
-        var skuObject = {
-          id: "",
-          name: "",
-          spec: "",
-          cpu: "",
-          gb: "",
-          cckj: "",
-          version: "V 1.0",
-          money: ""
-        };
-        skuObject.id = sku.id;
-        skuObject.name = sku.name;
-        skuObject.money = sku.price.price;
-        let arr = sku.storage.split(";");
-        for (let a = 0; a < arr.length; a++) {
-          let arr1 = arr[a].split(":");
-
-          if (arr1[0].trim() == "CPU") {
-            skuObject.cpu = arr1[1].trim();
-          }
-          if (arr1[0].trim() == "内存") {
-            skuObject.gb = arr1[1].trim();
-          }
-          if (arr1[0].trim() == "存储空间") {
-            skuObject.cckj = arr1[1].trim();
-          }
-        }
-
-        this.skulist.push(skuObject);
-      }
       this.skuData = this.skulist[0];
-      this.cpu = this.skulist[0].cpu;
-      this.memory = this.skulist[0].gb;
+      this.cpu = parseFloat(list[0].cpuCores) + "";
+      this.memory = parseFloat(list[0].memory) + "";
       this.getPVCSku();
       this.initTemplate();
     },
@@ -1203,7 +1181,7 @@ export default {
         this.deployment.envId
       );
       this.deployment.parameters = res.content.parameters;
-      this.deployment.parameters.forEach(item => {
+      this.deployment.parameters.forEach((item) => {
         if (item.name == "MEMORY_LIMIT") {
           item.value = this.memory + "Gi";
         }
@@ -1226,7 +1204,7 @@ export default {
       this.projectResource.envId = this.deployment.envId;
       this.projectResource.projectNo = this.deployment.projectNo;
 
-      getProjectResource(this.projectResource).then(r => {
+      getProjectResource(this.projectResource).then((r) => {
         this.namespaces = r.content;
       });
     },
@@ -1254,7 +1232,7 @@ export default {
       if (judge) {
         this.projectResource.envId = this.deployment.envId;
         this.projectResource.projectNo = this.deployment.projectNo;
-        getProjectResource(this.projectResource).then(r => {
+        getProjectResource(this.projectResource).then((r) => {
           this.namespaces = r.content;
         });
       }
@@ -1264,7 +1242,7 @@ export default {
       getResourceSpaceNameInfo(
         this.deployment.envId,
         this.deployment.namespace
-      ).then(r => {
+      ).then((r) => {
         let cpu = r.content.cpu == null ? 0 : r.content.cpu;
         let memory = r.content.memory == null ? 0 : r.content.memory;
         const message =
@@ -1282,25 +1260,25 @@ export default {
         if (r.content.cpu < this.cpu) {
           this.$notify({
             type: "warning",
-            message: message
+            message: message,
           });
           this.deployment.namespace = "";
         } else if (r.content.memory < this.memory) {
           this.$notify({
             type: "warning",
-            message: message
+            message: message,
           });
           this.deployment.namespace = "";
         } else if (r.content.cpu == this.cpu) {
           this.$notify({
             type: "warning",
-            message: messageto
+            message: messageto,
           });
           this.deployment.namespace = "";
         } else if (r.content.memory == this.memory) {
           this.$notify({
             type: "warning",
-            message: messageto
+            message: messageto,
           });
           this.deployment.namespace = "";
         }
@@ -1317,15 +1295,15 @@ export default {
         if (this.projectResource.envId == "") {
           this.$notify({
             type: "warning",
-            message: "请选择集群"
+            message: "请选择集群",
           });
         } else if (this.projectResource.projectNo == "") {
           this.$notify({
             type: "warning",
-            message: "请选择项目"
+            message: "请选择项目",
           });
         } else {
-          getProjectResource(this.projectResource).then(r => {
+          getProjectResource(this.projectResource).then((r) => {
             this.PVCnamespaces = r.content;
           });
         }
@@ -1334,7 +1312,7 @@ export default {
 
     getClustersLabel(val) {
       let obj = {};
-      obj = this.envs.find(item => {
+      obj = this.envs.find((item) => {
         return item.id == val;
       });
       let getName = "";
@@ -1344,7 +1322,7 @@ export default {
 
     getProjectLabel1(val) {
       let obj = {};
-      obj = this.project.find(item => {
+      obj = this.project.find((item) => {
         return item.projectNo == val;
       });
       let getName = "";
@@ -1354,11 +1332,11 @@ export default {
 
     // 容器部署应用提价订单
     async submitDeployment(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.disable == true) {
             // 提交订单参数;
-            getResourcesSkuInfo(this.radio).then(r => {
+            getResourcesSkuInfo(this.radio).then((r) => {
               this.skuInfo = r.content;
               this.skuInfo.category = this.name;
               let skuInfoSpecs = [];
@@ -1416,7 +1394,7 @@ export default {
               this.deployment.subPath = this.deployment.volumes[0].subPath;
               var params = JSON.parse(JSON.stringify(this.deployment));
               let labels = {};
-              params.labels.forEach(item => {
+              params.labels.forEach((item) => {
                 labels[item.key] = item.value;
               });
               this.deployment.labels = labels;
@@ -1455,7 +1433,7 @@ export default {
     },
     getObject(val) {
       let obj = {};
-      obj = this.envs.find(item => {
+      obj = this.envs.find((item) => {
         return item.id == val;
       });
       let getName = "";
@@ -1474,7 +1452,7 @@ export default {
         capacity: "",
         path: "",
         pvName: "",
-        subPath: ""
+        subPath: "",
       });
     },
     addLabels() {
@@ -1498,21 +1476,21 @@ export default {
       } else {
         this.$notify({
           type: "warning",
-          message: "请选择资源空间"
+          message: "请选择资源空间",
         });
       }
     },
     //  获取sc list
     clicksclist(kubernetes_urn) {
-      gerStrogeclass(kubernetes_urn).then(r => {
+      gerStrogeclass(kubernetes_urn).then((r) => {
         this.sclist = r.content;
       });
     },
     async submitPvc(pvcvolume) {
-      this.$refs[pvcvolume].validate(valid => {
+      this.$refs[pvcvolume].validate((valid) => {
         if (valid) {
           let skuInfoSpecs = [];
-          getResourcesSkuInfo(this.pvcvolume.skuId).then(r => {
+          getResourcesSkuInfo(this.pvcvolume.skuId).then((r) => {
             this.skuInfo = r.content;
             let arr = r.content.storage.split(";");
             for (let a = 0; a < arr.length; a++) {
@@ -1595,11 +1573,11 @@ export default {
                   protocol: "http",
                   requestPath: "",
                   httpMethod: "",
-                  ParamFormat: "json"
+                  ParamFormat: "json",
                 },
                 params: "",
-                headers: ""
-              }
+                headers: "",
+              },
             ];
             platformParams[0].requestModeParams.requestPath =
               baseURL.DataInterfaceCmss +
@@ -1623,18 +1601,18 @@ export default {
             );
             Vue.set(this.addorder, "orderResourceType", "APPLICATION");
             //创建订单
-            postOrders(this.addorder).then(r => {
+            postOrders(this.addorder).then((r) => {
               if (r.code == 201) {
                 this.pvcStatus = !this.pvcStatus;
                 this.initPvc();
                 this.$notify({
                   type: "success",
-                  message: r.message
+                  message: r.message,
                 });
               } else {
                 this.$notify({
                   type: "error",
-                  message: r.message
+                  message: r.message,
                 });
               }
             });
@@ -1647,7 +1625,7 @@ export default {
     checkName(rule, value, callback) {
       if (value) {
         checkApplication(this.deployment.applicationName)
-          .then(res => {
+          .then((res) => {
             if (res.code == 200) {
               if (res.content) {
                 callback();
@@ -1657,7 +1635,7 @@ export default {
             } else {
             }
           })
-          .catch(e => {
+          .catch((e) => {
             this.$message.error(e.message);
           });
       }
@@ -1675,7 +1653,7 @@ export default {
               this.deployment.namespace,
               value
             )
-              .then(res => {
+              .then((res) => {
                 if (res.code == 200) {
                   if (res.content) {
                     return callback(new Error("该mysql名称已存在"));
@@ -1685,7 +1663,7 @@ export default {
                 } else {
                 }
               })
-              .catch(e => {
+              .catch((e) => {
                 this.$message.error(e.message);
               });
           }
@@ -1704,7 +1682,7 @@ export default {
           this.pvcvolume.namespace,
           this.pvcvolume.name
         )
-          .then(res => {
+          .then((res) => {
             if (res.code == 200) {
               if (res.content) {
                 callback();
@@ -1714,7 +1692,7 @@ export default {
             } else {
             }
           })
-          .catch(e => {
+          .catch((e) => {
             this.$message.error(e.message);
           });
       }
@@ -1739,7 +1717,7 @@ export default {
     ANChange() {
       this.deployment.appName =
         this.deployment.applicationName + this.randomNum;
-    }
+    },
   },
   created() {
     this.getFatherId(this.getId("id"));
@@ -1755,7 +1733,7 @@ export default {
     this.isFixed =
       document.body.offsetHeight - document.documentElement.clientHeight > 300;
     window.addEventListener("scroll", this.handleScroll);
-  }
+  },
 };
 </script>
 

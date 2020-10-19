@@ -227,7 +227,7 @@ export default {
       form: null,
       metadata: undefined,
       search: {
-        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        params: '',
         page: 1,
         rows: 100
       },

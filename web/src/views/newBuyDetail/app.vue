@@ -44,12 +44,10 @@
                 <template slot-scope="scope">{{ scope.row.cpuCores }}</template>
               </el-table-column>
               <el-table-column label="内存" align="center">
-                <template slot-scope="scope">{{ scope.row.memory }}GB</template>
+                <template slot-scope="scope">{{ scope.row.memory }}</template>
               </el-table-column>
               <el-table-column label="存储空间" v-if="id == 15" align="center">
-                <template slot-scope="scope"
-                  >{{ scope.row.storage }}GB</template
-                >
+                <template slot-scope="scope">{{ scope.row.storage }}</template>
               </el-table-column>
 
               <!-- <el-table-column label="版本" align="center">
@@ -69,15 +67,15 @@
           >
             <span class="skuDivFont">当前规格</span>
             <span class="specFont"
-              >{{ skuData.name }}/{{ skuData.cpuCores }}Core/{{
+              >{{ skuData.name }}/{{ skuData.cpuCores }}/{{
                 skuData.memory
-              }}GB</span
+              }}</span
             >
           </el-col>
           <el-col :span="10" style="margin-top: 30px; margin-bottom: 30px">
             <span class="skuDivFont">当前资源需求:</span>
             <span class="skuDivFont"
-              >{{ skuData.cpuCores }}Core/{{ skuData.memory }}GB</span
+              >{{ skuData.cpuCores }}/{{ skuData.memory }}</span
             >
           </el-col>
         </el-row>
@@ -1859,6 +1857,7 @@ import { getUserInfo } from "../../utils/auth";
 import baseURL from "../../api/app";
 import { postOrders } from "../../api/shoplist";
 import Vue from "vue";
+import { getProductMessage } from "../../api/CMSApi";
 export default {
   name: "App",
   data: function () {
@@ -1989,6 +1988,8 @@ export default {
       },
       skulist: [],
       skuInfoSpecs: [],
+      skuInfoSpecs1: [],
+      skuInfoSpecs2: [],
       skuInfo: null,
       id: "",
       labelPosition: "left",
@@ -2000,7 +2001,7 @@ export default {
         type: "",
       },
       search: {
-        params: '[{"param":{"resourceId":1},"sign":"EQ"}]',
+        params: "",
         page: 1,
         rows: 100,
       },
@@ -2677,8 +2678,8 @@ export default {
     async rowClick(row, column, event) {
       this.skuData = row;
       this.radio = row.id;
-      this.deployment.resources.requests.cpu = parseFloat(row.cpuCores);
-      this.deployment.resources.requests.memory = parseFloat(row.memory);
+      this.deployment.resources.requests.cpu = parseFloat(row.cpuCores)+"";
+      this.deployment.resources.requests.memory = parseFloat(row.memory)+"";
       if (
         this.deployment.namespace != null &&
         this.deployment.nameSpace != ""
@@ -2757,15 +2758,15 @@ export default {
       this.skuInfoSpecs.push(params6);
       let params7 = { name: "", paramValue: "" };
       params7.name = "CPU";
-      params7.paramValue = this.skuData.cpuCores;
+      params7.paramValue = parseFloat(this.skuData.cpuCores)+"";
       this.skuInfoSpecs.push(params7);
       let params8 = { name: "", paramValue: "" };
       params8.name = "内存";
-      params8.paramValue = this.skuData.memory;
+      params8.paramValue = parseFloat(this.skuData.memory)+"";
       this.skuInfoSpecs.push(params8);
       let params9 = { name: "", paramValue: "" };
       params9.name = "存储空间";
-      params9.paramValue = this.skuData.storage;
+      params9.paramValue = parseFloat(this.skuData.storage)+"";
       this.skuInfoSpecs.push(params9);
 
       if (this.disable == true) {
@@ -2848,7 +2849,12 @@ export default {
       }
       this.listLoading = true;
       this.id = this.getId("id");
-      this.search.params = `[{"param":{"catalogId":${this.id}},"sign":"EQ"}]`;
+      const resProduct = await requestParams(
+        getProductMessage,
+        this.getId("productId")
+      );
+      this.id = this.getId("id");
+      this.search.serviceCode = resProduct.serviceCode;
       this.search.page = 1;
       this.search.rows = 100;
       const res = await requestParams(getResourcesSku, this.search);
@@ -3076,140 +3082,122 @@ export default {
             }
 
             //提交订单参数
-            getResourcesSkuInfo(this.radio).then((r) => {
-              this.skuInfo = r.content;
-              this.skuInfo.category = this.name;
-              let skuInfoSpecs = [];
-              let arr = r.content.storage.split(";");
-              for (let a = 0; a < arr.length; a++) {
-                let arr1 = arr[a].split(":");
-                let params = { name: "", paramValue: "" };
-                if (arr1[0].trim() == "项目信息") {
-                  params.name = arr1[0];
-                  params.paramValue = this.getProjectLabel1(
-                    this.deployment.projectNo
-                  );
-                  skuInfoSpecs.push(params);
-                }
-                if (arr1[0].trim() == "区域信息") {
-                  params.name = arr1[0];
-                  params.paramValue = this.getObject(this.deployment.envId);
-                  skuInfoSpecs.push(params);
-                }
-                if (arr1[0].trim() == "资源空间") {
-                  params.name = arr1[0];
-                  params.paramValue = this.deployment.namespace;
-                  skuInfoSpecs.push(params);
-                }
-                if (arr1[0].trim() == "镜像配置") {
-                  params.name = arr1[0];
-                  params.paramValue = this.deployment.referenceimage;
-                  skuInfoSpecs.push(params);
-                }
-                if (arr1[0].trim() == "实例数") {
-                  params.name = arr1[0];
-                  params.paramValue = this.deployment.replicas;
-                  skuInfoSpecs.push(params);
-                }
-              }
 
-              for (var key in this.addorder.items[0]) {
-                for (var key1 in this.skuInfo) {
-                  if (key == key1) {
-                    this.addorder.items[0][key] = this.skuInfo[key1];
-                  }
-                }
-              }
-              //环境变量
-              if (!this.isEnvStatus) {
-                this.deployment.env = {};
-              }
-              this.deployment.resources.requests.memory += "Gi";
-              // this.deployment.resources.requests.cpu += "C";
-              // if (!this.limit) {
-              //   delete this.deployment.resources.limits; //js方法
-              //   // Vue.delete(this.deployment.resources,'limits')
-              // }else{
-              //    this.deployment.resources.limits.memory +="Gi";
-              // }
-              if (!this.ReadniessJudge) {
-                delete this.deployment.healthCheck.livenessProbe;
-              }
-              if (!this.LivenessJudge) {
-                delete this.deployment.healthCheck.readinessProbe;
-              }
-              if (this.ReadniessJudge) {
-                if (this.deployment.healthCheck.livenessProbe.type == "TCP") {
-                  delete this.deployment.healthCheck.livenessProbe.command;
-                  delete this.deployment.healthCheck.livenessProbe.path;
-                }
-                if (this.deployment.healthCheck.livenessProbe.type == "HTTP") {
-                  delete this.deployment.healthCheck.livenessProbe.command;
-                }
-                if (this.deployment.healthCheck.livenessProbe.type == "EXEC") {
-                  delete this.deployment.healthCheck.livenessProbe.path;
-                  delete this.deployment.healthCheck.livenessProbe.port;
-                }
-              }
-              if (this.LivenessJudge) {
-                if (this.deployment.healthCheck.readinessProbe.type == "TCP") {
-                  delete this.deployment.healthCheck.readinessProbe.command;
-                  delete this.deployment.healthCheck.readinessProbe.path;
-                }
-                if (this.deployment.healthCheck.readinessProbe.type == "HTTP") {
-                  delete this.deployment.healthCheck.readinessProbe.command;
-                }
-                if (this.deployment.healthCheck.readinessProbe.type == "EXEC") {
-                  delete this.deployment.healthCheck.readinessProbe.path;
-                  delete this.deployment.healthCheck.readinessProbe.port;
-                }
-              }
+            let params1 = { name: "", paramValue: "" };
+            params1.name = "项目信息";
+            params1.paramValue = this.getProjectLabel1(
+              this.deployment.projectNo
+            );
+            this.skuInfoSpecs1.push(params1);
+            let params2 = { name: "", paramValue: "" };
+            params2.name = "区域信息";
+            params2.paramValue = this.getObject(this.deployment.envId);
+            this.skuInfoSpecs1.push(params2);
+            let params3 = { name: "", paramValue: "" };
+            params3.name = "资源空间";
+            params3.paramValue = this.deployment.namespace;
+            this.skuInfoSpecs1.push(params3);
+            let params4 = { name: "", paramValue: "" };
+            params4.name = "实例数";
+            params4.paramValue = this.deployment.replicas;
+            this.skuInfoSpecs1.push(params4);
 
-              if (this.strategy != "automatic") {
-                delete this.deployment.scale.maxReplicas;
-                delete this.deployment.scale.minReplicas;
-                delete this.deployment.scale.cpuPercent;
+            for (var key in this.addorder.items[0]) {
+              for (var key1 in this.skuInfo) {
+                if (key == key1) {
+                  this.addorder.items[0][key] = this.skuInfo[key1];
+                }
               }
-              if (this.strategy == "automatic") {
-                this.deployment.replicas = 1;
+            }
+            //环境变量
+            if (!this.isEnvStatus) {
+              this.deployment.env = {};
+            }
+            this.deployment.resources.requests.memory += "Gi";
+            // this.deployment.resources.requests.cpu += "C";
+            // if (!this.limit) {
+            //   delete this.deployment.resources.limits; //js方法
+            //   // Vue.delete(this.deployment.resources,'limits')
+            // }else{
+            //    this.deployment.resources.limits.memory +="Gi";
+            // }
+            if (!this.ReadniessJudge) {
+              delete this.deployment.healthCheck.livenessProbe;
+            }
+            if (!this.LivenessJudge) {
+              delete this.deployment.healthCheck.readinessProbe;
+            }
+            if (this.ReadniessJudge) {
+              if (this.deployment.healthCheck.livenessProbe.type == "TCP") {
+                delete this.deployment.healthCheck.livenessProbe.command;
+                delete this.deployment.healthCheck.livenessProbe.path;
               }
-              delete this.deployment.envarr;
+              if (this.deployment.healthCheck.livenessProbe.type == "HTTP") {
+                delete this.deployment.healthCheck.livenessProbe.command;
+              }
+              if (this.deployment.healthCheck.livenessProbe.type == "EXEC") {
+                delete this.deployment.healthCheck.livenessProbe.path;
+                delete this.deployment.healthCheck.livenessProbe.port;
+              }
+            }
+            if (this.LivenessJudge) {
+              if (this.deployment.healthCheck.readinessProbe.type == "TCP") {
+                delete this.deployment.healthCheck.readinessProbe.command;
+                delete this.deployment.healthCheck.readinessProbe.path;
+              }
+              if (this.deployment.healthCheck.readinessProbe.type == "HTTP") {
+                delete this.deployment.healthCheck.readinessProbe.command;
+              }
+              if (this.deployment.healthCheck.readinessProbe.type == "EXEC") {
+                delete this.deployment.healthCheck.readinessProbe.path;
+                delete this.deployment.healthCheck.readinessProbe.port;
+              }
+            }
 
-              this.deployment.purchase = this.time; //购买时长
-              this.deployment.order.amount = this.sum; //总金额，
-              this.deployment.order.skuId = this.radio; //skuId，
-              this.deployment.order.basePrice = this.price; //基础价格
-              this.deployment.targetExecuteDir = this.targetExecuteDir;
-              if (this.deployment.openApm == "false") {
-                delete this.deployment.targetExecuteDir;
-              }
-              this.deployment.activeName = this.imageState;
-              let index1 = this.deployment.imageUrlLocation.indexOf("/");
-              let imageUrl1 = this.deployment.imageUrlLocation.substring(
-                index1 + 1,
-                this.deployment.imageUrlLocation.length
-              );
-              this.deployment.imageNamespace = this.deployment.namespace;
-              this.deployment.imageName = imageUrl1; //镜像名称
-              this.addorder.amount = this.sum;
-              this.addorder.items[0].amount = this.time;
-              this.addorder.items[0].basicPrice = this.price;
-              this.addorder.items[0].finalPrice = this.sum;
-              this.addorder.items[0].skuId = this.radio; //
-              this.addorder.items[0].category = this.name;
-              this.addorder.items[0].name = this.name;
-              this.addorder.items[0].params = JSON.stringify(skuInfoSpecs);
-              this.addorder.items[0].duration = this.time + "月";
-              // 存储
-              var data = JSON.stringify(this.addorder);
-              var moint = sessionStorage.setItem(
-                "deployment",
-                JSON.stringify(this.deployment)
-              );
-              sessionStorage.setItem("order", data);
-              console.log(sessionStorage);
-              location.href = "/html/confirmOrder.html";
-            });
+            if (this.strategy != "automatic") {
+              delete this.deployment.scale.maxReplicas;
+              delete this.deployment.scale.minReplicas;
+              delete this.deployment.scale.cpuPercent;
+            }
+            if (this.strategy == "automatic") {
+              this.deployment.replicas = 1;
+            }
+            delete this.deployment.envarr;
+
+            this.deployment.purchase = this.time; //购买时长
+            this.deployment.order.amount = this.sum; //总金额，
+            this.deployment.order.skuId = this.radio; //skuId，
+            this.deployment.order.basePrice = this.price; //基础价格
+            this.deployment.targetExecuteDir = this.targetExecuteDir;
+            if (this.deployment.openApm == "false") {
+              delete this.deployment.targetExecuteDir;
+            }
+            this.deployment.activeName = this.imageState;
+            let index1 = this.deployment.imageUrlLocation.indexOf("/");
+            let imageUrl1 = this.deployment.imageUrlLocation.substring(
+              index1 + 1,
+              this.deployment.imageUrlLocation.length
+            );
+            this.deployment.imageNamespace = this.deployment.namespace;
+            this.deployment.imageName = imageUrl1; //镜像名称
+            this.addorder.amount = this.sum;
+            this.addorder.items[0].amount = this.time;
+            this.addorder.items[0].basicPrice = this.price;
+            this.addorder.items[0].finalPrice = this.sum;
+            this.addorder.items[0].skuId = this.radio; //
+            this.addorder.items[0].category = this.name;
+            this.addorder.items[0].name = this.name;
+            this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs1);
+            this.addorder.items[0].duration = this.time + "月";
+            // 存储
+            var data = JSON.stringify(this.addorder);
+            var moint = sessionStorage.setItem(
+              "deployment",
+              JSON.stringify(this.deployment)
+            );
+            sessionStorage.setItem("order", data);
+            console.log(sessionStorage);
+            location.href = "/html/confirmOrder.html";
           }
         } else {
           return false;
@@ -3294,133 +3282,110 @@ export default {
     async submitPvc(pvcvolume) {
       this.$refs[pvcvolume].validate((valid) => {
         if (valid) {
-          let skuInfoSpecs = [];
-          getResourcesSkuInfo(this.pvcvolume.skuId).then((r) => {
-            this.skuInfo = r.content;
-            let arr = r.content.storage.split(";");
-            for (let a = 0; a < arr.length; a++) {
-              let arr1 = arr[a].split(":");
-              let params = { name: "", paramValue: "" };
-              if (arr1[0].trim() == "区域信息") {
-                params.name = arr1[0];
-                params.paramValue = this.getClustersLabel(
-                  this.pvcvolume.kubernetes_urn
-                );
-                skuInfoSpecs.push(params);
-                let params1 = { name: "", paramValue: "" };
-                params1.name = "项目";
-                params1.paramValue = this.pvcvolume.projectNo;
-                this.skuInfoSpecs.push(params1);
-                let params2 = { name: "", paramValue: "" };
-                params2.name = "资源空间";
-                params2.paramValue = this.pvcvolume.namespace;
-                this.skuInfoSpecs.push(params2);
-                let params3 = { name: "", paramValue: "" };
-                params3.name = "PVC名称";
-                params3.paramValue = this.pvcvolume.name;
-                this.skuInfoSpecs.push(params3);
-                let params4 = { name: "", paramValue: "" };
-                params4.name = "Storage Class";
-                params4.paramValue = this.pvcvolume.strogeclassName;
-                this.skuInfoSpecs.push(params4);
-                let params5 = { name: "", paramValue: "" };
-                params5.name = "请求容量";
-                params5.paramValue = this.pvcvolume.capacity;
-                this.skuInfoSpecs.push(params5);
-              }
+          let params = { name: "", paramValue: "" };
+          params.name = arr1[0];
+          params.paramValue = this.getClustersLabel(
+            this.pvcvolume.kubernetes_urn
+          );
+          this.skuInfoSpecs2.push(params);
+          let params1 = { name: "", paramValue: "" };
+          params1.name = "项目";
+          params1.paramValue = this.pvcvolume.projectNo;
+          this.skuInfoSpecs2.push(params1);
+          let params2 = { name: "", paramValue: "" };
+          params2.name = "资源空间";
+          params2.paramValue = this.pvcvolume.namespace;
+          this.skuInfoSpecs2.push(params2);
+          let params3 = { name: "", paramValue: "" };
+          params3.name = "PVC名称";
+          params3.paramValue = this.pvcvolume.name;
+          this.skuInfoSpecs2.push(params3);
+          let params4 = { name: "", paramValue: "" };
+          params4.name = "Storage Class";
+          params4.paramValue = this.pvcvolume.strogeclassName;
+          this.skuInfoSpecs2.push(params4);
+          let params5 = { name: "", paramValue: "" };
+          params5.name = "请求容量";
+          params5.paramValue = this.pvcvolume.capacity;
+          this.skuInfoSpecs2.push(params5);
 
-              if (arr1[0].trim() == "回收策略") {
-                params.name = arr1[0];
-                params.paramValue = this.reclaimPolicy;
-                skuInfoSpecs.push(params);
-              }
-              if (arr1[0].trim() == "访问模式") {
-                params.name = arr1[0];
-                params.paramValue = arr1[0];
-                skuInfoSpecs.push(params);
+          if (this.labels.length > 0) {
+            for (let i = 0; i < this.labels.length; i++) {
+              this.labels[i].key;
+              this.labels[i].value;
+              this.pvcvolume.labels[this.labels[i].key] = this.labels[i].value;
+            }
+          }
+
+          for (var key in this.addorder.items[0]) {
+            for (var key1 in this.skuInfo) {
+              if (key == key1) {
+                this.addorder.items[0][key] = this.skuInfo[key1];
               }
             }
+          }
+          this.addorder.amount =
+            this.pvcvolume.basePrice * this.pvcvolume.purchase;
+          this.addorder.items[0].amount = this.time;
+          this.addorder.items[0].basicPrice = this.pvcvolume.basePrice;
+          this.addorder.items[0].finalPrice =
+            this.pvcvolume.basePrice * this.pvcvolume.purchase;
+          this.addorder.items[0].skuId = this.pvcvolume.skuId;
+          this.addorder.items[0].category = "数据存储（PVC）";
+          this.addorder.items[0].name = "数据存储（PVC）";
 
-            if (this.labels.length > 0) {
-              for (let i = 0; i < this.labels.length; i++) {
-                this.labels[i].key;
-                this.labels[i].value;
-                this.pvcvolume.labels[this.labels[i].key] = this.labels[
-                  i
-                ].value;
-              }
-            }
-
-            for (var key in this.addorder.items[0]) {
-              for (var key1 in this.skuInfo) {
-                if (key == key1) {
-                  this.addorder.items[0][key] = this.skuInfo[key1];
-                }
-              }
-            }
-            this.addorder.amount =
-              this.pvcvolume.basePrice * this.pvcvolume.purchase;
-            this.addorder.items[0].amount = this.time;
-            this.addorder.items[0].basicPrice = this.pvcvolume.basePrice;
-            this.addorder.items[0].finalPrice =
-              this.pvcvolume.basePrice * this.pvcvolume.purchase;
-            this.addorder.items[0].skuId = this.pvcvolume.skuId;
-            this.addorder.items[0].category = "数据存储（PVC）";
-            this.addorder.items[0].name = "数据存储（PVC）";
-
-            this.addorder.items[0].params = JSON.stringify(skuInfoSpecs);
-            this.addorder.items[0].duration = this.pvcvolume.purchase + "月";
-            this.pvcvolume.amount =
-              this.pvcvolume.basePrice * this.pvcvolume.purchase;
-            let platformParams = [
-              {
-                requestModeParams: {
-                  protocol: "http",
-                  requestPath: "",
-                  httpMethod: "",
-                  ParamFormat: "json",
-                },
-                params: "",
-                headers: "",
+          this.addorder.items[0].params = JSON.stringify(skuInfoSpecs2);
+          this.addorder.items[0].duration = this.pvcvolume.purchase + "月";
+          this.pvcvolume.amount =
+            this.pvcvolume.basePrice * this.pvcvolume.purchase;
+          let platformParams = [
+            {
+              requestModeParams: {
+                protocol: "http",
+                requestPath: "",
+                httpMethod: "",
+                ParamFormat: "json",
               },
-            ];
-            platformParams[0].requestModeParams.requestPath =
-              baseURL.DataInterfaceCmss +
-              "/api/cloud/cmss/v1/project/" +
-              this.pvcvolume.projectNo +
-              "/kubernetes/" +
-              this.pvcvolume.kubernetes_urn +
-              "/namespace/" +
-              this.pvcvolume.namespace +
-              "/persistentVolumeClaim";
-            platformParams[0].requestModeParams.httpMethod = "post";
+              params: "",
+              headers: "",
+            },
+          ];
+          platformParams[0].requestModeParams.requestPath =
+            baseURL.DataInterfaceCmss +
+            "/api/cloud/cmss/v1/project/" +
+            this.pvcvolume.projectNo +
+            "/kubernetes/" +
+            this.pvcvolume.kubernetes_urn +
+            "/namespace/" +
+            this.pvcvolume.namespace +
+            "/persistentVolumeClaim";
+          platformParams[0].requestModeParams.httpMethod = "post";
 
-            delete this.pvcvolume.kubernetes_urn;
-            delete this.pvcvolume.namespace;
-            delete this.pvcvolume.projectNo;
-            let params1 = JSON.stringify(this.pvcvolume);
-            platformParams[0].params = params1;
-            platformParams[0].headers = "";
-            this.addorder.items[0].platformParams = JSON.stringify(
-              platformParams
-            );
-            Vue.set(this.addorder, "orderResourceType", "APPLICATION");
-            //创建订单
-            postOrders(this.addorder).then((r) => {
-              if (r.code == 201) {
-                this.pvcStatus = !this.pvcStatus;
-                this.initPvc();
-                this.$notify({
-                  type: "success",
-                  message: r.message,
-                });
-              } else {
-                this.$notify({
-                  type: "error",
-                  message: r.message,
-                });
-              }
-            });
+          delete this.pvcvolume.kubernetes_urn;
+          delete this.pvcvolume.namespace;
+          delete this.pvcvolume.projectNo;
+          let paramspvcvolume = JSON.stringify(this.pvcvolume);
+          platformParams[0].params = paramspvcvolume;
+          platformParams[0].headers = "";
+          this.addorder.items[0].platformParams = JSON.stringify(
+            platformParams
+          );
+          Vue.set(this.addorder, "orderResourceType", "APPLICATION");
+          //创建订单
+          postOrders(this.addorder).then((r) => {
+            if (r.code == 201) {
+              this.pvcStatus = !this.pvcStatus;
+              this.initPvc();
+              this.$notify({
+                type: "success",
+                message: r.message,
+              });
+            } else {
+              this.$notify({
+                type: "error",
+                message: r.message,
+              });
+            }
           });
         } else {
           return false;

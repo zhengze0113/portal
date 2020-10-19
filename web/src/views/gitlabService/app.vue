@@ -483,7 +483,7 @@ export default {
       this.price = list[0].price;
       this.radio = list[0].id;
 
-      this.monitoringFrom.life_limit = parseFloat(list[0].name);
+      this.monitoringFrom.life_limit = parseFloat(list[0].name)+"";
       this.time = parseFloat(list[0].name);
     },
     //获取集群
