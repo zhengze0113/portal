@@ -1,9 +1,9 @@
 <template>
-  <div id="app" style="background-color: #E9E9E9">
-    <el-row style="height:100px;background: white;">
+  <div id="app" style="background-color: #e9e9e9">
+    <el-row style="height: 100px; background: white">
       <el-col :span="24"></el-col>
     </el-row>
-    <el-row style="height:70px;background:rgba(255,255,255,1);">
+    <el-row style="height: 70px; background: rgba(255, 255, 255, 1)">
       <el-col :span="24">
         <el-row>
           <el-col :offset="3" :span="2" class="buyTitle">服务购买</el-col>
@@ -15,8 +15,8 @@
     </el-row>
     <!--sku-->
     <!--参数项-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">资源选项</p>
         <el-row>
           <el-col :offset="2">
@@ -39,7 +39,7 @@
                     <el-select
                       v-model="redisFrom.projectNo"
                       placeholder="请选择项目"
-                      style="width: 100%;"
+                      style="width: 100%"
                       @change="selectModel($event)"
                     >
                       <el-option
@@ -60,7 +60,7 @@
                       v-model="redisFrom.envId"
                       filterable
                       placeholder="请选择集群"
-                      style="width: 100%;"
+                      style="width: 100%"
                     >
                       <el-option
                         v-for="item in envs"
@@ -79,7 +79,7 @@
                     <el-select
                       v-model="redisFrom.namespace"
                       placeholder="请选择资源空间"
-                      style="width: 100%;"
+                      style="width: 100%"
                       @visible-change="clickNamespace"
                     >
                       <el-option
@@ -107,10 +107,10 @@
                     <el-input v-model="redisFrom.displayname"></el-input>
                   </el-form-item>
                   <el-form-item label="标签">
-                    <div class="table-box" style="margin-right: 24px;">
+                    <div class="table-box" style="margin-right: 24px">
                       <el-table
                         :data="redisFrom.label"
-                        style="width: 100%; border: 1px solid #dcdfe6;"
+                        style="width: 100%; border: 1px solid #dcdfe6"
                       >
                         <el-table-column label="KEY" align="center">
                           <template slot-scope="scope">
@@ -123,7 +123,7 @@
                                   trigger: 'blur',
                                 },
                                 {
-                                 pattern: /(?!\d+$)[a-zA-Z0-9]([A-Za-z0-9/_])?$/,
+                                  pattern: /(?!\d+$)[a-zA-Z0-9]([A-Za-z0-9/_])?$/,
                                   message:
                                     '不能为纯数字,名称由字母、数字、(_)和(/)组成',
                                   trigger: 'blur',
@@ -153,7 +153,7 @@
                                   message:
                                     '不能为纯数字,名称由字母、数字、(_)和(/)组成',
                                   trigger: 'blur',
-                                }
+                                },
                               ]"
                             >
                               <el-input
@@ -182,10 +182,7 @@
                     </div>
                   </el-form-item>
 
-                  <el-form-item
-                    label="服务端口："
-                    class="skuDivFont"
-                  >
+                  <el-form-item label="服务端口：" class="skuDivFont">
                     <el-input
                       v-model="redisFrom.port"
                       :disabled="true"
@@ -246,20 +243,6 @@
                       <el-radio label="8Gi">8Gi</el-radio>
                     </el-radio-group>
                   </el-form-item>
-                  <el-form-item
-                    label="配置密码："
-                    prop="password"
-                    class="skuDivFont"
-                  >
-                    <el-input
-                      v-model="redisFrom.password"
-                      placeholder="请输入redis密码"
-                      type="password"
-                      autocomplete="new-password"
-                      show-password
-                      clearable
-                    ></el-input>
-                  </el-form-item>
                 </el-form>
               </el-col>
             </el-row>
@@ -268,32 +251,37 @@
       </el-col>
     </el-row>
     <!--订购-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">订购</p>
         <el-row>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">计费方式</span>
             <el-button
-              style="border-radius:0;height:30px;background:rgba(3,97,167,1);padding-left: 14px;"
+              style="
+                border-radius: 0;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">包年包月</span>
             </el-button>
           </el-col>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">购买时长</span>
             <el-input-number
               v-model="time"
               :min="1"
               :max="12"
               size="mini"
-              style="width:130px"
+              style="width: 130px"
               @change="countTime"
             ></el-input-number>
             <el-select
               v-model="mode"
               size="mini"
-              style="width: 80px; margin-left: 30px;margin-bottom: 0px;"
+              style="width: 80px; margin-left: 30px; margin-bottom: 0px"
               @change="countTime"
             >
               <el-option
@@ -308,15 +296,15 @@
       </el-col>
     </el-row>
     <!--服务协议-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <el-col :span="3"> <p class="skuFont">服务协议</p></el-col>
 
         <el-col :span="21">
           <el-checkbox
             @change="confirm()"
             class="skuFont"
-            style="margin-bottom:10px"
+            style="margin-bottom: 10px"
           >
             <el-link type="primary" @click="agreement()">《服务条款》</el-link>
           </el-checkbox>
@@ -325,17 +313,24 @@
     </el-row>
 
     <!--提交订单-->
-    <el-row style="margin-top:30px;height:100px;">
+    <el-row style="margin-top: 30px; height: 100px">
       <el-col
         :span="24"
-        style="background: #FFF;height:100px;"
+        style="background: #fff; height: 100px"
         :class="isFixed ? 'fixed' : ''"
       >
-        <el-col :offset="15" style="color: #666666;line-height: 100px;">
+        <el-col :offset="15" style="color: #666666; line-height: 100px">
           服务费用：
           <span class="money">￥{{ sum }}</span>
           <el-button
-            style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);padding-left: 14px;margin-left:5%;"
+            style="
+              border-radius: 0;
+              width: 87px;
+              height: 30px;
+              background: rgba(3, 97, 167, 1);
+              padding-left: 14px;
+              margin-left: 5%;
+            "
             @click="submitForm('redisFrom')"
             v-if="disable == true"
           >
@@ -350,7 +345,14 @@
           >
             <el-button
               slot="reference"
-              style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);margin-left:5%;padding-left: 14px;"
+              style="
+                border-radius: 0;
+                width: 87px;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                margin-left: 5%;
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">提交订单</span>
             </el-button>
@@ -372,9 +374,10 @@ import {
 } from "../../api/serviceOperating";
 import { requestParams } from "../../utils/urlParam";
 import { getUserInfo } from "../../utils/auth";
+import { getProductMessage } from "../../api/CMSApi";
 export default {
   name: "App",
-  data: function() {
+  data: function () {
     return {
       cpuPrice: 100,
       memoryPrice: 256,
@@ -401,7 +404,7 @@ export default {
       skuInfo: null,
       skuInfoSpecs: [],
       search: {
-        params: '',
+        params: "",
         page: 1,
         rows: 100,
       },
@@ -427,7 +430,6 @@ export default {
         cpu: "100m",
         memory: "256Mi",
         storage: "1Gi",
-        password: "",
         label: [{ key: "", value: "" }],
       },
       price: 0,
@@ -487,7 +489,7 @@ export default {
   },
   methods: {
     //验证资源空间剩余空间
-   delEnv(row) {
+    delEnv(row) {
       this.redisFrom.label.splice(row.$index, 1);
     },
     addEnv() {
@@ -602,7 +604,7 @@ export default {
       }
     },
     submitForm(formName) {
-      console.log(this.redisFrom)
+      console.log(this.redisFrom);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // alert("submit!");
@@ -616,77 +618,45 @@ export default {
     //提交订单
     async commitOrder() {
       //提交订单参数
-      const r = await requestParams(getResourcesSkuInfo, this.radio);
-      console.log(r);
-      this.skuInfo = r.content;
-      // this.skuInfoSpecs = r.content.specs;
-      this.skuInfo.category = this.name;
-
-      let arr = r.content.storage.split(";");
-      for (let a = 0; a < arr.length; a++) {
-        let arr1 = arr[a].split(":");
-        let params = { name: "", paramValue: "" };
-        //CPU : ; 内存 : 1; 持久化存储 : ;名称: ;端口: ;集群规模: ;配置密码: ;时长: ;
-        if (arr1[0].trim() == "CPU") {
-          params.name = arr1[0];
-          params.paramValue = this.redisFrom.cpu;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "内存") {
-          params.name = arr1[0];
-          params.paramValue = this.redisFrom.memory;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "持久化存储") {
-          params.name = arr1[0];
-          params.paramValue = this.redisFrom.storage;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "名称") {
-          params.name = arr1[0];
-          params.paramValue = this.redisFrom.displayname;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "端口") {
-          params.name = arr1[0];
-          params.paramValue = this.redisFrom.port;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "集群规模") {
-          params.name = arr1[0];
-          params.paramValue = this.redisFrom.slaveCount;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "配置密码") {
-          params.name = arr1[0];
-          params.paramValue = this.redisFrom.password;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "标签") {
-          params.name = arr1[0];
-          params.paramValue = this.redisFrom.label;
-          this.skuInfoSpecs.push(params);
-        }
-      }
       if (this.disable == true) {
-        for (var key in this.addorder.items[0]) {
-          for (var key1 in this.skuInfo) {
-            if (key == key1) {
-              this.addorder.items[0][key] = this.skuInfo[key1];
-            }
-          }
-        }
+        let params1 = { name: "", paramValue: "" };
+        params1.name = "CPU";
+        params1.paramValue = this.redisFrom.cpu;
+        this.skuInfoSpecs.push(params1);
+        let params2 = { name: "", paramValue: "" };
+        params2.name = "内存";
+        params2.paramValue = this.redisFrom.memory;
+        this.skuInfoSpecs.push(params2);
+        let params3 = { name: "", paramValue: "" };
+        params3.name = "持久化存储";
+        params3.paramValue = this.redisFrom.storage;
+        this.skuInfoSpecs.push(params3);
+        let params4 = { name: "", paramValue: "" };
+        params4.name = "名称";
+        params4.paramValue = this.redisFrom.displayname;
+        this.skuInfoSpecs.push(params4);
+        let params5 = { name: "", paramValue: "" };
+        params5.name = "端口";
+        params5.paramValue = this.redisFrom.port;
+        this.skuInfoSpecs.push(params5);
+        let params6 = { name: "", paramValue: "" };
+        params6.name = "集群规模";
+        params6.paramValue = this.redisFrom.slaveCount;
+        this.skuInfoSpecs.push(params6);
+        let params8 = { name: "", paramValue: "" };
+        params8.name = "标签";
+        params8.paramValue = this.redisFrom.label;
+        this.skuInfoSpecs.push(params8);
 
         this.addorder.amount = this.sum;
         this.addorder.items[0].amount = this.time;
         this.addorder.items[0].basicPrice = this.price;
         this.addorder.items[0].finalPrice = this.sum;
         this.addorder.items[0].skuId = this.radio; //
-        this.addorder.items[0].category = "缓存中间件（redis）";
-        this.addorder.items[0].name = this.name;
+        this.addorder.items[0].category = this.getId("productName");
+        this.addorder.items[0].name = this.getId("productName");
         this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
         var duration = "月";
-        this.mode == "MONTH" ? (duration = "月") : (duration = "年");
         this.addorder.items[0].duration = this.time + duration;
         console.log(this.addorder);
         // 存储
@@ -705,15 +675,19 @@ export default {
         Math.floor(Math.random() * (32767 - 30000 + 1)) + 30000;
       this.listLoading = true;
       this.id = this.getId("id");
-      this.search.params = `[{"param":{"catalogId":${this.id}},"sign":"EQ"}]`;
+      this.user = JSON.parse(getUserInfo());
+      const resProduct = await requestParams(
+        getProductMessage,
+        this.getId("productId")
+      );
+      this.id = this.getId("id");
+      this.search.serviceCode = resProduct.serviceCode;
       this.search.page = 1;
       this.search.rows = 100;
       const res = await requestParams(getResourcesSku, this.search);
       var list = res.content.content;
-      console.log(res);
-      this.radio = list[0].id;
 
-      this.user = JSON.parse(getUserInfo());
+      this.radio = list[0].id;
       //获取用户下的项目列表
       this.search1.sort = this.user.uid;
       const projectres = await requestParams(getProjects, this.search1);

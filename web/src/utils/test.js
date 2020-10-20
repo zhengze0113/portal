@@ -43,7 +43,7 @@ export function createService(form, addorder, paramsPar) {
   //服务请求信息
   let params = JSON.stringify(form);
   let platformParams = paramsObj;
-  platformParams[0].requestModeParams.requestPath =paramsPar.requestPath;
+  platformParams[0].requestModeParams.requestPath = paramsPar.requestPath;
   platformParams[0].requestModeParams.httpMethod = paramsPar.httpMethod;
   platformParams[0].params = params;
   platformParams[0].headers = "";
@@ -1258,8 +1258,7 @@ export function createMysql(data, orderData) {
   let platformParams = paramsObj;
   platformParams[0].requestModeParams.requestPath =
     baseURL.DataInterfaceCmss +
-    `/api/cloud/cmss/v1/project/${data.projectNo}/kubernetes/${
-    data.envId
+    `/api/cloud/cmss/v1/project/${data.projectNo}/kubernetes/${data.envId
     }/namespace/${data.namespace}/mysql/install`;
 
 
@@ -1298,13 +1297,8 @@ export function createMysql(data, orderData) {
 export function createNginx(data, orderData) {
   var code = 0;
   let platformParams = paramsObj;
-  platformParams[0].requestModeParams.requestPath =
-    baseURL.DataInterfaceCmss +
-    `/api/cloud/cmss/v1/project/${data.projectNo}/kubernetes/${
-    data.envId
-    }/namespace/${data.namespace}/nginx/install`;
-
-
+  console.log(data)
+  platformParams[0].requestModeParams.requestPath = baseURL.DataInterfaceUsms + `/api/cloud/usms/v1/middlewares/nginx`;
   //服务请求信息
   Vue.delete(data, "projectNo");
   Vue.delete(data, "namespace");

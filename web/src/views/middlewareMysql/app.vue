@@ -1411,8 +1411,8 @@ export default {
               this.addorder.items[0].basicPrice = this.price;
               this.addorder.items[0].finalPrice = this.sum;
               this.addorder.items[0].skuId = this.radio; //
-              this.addorder.items[0].category = this.name;
-              this.addorder.items[0].name = this.name;
+              this.addorder.items[0].category = this.getId("productName");
+              this.addorder.items[0].name = this.getId("productName");
               this.addorder.items[0].params = JSON.stringify(skuInfoSpecs);
               this.addorder.items[0].duration = this.time + "月";
               // 存储
@@ -1560,8 +1560,8 @@ export default {
             this.addorder.items[0].finalPrice =
               this.pvcvolume.basePrice * this.pvcvolume.purchase;
             this.addorder.items[0].skuId = this.pvcvolume.skuId;
-            this.addorder.items[0].category = "数据存储（PVC）";
-            this.addorder.items[0].name = "数据存储（PVC）";
+            this.addorder.items[0].category =  "数据存储（PVC）";
+            this.addorder.items[0].name =  "数据存储（PVC）";
 
             this.addorder.items[0].params = JSON.stringify(skuInfoSpecs);
             this.addorder.items[0].duration = this.pvcvolume.purchase + "月";

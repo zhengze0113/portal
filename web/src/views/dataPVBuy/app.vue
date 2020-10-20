@@ -69,16 +69,12 @@
           >
             <span class="skuDivFont">当前规格</span>
             <span class="specFont"
-              >{{ skuData.name }}/{{ skuData.cpuCores }}/{{
-                skuData.memory
-              }}</span
+              >{{ skuData.name }}/{{ skuData.storage }}</span
             >
           </el-col>
           <el-col :span="10" style="margin-top: 30px; margin-bottom: 30px">
             <span class="skuDivFont">当前资源需求:</span>
-            <span class="skuDivFont"
-              >{{ skuData.cpuCores }}/{{ skuData.memory }}</span
-            >
+            <span class="skuDivFont">{{ skuData.storage }}</span>
           </el-col>
         </el-row>
       </el-col>
@@ -647,23 +643,25 @@ export default {
     },
     //点击事件
     async rowClick(row, column, event) {
-      getResourceSpaceNameInfo(
-        this.pvcvolume.kubernetes_urn,
-        this.pvcvolume.namespace
-      ).then((r) => {
-        if (r.content.storage <= parseFloat(row.storage)) {
-          let storage = r.content.storage == null ? 0 : r.content.storage;
-          let message =
-            "资源空间达到资源上限，请您调整要创建容器的规格，或联系项目经理。（剩余容量:" +
-            storage +
-            "G）";
-          this.$notify({
-            type: "warning",
-            message: message,
-          });
-          this.pvcvolume.namespace = "";
-        }
-      });
+      if (this.pvcvolume.namespace != "" && this.pvcvolume.namespace != null) {
+        getResourceSpaceNameInfo(
+          this.pvcvolume.kubernetes_urn,
+          this.pvcvolume.namespace
+        ).then((r) => {
+          if (r.content.storage <= parseFloat(row.storage)) {
+            let storage = r.content.storage == null ? 0 : r.content.storage;
+            let message =
+              "资源空间达到资源上限，请您调整要创建容器的规格，或联系项目经理。（剩余容量:" +
+              storage +
+              "G）";
+            this.$notify({
+              type: "warning",
+              message: message,
+            });
+            this.pvcvolume.namespace = "";
+          }
+        });
+      }
       this.skuData = row;
       this.pvcvolume.capacity = parseFloat(row.storage) + "Gi";
       this.radio = row.id;
@@ -737,8 +735,8 @@ export default {
         this.addorder.items[0].basicPrice = this.price;
         this.addorder.items[0].finalPrice = this.sum;
         this.addorder.items[0].skuId = this.radio; //
-        this.addorder.items[0].category = this.name;
-        this.addorder.items[0].name = this.name;
+        this.addorder.items[0].category = this.getId("productName");
+        this.addorder.items[0].name = this.getId("productName");
         this.addorder.items[0].tags = this.skuData.name;
         console.log(this.skuInfoSpecs);
         this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);

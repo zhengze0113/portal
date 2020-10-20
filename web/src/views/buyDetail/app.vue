@@ -557,8 +557,8 @@ export default {
         this.addorder.items[0].basicPrice = this.price;
         this.addorder.items[0].finalPrice = this.sum;
         this.addorder.items[0].skuId = this.skuInfo.id;
-        this.addorder.items[0].category = this.name;
-        this.addorder.items[0].name = this.name;
+        this.addorder.items[0].category = this.getId("productName");
+        this.addorder.items[0].name = this.getId("productName");
         this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
         this.addorder.items[0].duration = this.time;
         console.log(this.addorder);

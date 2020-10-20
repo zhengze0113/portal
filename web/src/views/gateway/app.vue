@@ -918,8 +918,8 @@ export default {
         this.addorder.items[0].basicPrice = this.price;
         this.addorder.items[0].finalPrice = this.sum;
         this.addorder.items[0].skuId = this.radio;
-        this.addorder.items[0].category = this.name;
-        this.addorder.items[0].name = this.name;
+        this.addorder.items[0].category = this.getId("productName");
+        this.addorder.items[0].name = this.getId("productName");
         this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
         var duration = "月";
         this.mode == "MONTH" ? (duration = "月") : (duration = "年");

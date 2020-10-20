@@ -4,7 +4,7 @@
       <el-col class="title">
         <span>确认订单</span>
       </el-col>
-      <el-col :span="20" :offset="2" style="margin-top:2%;margin-bottom:2%;">
+      <el-col :span="20" :offset="2" style="margin-top: 2%; margin-bottom: 2%">
         <el-table
           v-if="a == true"
           ref="multipleTable"
@@ -30,7 +30,7 @@
               <div
                 v-for="(item, index) in scope.row.items[0].params"
                 :key="index"
-                style="text-align:left;"
+                style="text-align: left"
               >
                 {{ item.name }}: {{ item.tags || item.paramValue }}
               </div>
@@ -56,9 +56,7 @@
             </template>
           </el-table-column>
           <el-table-column label="付费方式" align="center">
-            <template slot-scope="scope">
-              预付费
-            </template>
+            <template slot-scope="scope"> 预付费 </template>
             <!--{{scope.row.items[0].payMode}}-->
           </el-table-column>
           <el-table-column label="优惠" align="center">
@@ -67,9 +65,7 @@
             </template>
           </el-table-column>
           <el-table-column label="费用" align="center">
-            <template slot-scope="scope">
-              ￥{{ price }}
-            </template>
+            <template slot-scope="scope"> ￥{{ price }} </template>
           </el-table-column>
           <!--<el-table-column label align="center">-->
           <!--<template slot-scope="scope">-->
@@ -100,12 +96,10 @@
           </el-button>
         </el-col>
         <el-dialog title="提示" :visible.sync="handleClose">
-          <h4 style="color:blue;margin-bottom: 10px;">
+          <h4 style="color: blue; margin-bottom: 10px">
             购买成功，请跳转到订单中心
           </h4>
-          <el-button @click="handleCloses">
-            立刻跳转
-          </el-button>
+          <el-button @click="handleCloses"> 立刻跳转 </el-button>
         </el-dialog>
       </el-col>
     </el-row>
@@ -117,7 +111,7 @@ import {
   batchDeleteCarts,
   getCart,
   getResourcesSkuInfo,
-  postOrders
+  postOrders,
 } from "../../api/shoplist";
 import Pagination from "../../components/pagination";
 import { requestParams, parseHash } from "../../utils/urlParam";
@@ -142,12 +136,13 @@ import {
   createJira,
   createRedis,
   createElasticsearch,
-  createMysql
+  createMysql,
+  createNginx,
 } from "../../utils/test";
 import { platform } from "os";
 export default {
   components: {
-    Pagination
+    Pagination,
   },
   data() {
     return {
@@ -184,7 +179,7 @@ export default {
         payMode: "预付费",
         tags: "",
         userId: "1",
-        tenantId: "1"
+        tenantId: "1",
       },
       zhuce: [],
       uid: "",
@@ -194,7 +189,7 @@ export default {
       formdata: [],
       monitoring: [],
       gateway1: [],
-      pinpointFrom: []
+      pinpointFrom: [],
     };
   },
   mounted() {},
@@ -214,7 +209,8 @@ export default {
       }
     },
     handleCloses() {
-      location.href = baseURL.DataInterfaceConsole+"/#/userCentre/centerOrder";
+      location.href =
+        baseURL.DataInterfaceConsole + "/#/userCentre/centerOrder";
     },
     href() {
       location.href = "/html/pay.html";
@@ -232,7 +228,7 @@ export default {
       if (this.addorder.items[0].category == "容器部署") {
         createContainer(this.deployment, this.list1, this.addorder);
       }
-      if (this.addorder.items[0].category == "服务路由（Route）") {
+      if (this.addorder.items[0].category == "服务路由(Route)") {
         createServiceRoutT(this.form, this.list1, this.addorder);
       }
       if (this.addorder.items[0].category.indexOf("注册中心服务") != -1) {
@@ -243,7 +239,7 @@ export default {
       }
 
       console.log(this.addorder.items[0].category);
-      if (this.addorder.items[0].category == "数据存储（PVC）") {
+      if (this.addorder.items[0].category == "数据存储PVC") {
         createDataPVT(this.pvcvolume, this.list1, this.addorder);
       }
       if (this.addorder.items[0].category == "调用链服务") {
@@ -264,17 +260,17 @@ export default {
       if (this.addorder.items[0].category == "一键安装微服务") {
         installMicroservices(this.pinpointFrom, this.addorder);
       }
-      if (this.addorder.items[0].category == "代码仓库（Gitlab）") {
+      if (this.addorder.items[0].category == "开通Gitlab") {
         dredgeGitlab(this.uid, this.monitoring, this.addorder);
       }
       console.log(this.addorder.items[0].category);
       if (this.addorder.items[0].category == "代码扫描（SonarQube）") {
         createsonarQube(this.uid, this.monitoring, this.addorder);
       }
-      if (this.addorder.items[0].category == "测试工具（Hitchhiker）") {
+      if (this.addorder.items[0].category == "开通Hitchhiker") {
         createhitchhiker(this.uid, this.monitoring, this.addorder);
       }
-      if (this.addorder.items[0].category == "持续集成发布 (Jenkins)") {
+      if (this.addorder.items[0].category == "开通Jenkins") {
         createjenkins(this.uid, this.monitoring, this.addorder);
       }
       if (this.addorder.items[0].category == "依赖包管理（Nexus）") {
@@ -292,13 +288,13 @@ export default {
       if (this.addorder.items[0].category == "mysql中间件") {
         createMysql(this.deployment, this.addorder);
       }
-       if (this.addorder.items[0].category == "nginx中间件") {
-        createNginx(this.deployment, this.addorder);
+      if (this.addorder.items[0].category == "nginx中间件") {
+        createNginx(this.redisFrom, this.addorder);
       }
     },
     toggleSelection(rows) {
       if (rows) {
-        rows.forEach(row => {
+        rows.forEach((row) => {
           this.$refs.multipleTable.toggleRowSelection(row);
         });
       } else {
@@ -328,16 +324,6 @@ export default {
         this.list.push(this.data);
         this.number = this.list.length;
         for (var i = 0; i < this.list.length; i++) {
-          const res1 = await requestParams(
-            getResourcesSkuInfo,
-            this.list[i].items[0].skuId
-          );
-
-          // for (var j = 0; j < res1.content.specs.length; j++) {
-          //   if (res1.content.specs[j].name == "项目描述") {
-          //     this.list[i].description = res1.content.specs[j].paramValue;
-          //   }
-          // }
           this.list[i].items[0].basicPrice = this.list[
             i
           ].items[0].basicPrice.toFixed(2);
@@ -345,13 +331,6 @@ export default {
             this.list[0].items[0].params
           );
           this.price = this.list[0].items[0].finalPrice.toFixed(2);
-          if (res1.content.price.chargePeriod == "DAY") {
-            this.list[i].items[0].chargePeriod = "天";
-          } else if (res1.content.price.chargePeriod == "MONTH") {
-            this.list[i].items[0].chargePeriod = "月";
-          } else if (res1.content.price.chargePeriod == "YEAR") {
-            this.list[i].items[0].chargePeriod = "年";
-          }
         }
       }
       this.a = true;
@@ -361,7 +340,7 @@ export default {
       this.$confirm("此操作将永久删除该商品, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       }).then(() => {
         this.list.pop();
         window.sessionStorage.removeItem("order");
@@ -389,7 +368,7 @@ export default {
     },
     //获取单条数据信息
     getCartInfo(id) {
-      getCart(id).then(r => {
+      getCart(id).then((r) => {
         this.cartInfo = r.content;
       });
     },
@@ -406,20 +385,20 @@ export default {
       this.$confirm("此操作将永久删除该商品, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
-          batchDeleteCarts(data1).then(r => {
+          batchDeleteCarts(data1).then((r) => {
             if (r.code == 201) {
               this.fetchData();
               this.$notify({
                 type: "success",
-                message: r.message
+                message: r.message,
               });
             } else {
               this.$notify({
                 type: "info",
-                message: "删除失败，请重试"
+                message: "删除失败，请重试",
               });
             }
           });
@@ -427,7 +406,7 @@ export default {
         .catch(() => {
           this.$notify({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -451,8 +430,8 @@ export default {
         this.money = 0;
       }
       this.money = this.money.toFixed(2);
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

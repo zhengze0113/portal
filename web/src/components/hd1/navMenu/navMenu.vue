@@ -61,15 +61,15 @@ export default {
         this.list1 = res1;
         for (var j = 0; j < this.list1.length; j++) {
           if (!this.list1[j].is_putaway) {
-            break;
+          } else {
+            var childs = {
+              menuTxt: null,
+              // link: `/html/productIntroduction.html?productId=${this.list1[j].id}`,
+              link: `/html/productDetail1.html?id=${this.list1[j].productId}&productName=${this.list1[j].name}&catalogId=${this.list[i].catalogId}&catalog=${this.list[i].name}&productId=${this.list1[j].id}`,
+            };
+            childs.menuTxt = this.list1[j].name;
+            child.children.push(childs);
           }
-          var childs = {
-            menuTxt: null,
-            // link: `/html/productIntroduction.html?productId=${this.list1[j].id}`,
-            link: `/html/productDetail1.html?id=${this.list1[j].productId}&productName=${this.list1[j].name}&catalogId=${this.list[i].catalogId}&catalog=${this.list[i].name}&productId=${this.list1[j].id}`,
-          };
-          childs.menuTxt = this.list1[j].name;
-          child.children.push(childs);
         }
         this.navMenuConfig[1].children.push(child);
       }

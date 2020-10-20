@@ -678,13 +678,13 @@ export default {
     async rowClick(row, column, event) {
       this.skuData = row;
       this.radio = row.id;
-      const r = await requestParams(getResourcesSkuInfo, row.id);
-      this.price = r.content.price.price;
-      this.formdata.dtmCpu = row.cpu;
-      this.formdata.dtmMemory = row.gb;
+     
+      this.price = row.price;
+      this.formdata.dtmCpu = parseFloat(row.cpuCores)+"";
+      this.formdata.dtmMemory = parseFloat(row.memory)+"";
 
-      this.formdata.taskCpu = row.cpu;
-      this.formdata.taskMemory = row.gb;
+      this.formdata.taskCpu = parseFloat(row.cpuCores)+"";
+      this.formdata.taskMemory = parseFloat(row.memory)+"";
       if (this.formdata.nameSpace != null && this.formdata.nameSpace != "") {
         getResourceSpaceNameInfo(
           this.formdata.envId,
@@ -734,11 +734,11 @@ export default {
         });
       }
       if (this.mode == "MONTH") {
-        this.sum = r.content.price.price * this.time;
+        this.sum = row.price * this.time;
         this.sum = Math.floor(this.sum * 100) / 100;
       }
       if (this.mode == "YEAR") {
-        this.sum = r.content.price.price * this.time * 12;
+        this.sum = row.price * this.time * 12;
         this.sum = Math.floor(this.sum * 100) / 100;
       }
     },
@@ -874,8 +874,8 @@ export default {
         this.addorder.items[0].basicPrice = this.price;
         this.addorder.items[0].finalPrice = this.sum;
         this.addorder.items[0].skuId = this.radio; //
-        this.addorder.items[0].category = this.name;
-        this.addorder.items[0].name = this.name;
+        this.addorder.items[0].category = this.getId("productName");
+        this.addorder.items[0].name = this.getId("productName");
         this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
         var duration = "月";
         this.mode == "MONTH" ? (duration = "月") : (duration = "年");

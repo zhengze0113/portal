@@ -61,7 +61,7 @@
               </el-table-column> -->
               <el-table-column label="参考价格" align="center">
                 <template slot-scope="scope"
-                  >{{ scope.row.price }}元/月</template
+                  >{{ scope.row.price }}元/年</template
                 >
               </el-table-column>
             </el-table>
@@ -488,26 +488,13 @@ export default {
     async rowClick(row, column, event) {
       this.skuData = row;
       this.radio = row.id;
-      const r = await requestParams(getResourcesSkuInfo, row.id);
-      let arr = r.content.storage.split(";");
 
-      for (let a = 0; a < arr.length; a++) {
-        let arr1 = arr[a].split(":");
-        if (arr1[0].trim() == "CPU") {
-          this.monitoringFrom.cpu = arr1[1];
-        }
-        if (arr1[0].trim() == "内存") {
-          this.monitoringFrom.mem = arr1[1];
-        }
-        if (arr1[0].trim() == "硬盘大小") {
-          this.monitoringFrom.storage = arr1[1];
-        }
-      }
+      this.monitoringFrom.cpu = parseFloat(row.cpuCores) + "";
+      this.monitoringFrom.mem = parseFloat(row.memory) + "";
+      this.monitoringFrom.storage = parseFloat(row.storage) + "";
 
-      console.log(r.content.price.price);
-      console.log(this.time);
-      this.price = r.content.price.price;
-      this.sum = r.content.price.price * this.time;
+      this.price = row.price;
+      this.sum = row.price * this.time;
       this.sum = Math.floor(this.sum * 100) / 100;
     },
     confirm() {
@@ -573,8 +560,8 @@ export default {
         this.addorder.items[0].basicPrice = this.price;
         this.addorder.items[0].finalPrice = this.sum;
         this.addorder.items[0].skuId = this.radio; //
-        this.addorder.items[0].category = this.name;
-        this.addorder.items[0].name = this.name;
+        this.addorder.items[0].category = this.getId("productName");
+        this.addorder.items[0].name = this.getId("productName");
         this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
         this.addorder.items[0].duration = this.time + "年";
         console.log(this.addorder);
@@ -623,9 +610,9 @@ export default {
       this.skulist = list;
       this.skuData = list[0];
 
-      this.monitoringFrom.cpu = parseFloat(list[0].cpuCores)+"";
-      this.monitoringFrom.mem = parseFloat(list[0].memory)+"";
-      this.monitoringFrom.storage = parseFloat(list[0].storage)+"";
+      this.monitoringFrom.cpu = parseFloat(list[0].cpuCores) + "";
+      this.monitoringFrom.mem = parseFloat(list[0].memory) + "";
+      this.monitoringFrom.storage = parseFloat(list[0].storage) + "";
     },
     //获取集群
     async getClusters() {

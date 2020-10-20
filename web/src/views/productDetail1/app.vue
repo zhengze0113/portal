@@ -23,23 +23,26 @@
         </el-col>
       </el-col>
       <el-col :span="10" :offset="2">
-        <div class="header1-logo" style="position:relative;top:185px;left:0px;">
+        <div
+          class="header1-logo"
+          style="position: relative; top: 185px; left: 0px"
+        >
           <img
-            style="width:300px;"
+            style="width: 300px"
             :src="baseURL.DATAURL + list.logo.url"
             alt
           />
         </div>
       </el-col>
     </el-row>
-    <el-row style="background-color: white;height:70px;">
+    <el-row style="background-color: white; height: 70px">
       <el-col :span="20" :offset="2">
         <el-col
           v-for="(item, index) in list2"
           :key="index"
           class="jump"
           :span="4"
-          style="line-height:70px;text-align: center;"
+          style="line-height: 70px; text-align: center"
         >
           <p class="jump1" @click="jump1(item.productId, item.id, index)">
             {{ item.title }}
@@ -48,13 +51,13 @@
       </el-col>
     </el-row>
     <div>
-      <el-row style="margin-top:50px;">
+      <el-row style="margin-top: 50px">
         <!-- Left -->
         <el-col :span="5" :offset="1">
           <p class="imgStyle">
-            <img :src="baseURL.DATAURL + list.icon.url" style="width:80px;" />
+            <img :src="baseURL.DATAURL + list.icon.url" style="width: 80px" />
           </p>
-          <div class="fontChiese" style="margin-top:55px;margin-bottom: 55px">
+          <div class="fontChiese" style="margin-top: 55px; margin-bottom: 55px">
             {{ list.name }}
           </div>
         </el-col>
@@ -88,7 +91,7 @@ export default {
   components: {
     topBar,
   },
-  data: function() {
+  data: function () {
     return {
       baseURL: baseURL,
       screenWidth: 0,
@@ -125,180 +128,90 @@ export default {
         console.log(this.list.name);
         let name = this.list.name;
         if (name == "数据存储PVC") {
-          window.location.href = `/html/dataPVBuy.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/dataPVBuy.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "服务路由(Route)") {
-          window.location.href = `/html/serviceRoute.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/serviceRoute.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "熔断监控服务") {
-          window.location.href = `/html/fusingMonitoring.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/fusingMonitoring.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "分布式服务") {
-          window.location.href = `/html/distributed.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/distributed.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "注册中心服务（单机版）") {
-          window.location.href = `/html/registryService.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/registryService.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "注册中心服务（高可用）") {
-          window.location.href = `/html/registryService.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/registryService.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "调用链服务") {
-          window.location.href = `/html/callChain.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/callChain.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "网关服务") {
-          window.location.href = `/html/gateway.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/gateway.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "Apm性能管理") {
-          window.location.href = `/html/pinpoint.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/pinpoint.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "配置中心服务") {
-          window.location.href = `/html/configurationCenter.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/configurationCenter.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "一键安装微服务") {
-          window.location.href = `/html/Installmicroservices.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/Installmicroservices.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "项目管理服务（Jira）") {
-          window.location.href = `/html/jiraService.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/jiraService.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "开通SonarQube") {
-          window.location.href = `/html/sonarQube.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/sonarQube.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "开通Gitlab") {
-          window.location.href = `/html/gitlabService.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/gitlabService.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "开通Hitchhiker") {
-          window.location.href = `/html/hitchhiker.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/hitchhiker.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "开通Jenkins") {
-          window.location.href = `/html/jenkins.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/jenkins.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "开通Nexus") {
-          window.location.href = `/html/nexusService.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/nexusService.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
-
         if (name == "缓存中间件（redis）") {
-          window.location.href = `/html/middlewareRedis.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/middlewareRedis.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
-          if (name == "nginx中间件") {
-          window.location.href = `/html/middlewareNginx.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+        if (name == "nginx中间件") {
+          window.location.href = `/html/middlewareNginx.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
-        
         if (name == "索引中间件（elasticsearch）") {
-          window.location.href = `/html/middlewareElasticearch.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/middlewareElasticearch.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
         if (name == "mysql中间件") {
-          window.location.href = `/html/middlewareMysql.html?id=${
-            this.id
-          }&productName=${this.productName}&catalogId=${
-            this.catalogId
-          }&catalog=${this.catalog}&productId=${this.productId}`;
+          window.location.href = `/html/middlewareMysql.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
           return;
         }
-        window.location.href = `/html/newBuyDetail.html?id=${
-          this.id
-        }&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${
-          this.catalog
-        }&productId=${this.productId}`;
+        window.location.href = `/html/newBuyDetail.html?id=${this.id}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}&productId=${this.productId}`;
       } else {
         location.href = baseURL.LoginHref;
       }
@@ -307,11 +220,7 @@ export default {
       if (index == 0) {
         return;
       }
-      window.location.href = `/html/productDetails.html?id=${
-        this.id
-      }&productId=${this.productId}&ll=${itemid}&productName=${
-        this.productName
-      }&catalogId=${this.catalogId}&catalog=${this.catalog}`;
+      window.location.href = `/html/productDetails.html?id=${this.id}&productId=${this.productId}&ll=${itemid}&productName=${this.productName}&catalogId=${this.catalogId}&catalog=${this.catalog}`;
     },
     getId(name) {
       return (

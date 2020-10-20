@@ -335,24 +335,7 @@ export default {
         this.isFixed = false;
       }
     },
-    //点击事件
-    async rowClick(row, column, event) {
-      this.skuData = row;
-      this.radio = row.id;
-      const r = await requestParams(getResourcesSkuInfo, row.id);
-      this.price = r.content.price.price;
 
-      if (this.mode == "MONTH") {
-        console.log(this.mode);
-        this.sum = r.content.price.price * this.time;
-        this.sum = Math.floor(this.sum * 100) / 100;
-      }
-      if (this.mode == "YEAR") {
-        console.log(this.mode);
-        this.sum = r.content.price.price * this.time * 12;
-        this.sum = Math.floor(this.sum * 100) / 100;
-      }
-    },
     confirm() {
       if (this.disable == true) {
         this.disable = false;
@@ -373,14 +356,6 @@ export default {
     },
     //提交订单
     async commitOrder() {
-      //提交订单参数
-      const r = await requestParams(getResourcesSkuInfo, this.radio);
-      console.log(r);
-
-      this.skuInfo = r.content;
-      this.skuInfo.category = this.name;
-   
-
       let params1 = { name: "", paramValue: "" };
       params1.name = "项目信息";
       params1.paramValue = this.getObjectName(this.monitoringFrom.namespace);
@@ -398,23 +373,14 @@ export default {
       params4.paramValue = this.monitoringFrom.userNumber + "人";
       this.skuInfoSpecs.push(params4);
 
-    
-      
       if (this.disable == true) {
-        for (var key in this.addorder.items[0]) {
-          for (var key1 in this.skuInfo) {
-            if (key == key1) {
-              this.addorder.items[0][key] = this.skuInfo[key1];
-            }
-          }
-        }
         this.addorder.amount = this.sum;
         this.addorder.items[0].amount = this.time;
         this.addorder.items[0].finalPrice = this.price;
         this.addorder.items[0].basicPrice = this.price;
         this.addorder.items[0].skuId = this.radio;
-        this.addorder.items[0].category = this.name;
-        this.addorder.items[0].name = this.name;
+        this.addorder.items[0].category = this.getId("productName");
+        this.addorder.items[0].name = this.getId("productName");
         this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
         var duration = "月";
         this.mode == "MONTH" ? (duration = "月") : (duration = "年");
@@ -444,7 +410,7 @@ export default {
     async countMonth(data) {
       console.log(data);
       this.price = data;
-      this.sum = this.monitoringFrom.userNumber * this.data;
+      this.sum = this.monitoringFrom.userNumber * this.price;
       let obj = {};
       obj = this.duration.find((item) => {
         return item.value == data;
@@ -483,7 +449,7 @@ export default {
       this.price = list[0].price;
       this.radio = list[0].id;
 
-      this.monitoringFrom.life_limit = parseFloat(list[0].name)+"";
+      this.monitoringFrom.life_limit = parseFloat(list[0].name) + "";
       this.time = parseFloat(list[0].name);
     },
     //获取集群

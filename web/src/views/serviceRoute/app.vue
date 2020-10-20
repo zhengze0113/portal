@@ -196,7 +196,7 @@
                   ></el-input>
                 </el-form-item>
                 <div class="service-box">
-                  <el-form-item label="服务" prop="to.name">
+                  <el-form-item label="服务" prop="to.name" :rules="[{ required: true, message: '服务不能为空' }]">
                     <el-select
                       @change="servicesChange"
                       @visible-change="clickToName"
@@ -258,13 +258,7 @@
                 <el-form-item
                   label="目标端口"
                   prop="port"
-                  :rules="[
-                    {
-                      required: true,
-                      message: '请选择目标端口',
-                      trigger: 'blur',
-                    },
-                  ]"
+           
                 >
                   <el-select
                     style="width: 50%"
@@ -1155,23 +1149,23 @@ export default {
     async nextStep() {
       let formParams= JSON.parse(JSON.stringify(this.form));
       let labels = {};
-      params1.labels.forEach((item) => {
+      formParams.labels.forEach((item) => {
         labels[item.key] = item.value;
       });
       if (!this.alternateBackendsStatus) {
-        params1.alternateBackends = [];
+        formParams.alternateBackends = [];
       }
       if (!this.tlsStatus) {
-        params1.tls = {};
+        formParams.tls = {};
       }
-      params1.labels = labels;
-      console.log("参数", params1);
-      delete params1.project;
+      formParams.labels = labels;
+      console.log("参数", formParams);
+      delete formParams.project;
       this.submitLoading = true;
 
       let params = { name: "", paramValue: "" };
       params.name = "资源空间";
-      params.paramValue = tthis.form.namespace;
+      params.paramValue = this.form.namespace;
       this.skuInfoSpecs.push(params);
       let params1 = { name: "", paramValue: "" };
       params1.name = "区域信息";
@@ -1191,8 +1185,8 @@ export default {
       this.addorder.items[0].basicPrice = this.price;
       this.addorder.items[0].finalPrice = this.sum;
       this.addorder.items[0].skuId = this.radio; //
-      this.addorder.items[0].category = this.name;
-      this.addorder.items[0].name = this.name;
+      this.addorder.items[0].category = this.getId("productName");
+      this.addorder.items[0].name = this.getId("productName");
       this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
       this.addorder.items[0].duration = this.time;
       console.log(this.addorder);

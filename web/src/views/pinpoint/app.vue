@@ -1,9 +1,9 @@
 <template>
-  <div id="app" style="background-color: #E9E9E9">
-    <el-row style="height:100px;background: white;">
+  <div id="app" style="background-color: #e9e9e9">
+    <el-row style="height: 100px; background: white">
       <el-col :span="24"></el-col>
     </el-row>
-    <el-row style="height:70px;background:rgba(255,255,255,1);">
+    <el-row style="height: 70px; background: rgba(255, 255, 255, 1)">
       <el-col :span="24">
         <el-row>
           <el-col :offset="3" :span="2" class="buyTitle">服务购买</el-col>
@@ -15,8 +15,8 @@
     </el-row>
 
     <!--sku-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">SKU资源</p>
         <el-row>
           <el-col :offset="2">
@@ -92,8 +92,8 @@
       </el-col>
     </el-row>
     <!--参数项-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">资源选项</p>
         <el-row>
           <el-col :offset="2">
@@ -101,7 +101,7 @@
               :model="pinpointFrom"
               ref="pinpointFrom"
               label-width="140px"
-              style="width:100%"
+              style="width: 100%"
               class="demo-ruleForm"
             >
               <el-row>
@@ -114,7 +114,7 @@
                     <el-select
                       v-model="pinpointFrom.projectNo"
                       placeholder="请选择项目"
-                      style="width: 100%;"
+                      style="width: 100%"
                       @change="clickProject"
                     >
                       <el-option
@@ -134,7 +134,7 @@
                       v-model="pinpointFrom.envId"
                       filterable
                       placeholder="请选择"
-                      style="width:100%"
+                      style="width: 100%"
                       @change="clicksclist"
                     >
                       <el-option
@@ -153,7 +153,7 @@
                     <el-select
                       v-model="pinpointFrom.nameSpace"
                       placeholder="请选择资源空间"
-                      style="width: 100%;"
+                      style="width: 100%"
                       @visible-change="clickPVCNamespace"
                       @change="resourceValidation"
                     >
@@ -182,7 +182,7 @@
                       <el-table-column
                         label="选择PVC"
                         align="center"
-                        style="width:80px"
+                        style="width: 80px"
                       >
                         <template slot-scope="scope">
                           <el-form-item
@@ -190,19 +190,19 @@
                             :rules="[
                               {
                                 required: true,
-                                message: 'pvc名称不能为空'
+                                message: 'pvc名称不能为空',
                               },
                               {
                                 pattern: /[a-zA-Z0-9_]([A-Za-z0-9_])?$/,
                                 message: '由大小写字母、数字、下划线组成',
-                                trigger: 'blur'
-                              }
+                                trigger: 'blur',
+                              },
                             ]"
                           >
                             <el-select
                               v-model="scope.row.pvName"
                               placeholder="请选择PVC"
-                              style="width: 100%;"
+                              style="width: 100%"
                               @blur="pvcrow(scope.row)"
                             >
                               <el-option
@@ -248,7 +248,7 @@
                     <el-select
                       disabled
                       v-model="APM_hbases"
-                      style="width: 100%;"
+                      style="width: 100%"
                     >
                       <el-option
                         v-for="item in APM_hbase"
@@ -262,7 +262,7 @@
                     <el-select
                       disabled
                       v-model="APM_collectors"
-                      style="width: 100%;"
+                      style="width: 100%"
                     >
                       <el-option
                         v-for="item in APM_collector"
@@ -276,7 +276,7 @@
                     <el-select
                       disabled
                       v-model="APM_webUIs"
-                      style="width: 100%;"
+                      style="width: 100%"
                     >
                       <el-option
                         v-for="item in APM_webUI"
@@ -294,32 +294,37 @@
       </el-col>
     </el-row>
     <!--订购-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <p class="skuFont">订购</p>
         <el-row>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">计费方式</span>
             <el-button
-              style="border-radius:0;height:30px;background:rgba(3,97,167,1);padding-left: 14px;"
+              style="
+                border-radius: 0;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">包年包月</span>
             </el-button>
           </el-col>
-          <el-col :offset="2" style="margin-bottom:30px;">
+          <el-col :offset="2" style="margin-bottom: 30px">
             <span class="skuDivFont">购买时长</span>
             <el-input-number
               v-model="time"
               :min="1"
               :max="12"
               size="mini"
-              style="width:130px"
+              style="width: 130px"
               @change="countTime"
             ></el-input-number>
             <el-select
               v-model="mode"
               size="mini"
-              style="width: 80px; margin-left: 30px;margin-bottom: 0px;"
+              style="width: 80px; margin-left: 30px; margin-bottom: 0px"
               @change="countMonth"
             >
               <el-option
@@ -334,15 +339,15 @@
       </el-col>
     </el-row>
     <!--服务协议-->
-    <el-row style="margin-top:30px;">
-      <el-col :offset="3" :span="18" style="background: #FFF;">
+    <el-row style="margin-top: 30px">
+      <el-col :offset="3" :span="18" style="background: #fff">
         <el-col :span="3"> <p class="skuFont">服务协议</p></el-col>
 
         <el-col :span="21">
           <el-checkbox
             @change="confirm()"
             class="skuFont"
-            style="margin-bottom:10px"
+            style="margin-bottom: 10px"
           >
             <el-link type="primary" @click="agreement()">《服务条款》</el-link>
           </el-checkbox>
@@ -351,17 +356,24 @@
     </el-row>
 
     <!--提交订单-->
-    <el-row style="margin-top:30px;height:100px;">
+    <el-row style="margin-top: 30px; height: 100px">
       <el-col
         :span="24"
-        style="background: #FFF;height:100px;"
+        style="background: #fff; height: 100px"
         :class="isFixed ? 'fixed' : ''"
       >
-        <el-col :offset="15" style="color: #666666;line-height: 100px;">
+        <el-col :offset="15" style="color: #666666; line-height: 100px">
           服务费用：
           <span class="money">￥{{ sum }}</span>
           <el-button
-            style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);padding-left: 14px;margin-left:5%;"
+            style="
+              border-radius: 0;
+              width: 87px;
+              height: 30px;
+              background: rgba(3, 97, 167, 1);
+              padding-left: 14px;
+              margin-left: 5%;
+            "
             @click="submitForm('pinpointFrom')"
             v-if="disable == true"
           >
@@ -376,7 +388,14 @@
           >
             <el-button
               slot="reference"
-              style="border-radius:0;width:87px;height:30px;background:rgba(3,97,167,1);margin-left:5%;padding-left: 14px;"
+              style="
+                border-radius: 0;
+                width: 87px;
+                height: 30px;
+                background: rgba(3, 97, 167, 1);
+                margin-left: 5%;
+                padding-left: 14px;
+              "
             >
               <span class="rightFont">提交订单</span>
             </el-button>
@@ -410,7 +429,7 @@
             v-model="pvcvolume.projectNo"
             placeholder="请选择项目"
             disabled
-            style="width: 100%;"
+            style="width: 100%"
           >
             <el-option
               v-for="item in project"
@@ -431,7 +450,7 @@
             filterable
             disabled
             placeholder="请选择集群"
-            style="width: 100%;"
+            style="width: 100%"
             @change="clicksclist"
           >
             <el-option
@@ -452,7 +471,7 @@
             v-model="pvcvolume.namespace"
             placeholder="请选择资源空间"
             disabled
-            style="width: 100%;"
+            style="width: 100%"
             @visible-change="clickPVCNamespace1"
           >
             <el-option
@@ -474,9 +493,9 @@
               pattern: /^[a-z0-9]([-a-z0-9.]*[a-z0-9])?$/,
               message:
                 '名称由小写字母、数字、横线(-)和点(.)组成,且必须以字母或数字开头结尾',
-              trigger: 'blur'
+              trigger: 'blur',
             },
-            { validator: checkPVCName, trigger: 'blur' }
+            { validator: checkPVCName, trigger: 'blur' },
           ]"
         >
           <el-input
@@ -492,14 +511,14 @@
             {
               required: true,
               message: '请选择Storage Class',
-              trigger: 'blur'
-            }
+              trigger: 'blur',
+            },
           ]"
         >
           <el-select
             v-model="pvcvolume.strogeclassName"
             placeholder="请选择Storage Class"
-            style="width: 100%;"
+            style="width: 100%"
           >
             <el-option
               v-for="item in sclist"
@@ -515,13 +534,13 @@
           prop="accessMode"
           class="skuDivFont"
           :rules="[
-            { required: true, message: '请选择访问模式', trigger: 'blur' }
+            { required: true, message: '请选择访问模式', trigger: 'blur' },
           ]"
         >
           <el-select
             v-model="pvcvolume.accessMode"
             placeholder="请选择访问模式"
-            style="width: 100%;"
+            style="width: 100%"
           >
             <el-option
               v-for="item in accessModelist"
@@ -566,10 +585,10 @@
             <el-table-column
               label="KEY"
               align="center"
-              style="line-height: 25px;"
+              style="line-height: 25px"
             >
               <template slot-scope="scope">
-                <el-form-item style="margin:0">
+                <el-form-item style="margin: 0">
                   <el-input
                     placeholder="请输入KEY"
                     v-model="scope.row.key"
@@ -577,9 +596,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="VALUE" align="center" style="padding:0">
+            <el-table-column label="VALUE" align="center" style="padding: 0">
               <template slot-scope="scope">
-                <el-form-item style="margin:0">
+                <el-form-item style="margin: 0">
                   <el-input
                     placeholder="请输入VALUE"
                     v-model="scope.row.value"
@@ -598,12 +617,12 @@
               </template>
             </el-table-column>
           </el-table>
-          <el-col style="margin-top: 10px;">
+          <el-col style="margin-top: 10px">
             <el-link @click="addLabels()" type="primary" :underline="false">
               <img
                 src="@/static/images/jiahao.png"
                 alt
-                style="width:16px;margin: 0px 5px -3px 0px;"
+                style="width: 16px; margin: 0px 5px -3px 0px"
               />新增标签</el-link
             >
           </el-col>
@@ -619,7 +638,12 @@
         </el-button>
         <el-button
           style="
-          border-radius: 0;width: 87px;height: 30px;margin-left: 5%;padding-left: 14px;"
+            border-radius: 0;
+            width: 87px;
+            height: 30px;
+            margin-left: 5%;
+            padding-left: 14px;
+          "
           @click="addPvc()"
           >取 消</el-button
         >
@@ -642,7 +666,7 @@ import {
   gerPersistentVolumeClaims,
   getProjects,
   persistentVolumeClaimCheck,
-  gerStrogeclass
+  gerStrogeclass,
 } from "../../api/serviceOperating";
 import Vue from "vue";
 import { postOrders } from "../../api/shoplist";
@@ -651,7 +675,7 @@ const baseURL = require(".././../../../web/src/api/app");
 import { getProductMessage } from "../../api/CMSApi";
 export default {
   name: "App",
-  data: function() {
+  data: function () {
     return {
       numberArr: [], //容量列表
       sclist: [],
@@ -684,30 +708,30 @@ export default {
       options: [
         {
           value: "MONTH",
-          label: "月"
+          label: "月",
         },
         {
           value: "YEAR",
-          label: "年"
-        }
+          label: "年",
+        },
       ],
       APM_hbase: [
         {
           value: "pinpoint-hbase:1.7.3",
-          label: "pinpoint-hbase:1.7.3"
-        }
+          label: "pinpoint-hbase:1.7.3",
+        },
       ],
       APM_collector: [
         {
           value: "pinpoint-collector:1.7.3",
-          label: "pinpoint-collector:1.7.3"
-        }
+          label: "pinpoint-collector:1.7.3",
+        },
       ],
       APM_webUI: [
         {
           value: "pinpoint-web:1.7.3",
-          label: "pinpoint-web:1.7.3"
-        }
+          label: "pinpoint-web:1.7.3",
+        },
       ],
       APM_hbases: "pinpoint-hbase:1.7.3",
       APM_collectors: "pinpoint-collector:1.7.3",
@@ -740,14 +764,14 @@ export default {
             params: "",
             payMode: "AFTERWARDS",
             skuId: 0,
-            tags: ""
-          }
+            tags: "",
+          },
         ],
         name: "",
         payMode: "AFTERWARDS",
         tags: "",
         userId: "1",
-        tenantId: "1"
+        tenantId: "1",
       },
       skulist: [],
       skuInfoSpecs: [],
@@ -757,18 +781,18 @@ export default {
       formLabelAlign: {
         name: "",
         region: "",
-        type: ""
+        type: "",
       },
       accessModelist: ["ReadWriteOnce", "ReadOnlyMany", "ReadWriteMany"], //访问模式下拉选项
       search: {
-        params: '',
+        params: "",
         page: 1,
-        rows: 100
+        rows: 100,
       },
       search2: {
         params: "",
         page: 1,
-        rows: 100
+        rows: 100,
       },
       skuObject: {
         id: "1",
@@ -776,7 +800,7 @@ export default {
         cpu: "王小虎",
         gb: "上海市普陀区金沙江路 1518 弄",
         version: "V 1.0",
-        money: "28.00/月"
+        money: "28.00/月",
       },
       //表单数据
       pinpointFrom: {
@@ -795,7 +819,7 @@ export default {
         webCpu: 0,
         hbaseMemory: 0,
         collectorMemory: 0,
-        webMemory: 0
+        webMemory: 0,
       },
       pvcsList: [],
       project: "",
@@ -803,7 +827,7 @@ export default {
       search1: {
         page: 1,
         pageSize: 100,
-        sort: ""
+        sort: "",
       },
       labels: [],
       pname: "",
@@ -821,17 +845,17 @@ export default {
         name: "", //pvc 名称
         purchase: 1,
         skuId: "",
-        strogeclassName: "" //strogeclass
+        strogeclassName: "", //strogeclass
       },
-      capacityNo: false
+      capacityNo: false,
     };
   },
   methods: {
     async submitPvc(pvcvolume) {
-      this.$refs[pvcvolume].validate(valid => {
+      this.$refs[pvcvolume].validate((valid) => {
         if (valid) {
           let skuInfoSpecs = [];
-          getResourcesSkuInfo(this.pvcvolume.skuId).then(r => {
+          getResourcesSkuInfo(this.pvcvolume.skuId).then((r) => {
             this.skuInfo = r.content;
             let arr = r.content.storage.split(";");
             for (let a = 0; a < arr.length; a++) {
@@ -914,11 +938,11 @@ export default {
                   protocol: "http",
                   requestPath: "",
                   httpMethod: "",
-                  ParamFormat: "json"
+                  ParamFormat: "json",
                 },
                 params: "",
-                headers: ""
-              }
+                headers: "",
+              },
             ];
             platformParams[0].requestModeParams.requestPath =
               baseURL.DataInterfaceCmss +
@@ -943,18 +967,18 @@ export default {
             Vue.set(this.addorder, "orderResourceType", "APPLICATION");
             console.log(this.addorder);
             //创建订单
-            postOrders(this.addorder).then(r => {
+            postOrders(this.addorder).then((r) => {
               if (r.code == 201) {
                 this.pvcStatus = !this.pvcStatus;
                 this.initPvc();
                 this.$notify({
                   type: "success",
-                  message: r.message
+                  message: r.message,
                 });
               } else {
                 this.$notify({
                   type: "error",
-                  message: r.message
+                  message: r.message,
                 });
               }
             });
@@ -988,7 +1012,7 @@ export default {
     },
     //  获取sc list
     clicksclist(kubernetes_urn) {
-      gerStrogeclass(kubernetes_urn).then(r => {
+      gerStrogeclass(kubernetes_urn).then((r) => {
         this.sclist = r.content;
       });
     },
@@ -1003,7 +1027,7 @@ export default {
           this.pvcvolume.namespace,
           this.pvcvolume.name
         )
-          .then(res => {
+          .then((res) => {
             if (res.code == 200) {
               if (res.content) {
                 callback();
@@ -1013,7 +1037,7 @@ export default {
             } else {
             }
           })
-          .catch(e => {
+          .catch((e) => {
             this.$message.error(e.message);
           });
       }
@@ -1039,7 +1063,7 @@ export default {
       getResourceSpaceNameInfo(
         this.pvcvolume.kubernetes_urn,
         this.pvcvolume.namespace
-      ).then(r => {
+      ).then((r) => {
         if (r.content.storage <= parseInt(row)) {
           let storage = r.content.storage == null ? 0 : r.content.storage;
           let message =
@@ -1048,7 +1072,7 @@ export default {
             "G）";
           this.$notify({
             type: "warning",
-            message: "该资源空间资源剩余容量资源不足"
+            message: "该资源空间资源剩余容量资源不足",
           });
           this.pvcvolume.capacity = "";
         }
@@ -1062,15 +1086,15 @@ export default {
         if (this.projectResource.envId == "") {
           this.$notify({
             type: "warning",
-            message: "请选择集群"
+            message: "请选择集群",
           });
         } else if (this.projectResource.projectNo == "") {
           this.$notify({
             type: "warning",
-            message: "请选择项目"
+            message: "请选择项目",
           });
         } else {
-          getProjectResource(this.projectResource).then(r => {
+          getProjectResource(this.projectResource).then((r) => {
             this.namespaces = r.content;
           });
         }
@@ -1084,15 +1108,15 @@ export default {
         if (this.projectResource.envId == "") {
           this.$notify({
             type: "warning",
-            message: "请选择集群"
+            message: "请选择集群",
           });
         } else if (this.projectResource.projectNo == "") {
           this.$notify({
             type: "warning",
-            message: "请选择项目"
+            message: "请选择项目",
           });
         } else {
-          getProjectResource(this.projectResource).then(r => {
+          getProjectResource(this.projectResource).then((r) => {
             this.PVCnamespaces = r.content;
           });
         }
@@ -1102,7 +1126,7 @@ export default {
       this.pinpointFrom.nameSpace = "";
 
       let obj = {};
-      obj = this.optionProject.find(item => {
+      obj = this.optionProject.find((item) => {
         //model就是上面的数据源
         return item.projectNo === data; //筛选出匹配数据
       });
@@ -1113,7 +1137,7 @@ export default {
     verification(data) {
       console.log(data);
       let component = "spring-cloud-pinpoint-server";
-      registration(this.pinpointFrom.envId, component, data).then(r => {
+      registration(this.pinpointFrom.envId, component, data).then((r) => {
         if (r.content == 1) {
           const h = this.$createElement;
           this.$notify({
@@ -1121,7 +1145,7 @@ export default {
               "i",
               { style: "color: red" },
               "该项目下组件已安装请勿重复安装"
-            )
+            ),
           });
           this.pinpointFrom.nameSpace = "";
         }
@@ -1139,7 +1163,7 @@ export default {
     },
     // 不知道
     getFatherId(id) {
-      getServiceCatalogsInfo(id).then(r => {
+      getServiceCatalogsInfo(id).then((r) => {
         this.objectCloud = r.content;
         this.id = id;
         this.name = r.content.name;
@@ -1167,15 +1191,16 @@ export default {
     async rowClick(row, column, event) {
       this.skuData = row;
       this.radio = row.id;
-      const r = await requestParams(getResourcesSkuInfo, row.id);
-      this.price = r.content.price.price;
-      this.pinpointFrom.hbaseCpu = row.cpu;
-      this.pinpointFrom.hbaseMemory = row.gb;
 
-      this.pinpointFrom.collectorCpu = row.cpu;
-      this.pinpointFrom.webMemory = row.gb;
-      this.pinpointFrom.webCpu = row.cpu;
-      this.pinpointFrom.collectorMemory = row.gb;
+      this.price = row.price;
+      this.pinpointFrom.hbaseCpu = parseFloat(row.cpuCores) + "";
+      this.pinpointFrom.hbaseMemory = parseFloat(row.memory) + "";
+
+      this.pinpointFrom.collectorCpu = parseFloat(row.cpuCores) + "";
+      this.pinpointFrom.webMemory = parseFloat(row.memory) + "";
+
+      this.pinpointFrom.webCpu = parseFloat(row.cpuCores) + "";
+      this.pinpointFrom.collectorMemory = parseFloat(row.memory) + "";
       if (
         this.pinpointFrom.nameSpace != null &&
         this.pinpointFrom.nameSpace != ""
@@ -1183,7 +1208,7 @@ export default {
         getResourceSpaceNameInfo(
           this.pinpointFrom.envId,
           this.pinpointFrom.nameSpace
-        ).then(r => {
+        ).then((r) => {
           let cpu = r.content.cpu == null ? 0 : r.content.cpu;
           let memory = r.content.memory == null ? 0 : r.content.memory;
           const message =
@@ -1201,7 +1226,7 @@ export default {
           if (r.content.cpu < parseInt(this.pinpointFrom.hbaseCpu * 3)) {
             this.$notify({
               type: "warning",
-              message: message
+              message: message,
             });
             this.pinpointFrom.nameSpace = "";
           } else if (
@@ -1209,7 +1234,7 @@ export default {
           ) {
             this.$notify({
               type: "warning",
-              message: message
+              message: message,
             });
             this.pinpointFrom.nameSpace = "";
           } else if (
@@ -1217,7 +1242,7 @@ export default {
           ) {
             this.$notify({
               type: "warning",
-              message: messageto
+              message: messageto,
             });
             this.pinpointFrom.nameSpace = "";
           } else if (
@@ -1225,18 +1250,18 @@ export default {
           ) {
             this.$notify({
               type: "warning",
-              message: messageto
+              message: messageto,
             });
             this.pinpointFrom.nameSpace = "";
           }
         });
       }
       if (this.mode == "MONTH") {
-        this.sum = r.content.price.price * this.time;
+        this.sum = row.price * this.time;
         this.sum = Math.floor(this.sum * 100) / 100;
       }
       if (this.mode == "YEAR") {
-        this.sum = r.content.price.price * this.time * 12;
+        this.sum = row.price * this.time * 12;
         this.sum = Math.floor(this.sum * 100) / 100;
       }
     },
@@ -1249,7 +1274,7 @@ export default {
     },
     //表单验证
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.commitOrder();
         } else {
@@ -1279,49 +1304,29 @@ export default {
     //提交订单
     async commitOrder() {
       //提交订单参数
-      const r = await requestParams(getResourcesSkuInfo, this.radio);
-      if (r.content.name == "标准版") {
+      if (this.skuData.name == "标准版") {
         this.pinpointFrom.componentResourceLevel = 1;
       }
-      if (r.content.name == "高级版") {
+      if (this.skuData.name == "高级版") {
         this.pinpointFrom.componentResourceLevel = 2;
       }
-      if (r.content.name == "企业版") {
+      if (this.skuData.name == "企业版") {
         this.pinpointFrom.componentResourceLevel = 3;
       }
-      this.skuInfo = r.content;
-      // this.skuInfoSpecs = r.content.specs;
-      this.skuInfo.category = this.name;
-      //项目创建
-      let arr = r.content.storage.split(";");
-      for (let a = 0; a < arr.length; a++) {
-        let arr1 = arr[a].split(":");
-        let params = { name: "", paramValue: "" };
-        if (arr1[0].trim() == "集群") {
-          params.name = arr1[0];
-          params.paramValue = this.getClustersLabel(this.pinpointFrom.envId);
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "项目") {
-          params.name = arr1[0];
-          params.paramValue = this.getObjectName(this.pinpointFrom.projectNo);
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "资源空间") {
-          params.name = arr1[0];
-          params.paramValue = this.pinpointFrom.nameSpace;
-          this.skuInfoSpecs.push(params);
-        }
-      }
-      if (this.disable == true) {
-        for (var key in this.addorder.items[0]) {
-          for (var key1 in this.skuInfo) {
-            if (key == key1) {
-              this.addorder.items[0][key] = this.skuInfo[key1];
-            }
-          }
-        }
+      let params = { name: "", paramValue: "" };
+      params.name = "集群";
+      params.paramValue = this.getClustersLabel(this.pinpointFrom.envId);
+      this.skuInfoSpecs.push(params);
+      let params1 = { name: "", paramValue: "" };
+      params1.name = "项目";
+      params1.paramValue = this.getObjectName(this.pinpointFrom.projectNo);
+      this.skuInfoSpecs.push(params1);
+      let params2 = { name: "", paramValue: "" };
+      params2.name = "资源空间";
+      params2.paramValue = this.pinpointFrom.nameSpace;
+      this.skuInfoSpecs.push(params2);
 
+      if (this.disable == true) {
         this.pinpointFrom.hbaseCpu = (this.pinpointFrom.hbaseCpu * 1).toFixed(
           1
         );
@@ -1350,8 +1355,8 @@ export default {
         this.addorder.items[0].basicPrice = this.price;
         this.addorder.items[0].finalPrice = this.sum;
         this.addorder.items[0].skuId = this.radio;
-        this.addorder.items[0].category = this.name;
-        this.addorder.items[0].name = this.name;
+        this.addorder.items[0].category = this.getId("productName");
+        this.addorder.items[0].name = this.getId("productName");
         this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
         var duration = "月";
         this.mode == "MONTH" ? (duration = "月") : (duration = "年");
@@ -1417,7 +1422,7 @@ export default {
 
       this.skulist = list;
       this.skuData = list[0];
-     
+
       this.skuData = this.skulist[0];
       this.pinpointFrom.hbaseCpu = parseFloat(list[0].cpuCores) + "";
       this.pinpointFrom.hbaseMemory = parseFloat(list[0].memory) + "";
@@ -1442,7 +1447,7 @@ export default {
       } else {
         this.$notify({
           type: "warning",
-          message: "请选择资源空间"
+          message: "请选择资源空间",
         });
       }
     },
@@ -1454,7 +1459,7 @@ export default {
           name: "",
           capacity: "",
           path: "/home/pinpoint",
-          pvName: ""
+          pvName: "",
         });
       } else {
         this.pinpointFrom.volumes[0].name = "";
@@ -1466,7 +1471,7 @@ export default {
         this.pinpointFrom.projectNo,
         this.pinpointFrom.envId,
         this.pinpointFrom.nameSpace
-      ).then(r => {
+      ).then((r) => {
         this.pvcsList = r.content.content;
         console.log(this.pvcsList);
       });
@@ -1478,7 +1483,7 @@ export default {
       for (var i = 0; i < res1.content.content.length; i++) {
         var data = {
           value: res1.content.content[i].id,
-          label: res1.content.content[i].name
+          label: res1.content.content[i].name,
         };
         this.edit.push(data);
       }
@@ -1495,7 +1500,7 @@ export default {
     },
     getClustersLabel(val) {
       let obj = {};
-      obj = this.edit.find(item => {
+      obj = this.edit.find((item) => {
         return item.value == val;
       });
       let getName = "";
@@ -1504,7 +1509,7 @@ export default {
     },
     getObjectName(val) {
       let obj = {};
-      obj = this.optionProject.find(item => {
+      obj = this.optionProject.find((item) => {
         return item.projectNo == val;
       });
       let getName = "";
@@ -1516,7 +1521,7 @@ export default {
       getResourceSpaceNameInfo(
         this.pinpointFrom.envId,
         this.pinpointFrom.nameSpace
-      ).then(r => {
+      ).then((r) => {
         let cpu = r.content.cpu == null ? 0 : r.content.cpu;
         let memory = r.content.memory == null ? 0 : r.content.memory;
         const message =
@@ -1534,7 +1539,7 @@ export default {
         if (r.content.cpu < parseInt(this.pinpointFrom.hbaseCpu * 3)) {
           this.$notify({
             type: "warning",
-            message: message
+            message: message,
           });
           this.pinpointFrom.nameSpace = "";
         } else if (
@@ -1542,13 +1547,13 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: message
+            message: message,
           });
           this.pinpointFrom.nameSpace = "";
         } else if (r.content.cpu == parseInt(this.pinpointFrom.hbaseCpu * 3)) {
           this.$notify({
             type: "warning",
-            message: messageto
+            message: messageto,
           });
           this.pinpointFrom.nameSpace = "";
         } else if (
@@ -1556,7 +1561,7 @@ export default {
         ) {
           this.$notify({
             type: "warning",
-            message: messageto
+            message: messageto,
           });
           this.pinpointFrom.nameSpace = "";
         }
@@ -1564,7 +1569,7 @@ export default {
       if (this.pinpointFrom.nameSpace != "") {
         this.initPvc();
       }
-    }
+    },
   },
   created() {
     this.addorder.productId = this.getId("id");
@@ -1583,7 +1588,7 @@ export default {
       document.body.offsetHeight - document.documentElement.clientHeight > 300;
     // window.addEventListener('mousewheel',this.handleScroll,false);
     window.addEventListener("scroll", this.handleScroll);
-  }
+  },
 };
 </script>
 

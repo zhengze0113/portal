@@ -227,7 +227,9 @@
               </el-col>
               <el-col class="specFontimg">注册中心服务</el-col>
               <el-col class="specFontimg">
-                {{ skuData.cpu / 10 }}Core/{{ skuData.gb / 10 }}GB
+                {{ parseFloat(skuData.cpuCores) / 10 }}C/{{
+                  parseFloat(skuData.memory) / 10
+                }}Gi
               </el-col>
             </el-row>
           </el-col>
@@ -238,7 +240,9 @@
               </el-col>
               <el-col class="specFontimg">配置中心服务</el-col>
               <el-col class="specFontimg">
-                {{ skuData.cpu / 10 }}Core/{{ skuData.gb / 10 }}GB
+                {{ parseFloat(skuData.cpuCores) / 10 }}C/{{
+                  parseFloat(skuData.memory) / 10
+                }}Gi
               </el-col>
             </el-row>
           </el-col>
@@ -249,7 +253,9 @@
               </el-col>
               <el-col class="specFontimg">调用链服务</el-col>
               <el-col class="specFontimg">
-                {{ skuData.cpu / 10 }}Core/{{ skuData.gb / 10 }}GB
+                {{ parseFloat(skuData.cpuCores) / 10 }}C/{{
+                  parseFloat(skuData.memory) / 10
+                }}Gi
               </el-col>
             </el-row>
           </el-col>
@@ -260,7 +266,9 @@
               </el-col>
               <el-col class="specFontimg">网关服务</el-col>
               <el-col class="specFontimg">
-                {{ skuData.cpu / 10 }}Core/{{ skuData.gb / 10 }}GB
+                {{ parseFloat(skuData.cpuCores) / 10 }}C/{{
+                  parseFloat(skuData.memory) / 10
+                }}Gi
               </el-col>
             </el-row>
           </el-col>
@@ -271,7 +279,9 @@
               </el-col>
               <el-col class="specFontimg">熔断监控服务</el-col>
               <el-col class="specFontimg">
-                {{ skuData.cpu / 10 }}Core/{{ skuData.gb / 10 }}GB
+                {{ parseFloat(skuData.cpuCores) / 10 }}C/{{
+                  parseFloat(skuData.memory) / 10
+                }}Gi
               </el-col>
             </el-row>
           </el-col>
@@ -282,7 +292,9 @@
               </el-col>
               <el-col class="specFontimg">熔断降级服务</el-col>
               <el-col class="specFontimg">
-                {{ skuData.cpu / 10 }}Core/{{ skuData.gb / 10 }}GB
+                {{ parseFloat(skuData.cpuCores) / 10 }}C/{{
+                  parseFloat(skuData.memory) / 10
+                }}Gi
               </el-col>
             </el-row>
           </el-col>
@@ -293,7 +305,9 @@
               </el-col>
               <el-col class="specFontimg">分布式服务</el-col>
               <el-col class="specFontimg">
-                {{ skuData.cpu / 10 }}Core/{{ skuData.gb / 10 }}GB
+                {{ parseFloat(skuData.cpuCores) / 10 }}C/{{
+                  parseFloat(skuData.memory) / 10
+                }}Gi
               </el-col>
             </el-row>
           </el-col>
@@ -304,7 +318,9 @@
               </el-col>
               <el-col class="specFontimg">MySQL</el-col>
               <el-col class="specFontimg">
-                {{ skuData.cpu / 10 }}Core/{{ skuData.gb / 10 }}GB
+                {{ parseFloat(skuData.cpuCores) / 10 }}C/{{
+                  parseFloat(skuData.memory) / 10
+                }}Gi
               </el-col>
             </el-row>
           </el-col>
@@ -315,7 +331,9 @@
               </el-col>
               <el-col class="specFontimg">RabbitMQ</el-col>
               <el-col class="specFontimg">
-                {{ skuData.cpu / 10 }}Core/{{ skuData.gb / 10 }}GB
+                {{ parseFloat(skuData.cpuCores) / 10 }}C/{{
+                  parseFloat(skuData.memory) / 10
+                }}Gi
               </el-col>
             </el-row>
           </el-col>
@@ -326,7 +344,9 @@
               </el-col>
               <el-col class="specFontimg">redis</el-col>
               <el-col class="specFontimg">
-                {{ skuData.cpu / 10 }}Core/{{ skuData.gb / 10 }}GB
+                {{ parseFloat(skuData.cpuCores) / 10 }}C/{{
+                  parseFloat(skuData.memory) / 10
+                }}Gi
               </el-col>
             </el-row>
           </el-col>
@@ -691,10 +711,10 @@ export default {
     async rowClick(row, column, event) {
       this.skuData = row;
       this.radio = row.id;
-      const r = await requestParams(getResourcesSkuInfo, row.id);
-      this.price = r.content.price.price;
-      this.cpu = row.cpu;
-      this.memory = row.gb;
+
+      this.price = row.price;
+      this.cpu = parseFloat(row.cpuCores) + "";
+      this.memory = parseFloat(row.memory) + "";
 
       if (
         this.pinpointFrom.nameSpace != null &&
@@ -746,11 +766,11 @@ export default {
         });
       }
       if (this.mode == "MONTH") {
-        this.sum = r.content.price.price * this.time;
+        this.sum = row.price * this.time;
         this.sum = Math.floor(this.sum * 100) / 100;
       }
       if (this.mode == "YEAR") {
-        this.sum = r.content.price.price * this.time * 12;
+        this.sum = row.price * this.time * 12;
         this.sum = Math.floor(this.sum * 100) / 100;
       }
     },
@@ -774,116 +794,71 @@ export default {
     //提交订单
     async commitOrder() {
       //提交订单参数
-      const r = await requestParams(getResourcesSkuInfo, this.radio);
-      if (r.content.name == "一键安装微服务（单机版）标准版") {
-        this.pinpointFrom.componentResourceLevel = 1;
-        this.pinpointFrom.mysqlResourcelevel = 1;
-        this.pinpointFrom.redisResourcelevel = 1;
-        this.pinpointFrom.mqResourcelevel = 1;
-      }
-      if (r.content.name == "一键安装微服务（单机版）高级版") {
-        this.pinpointFrom.componentResourceLevel = 2;
-        this.pinpointFrom.mysqlResourcelevel = 2;
-        this.pinpointFrom.redisResourcelevel = 2;
-        this.pinpointFrom.mqResourcelevel = 2;
-      }
-      if (r.content.name == "一键安装微服务（单机版）企业版") {
-        this.pinpointFrom.componentResourceLevel = 3;
-        this.pinpointFrom.mysqlResourcelevel = 3;
-        this.pinpointFrom.redisResourcelevel = 3;
-        this.pinpointFrom.mqResourcelevel = 3;
-      }
-      if (r.content.name == "一键安装微服务（高可用）标准版") {
-        this.pinpointFrom.componentResourceLevel = 1;
-        this.pinpointFrom.mysqlResourcelevel = 1;
-        this.pinpointFrom.redisResourcelevel = 1;
-        this.pinpointFrom.mqResourcelevel = 1;
-      }
-      if (r.content.name == "一键安装微服务（高可用）高级版") {
-        this.pinpointFrom.componentResourceLevel = 2;
-        this.pinpointFrom.mysqlResourcelevel = 2;
-        this.pinpointFrom.redisResourcelevel = 2;
-        this.pinpointFrom.mqResourcelevel = 2;
-      }
-      if (r.content.name == "一键安装微服务（高可用）企业版") {
-        this.pinpointFrom.componentResourceLevel = 3;
-        this.pinpointFrom.mysqlResourcelevel = 3;
-        this.pinpointFrom.redisResourcelevel = 3;
-        this.pinpointFrom.mqResourcelevel = 3;
-      }
-      this.skuInfo = r.content;
-      // this.skuInfoSpecs = r.content.specs;
-      this.skuInfo.category = this.name;
-      //项目创建
-      let arr = r.content.storage.split(";");
-      for (let a = 0; a < arr.length; a++) {
-        let arr1 = arr[a].split(":");
-        let params = { name: "", paramValue: "" };
-        if (arr1[0].trim() == "区域信息") {
-          params.name = arr1[0];
-          params.paramValue = this.getClustersLabel(this.pinpointFrom.envId);
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "项目信息") {
-          params.name = arr1[0];
-          params.paramValue = this.getObjectName(this.pinpointFrom.projectNo);
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "资源空间") {
-          params.name = arr1[0];
-          params.paramValue = this.pinpointFrom.nameSpace;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "accessToken") {
-          params.name = arr1[0];
-          params.paramValue = this.pinpointFrom.selfGitLab.accessToken;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "gitPwd") {
-          params.name = arr1[0];
-          params.paramValue = this.pinpointFrom.selfGitLab.gitPwd;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "gitUrl") {
-          params.name = arr1[0];
-          params.paramValue = this.pinpointFrom.selfGitLab.gitUrl;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "gitUser") {
-          params.name = arr1[0];
-          params.paramValue = this.pinpointFrom.selfGitLab.gitUser;
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "副本数") {
-          params.name = arr1[0];
-          params.paramValue = arr1[1].trim();
-          this.pinpointFrom.mutiRepluicasNum = arr1[1].trim();
-          this.skuInfoSpecs.push(params);
-        }
-        if (arr1[0].trim() == "是否高可用") {
-          params.name = arr1[0];
-          params.paramValue = arr1[1].trim();
-          this.pinpointFrom.isEurekaMutiRepluicas = arr1[1].trim();
-          this.skuInfoSpecs.push(params);
-        }
-      }
-      if (this.disable == true) {
-        for (var key in this.addorder.items[0]) {
-          for (var key1 in this.skuInfo) {
-            if (key == key1) {
-              this.addorder.items[0][key] = this.skuInfo[key1];
-            }
-          }
-        }
-        this.assemblySku(this.cpu);
 
+      if (this.skuData.name == "标准版") {
+        this.pinpointFrom.componentResourceLevel = 1;
+        this.pinpointFrom.mysqlResourcelevel = 1;
+        this.pinpointFrom.redisResourcelevel = 1;
+        this.pinpointFrom.mqResourcelevel = 1;
+      }
+      if (this.skuData.name == "高级版") {
+        this.pinpointFrom.componentResourceLevel = 2;
+        this.pinpointFrom.mysqlResourcelevel = 2;
+        this.pinpointFrom.redisResourcelevel = 2;
+        this.pinpointFrom.mqResourcelevel = 2;
+      }
+      if (this.skuData.name == "企业版") {
+        this.pinpointFrom.componentResourceLevel = 3;
+        this.pinpointFrom.mysqlResourcelevel = 3;
+        this.pinpointFrom.redisResourcelevel = 3;
+        this.pinpointFrom.mqResourcelevel = 3;
+      }
+
+      let params = { name: "", paramValue: "" };
+      params.name = "集群";
+      params.paramValue = this.getClustersLabel(this.pinpointFrom.envId);
+      this.skuInfoSpecs.push(params);
+      let params1 = { name: "", paramValue: "" };
+      params1.name = "项目";
+      params1.paramValue = this.getObjectName(this.pinpointFrom.projectNo);
+      this.skuInfoSpecs.push(params1);
+      let params2 = { name: "", paramValue: "" };
+      params2.name = "资源空间";
+      params2.paramValue = this.pinpointFrom.nameSpace;
+      this.skuInfoSpecs.push(params2);
+      let params3 = { name: "", paramValue: "" };
+      params3.name = "accessToken";
+      params3.paramValue = this.pinpointFrom.selfGitLab.accessToken;
+      this.skuInfoSpecs.push(params3);
+      let params4 = { name: "", paramValue: "" };
+      params4.name = "gitPwd";
+      params4.paramValue = this.pinpointFrom.selfGitLab.gitPwd;
+      this.skuInfoSpecs.push(params4);
+      let params5 = { name: "", paramValue: "" };
+      params5.name = "gitUrl";
+      params5.paramValue = this.pinpointFrom.selfGitLab.gitUrl;
+      this.skuInfoSpecs.push(params5);
+      let params6 = { name: "", paramValue: "" };
+      params6.name = "gitUser";
+      params6.paramValue = this.pinpointFrom.selfGitLab.gitUser;
+      this.skuInfoSpecs.push(params6);
+      let params7 = { name: "", paramValue: "" };
+      params7.name = "副本数";
+      params7.paramValue = this.pinpointFrom.mutiRepluicasNum;
+      this.skuInfoSpecs.push(params7);
+      let params8 = { name: "", paramValue: "" };
+      params8.name = "是否高可用";
+      params8.paramValue = this.pinpointFrom.isEurekaMutiRepluicas;
+      this.skuInfoSpecs.push(params8);
+      if (this.disable == true) {
+        this.assemblySku(this.cpu);
         this.addorder.amount = this.sum;
         this.addorder.items[0].amount = this.time;
         this.addorder.items[0].basicPrice = this.price;
         this.addorder.items[0].finalPrice = this.sum;
         this.addorder.items[0].skuId = this.radio;
-        this.addorder.items[0].category = this.name;
-        this.addorder.items[0].name = this.name;
+        this.addorder.items[0].category = this.getId("productName");
+        this.addorder.items[0].name = this.getId("productName");
         this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
         var duration = "月";
         this.mode == "MONTH" ? (duration = "月") : (duration = "年");
