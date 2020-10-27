@@ -769,7 +769,6 @@ import {
   getServiceCatalogsInfo,
   getResourcesSku, //获取云资源下的sku
   getResourcesSkuInfo, //查询详细sku信息
-  getCloudServiceCatalogsC,
   getClusters, //获取集群
   getProjects, //项目信息
   getService, //获取service
@@ -1316,14 +1315,7 @@ export default {
         ) || null
       );
     },
-    // 不知道
-    getFatherId(id) {
-      getServiceCatalogsInfo(id).then((r) => {
-        this.objectCloud = r.content;
-        this.id = id;
-        this.name = r.content.name;
-      });
-    },
+    
     //服务协议
     agreement() {
       location.href = "/html/agreement.html";
@@ -1487,7 +1479,7 @@ export default {
     this.addorder.productName = this.getId("productName");
     this.addorder.catalogId = this.getId("catalogId");
     this.addorder.catalog = this.getId("catalog");
-    this.getFatherId(this.getId("id"));
+    
     this.handleScroll();
     this.fetchData();
     // 获取集群

@@ -400,8 +400,6 @@ import {
   postCart,
   postOrders,
   getSpec,
-  getServiceCatalogsInfo,
-  getCloudServiceCatalogsC,
   test,
   getClusters, //获取集群
   getProject
@@ -727,21 +725,7 @@ export default {
       this.sum = this.time * this.price * this.number;
       this.sum = Math.floor(this.sum * 100) / 100;
     },
-    getFatherId(id) {
-      getServiceCatalogsInfo(id).then(r => {
-        this.objectCloud = r.content;
-        this.id = id;
-        this.name = r.content.name;
-        getCloudServiceCatalogsC(r.content.parentId).then(r => {
-          for (var i = 0; i < r.content.content.length; i++) {
-            if (r.content.content[i].id == id) {
-              r.content.content.splice(i, 1);
-              this.compatriotsObject = r.content.content;
-            }
-          }
-        });
-      });
-    },
+   
     link(id) {
       window.location.href = "/html/productDetail.html?id=" + id;
     },
@@ -822,7 +806,6 @@ export default {
   },
 
   created() {
-    // this.getFatherId(this.getId("id"));
     this.search = parseHash(this.search);
     this.fetchData().then(r => this.defalutSku(0, 0));
 

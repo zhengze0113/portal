@@ -780,10 +780,8 @@
 
 <script>
 import {
-  getServiceCatalogsInfo,
   getResourcesSku, //获取云资源下的sku
   getResourcesSkuInfo, //查询详细sku信息
-  getCloudServiceCatalogsC,
   getClusters, //获取集群
   getProject, //项目信息
   whetherExistPersonnel, //验证项目管理下是否有该人员
@@ -1049,14 +1047,7 @@ export default {
         ) || null
       );
     },
-    // ***
-    getFatherId(id) {
-      getServiceCatalogsInfo(id).then((r) => {
-        this.objectCloud = r.content;
-        this.id = id;
-        this.name = r.content.name;
-      });
-    },
+  
     //固定定位
     handleScroll() {
       let scrollTop1 =
@@ -1720,7 +1711,7 @@ export default {
     },
   },
   created() {
-    this.getFatherId(this.getId("id"));
+    
     this.addorder.productId = this.getId("id");
     this.addorder.productName = this.getId("productName");
     this.addorder.catalogId = this.getId("catalogId");

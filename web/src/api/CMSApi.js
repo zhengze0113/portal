@@ -70,10 +70,7 @@ export function getJournalism(params) {
 //获取单个新闻消息
 export function getJournalismonly(params) {
     return request({
-        url: `
-        $ { baseURL.DATAURL }
-        /journalisms/$ { params }
-        `,
+        url: `${baseURL.DATAURL}/journalisms/${params}`,
         method: 'get'
 
     });

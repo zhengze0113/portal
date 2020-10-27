@@ -54,10 +54,7 @@
 <script>
 import topBar from "../../components/hd1/topBar";
 import { getProductDetail, getProducts } from "../../api/productDetail";
-import {
-  getServiceCatalogsInfo,
-  getCloudServiceCatalogsC,
-} from "../../api/serviceOperating";
+
 import { getProductMessage } from "../../api/CMSApi";
 import baseURL from "../../api/app";
 import { getAccessToken } from "../../utils/auth";

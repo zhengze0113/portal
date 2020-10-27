@@ -14,12 +14,6 @@ import navMenuConfig from "./menuConfig";
 import menuItem from "./menuItem";
 import menuList from "./menuList";
 import menuTest from "./menuTest";
-import {
-  getCloudServiceList,
-  getCloudServiceResources,
-  getCloudServiceCatalogs,
-  getCloudServiceCatalogsC,
-} from "../../../api/serviceOperating";
 import { getServicecatalogs, getcloudproductInfo } from "../../../api/CMSApi";
 import {
   requestParams,

@@ -3,12 +3,15 @@
     <!--还有云产品--->
 
     <el-row>
-      <el-col :span="20" :offset="2" style="background:white;">
-        <el-col :span="24" style="text-align:center;margin:60px 0;margin-bottom: 50px;">
-          <div class="cnooc"  style="padding-top:20px;">海油云产品</div>
+      <el-col :span="20" :offset="2" style="background: white">
+        <el-col
+          :span="24"
+          style="text-align: center; margin: 60px 0; margin-bottom: 50px"
+        >
+          <div class="cnooc" style="padding-top: 20px">海油云产品</div>
           <div class="network">
-            云网融合 &nbsp;&nbsp;&nbsp;&nbsp;安全可信
-            &nbsp;&nbsp;&nbsp;&nbsp; 专享定制
+            云网融合 &nbsp;&nbsp;&nbsp;&nbsp;安全可信 &nbsp;&nbsp;&nbsp;&nbsp;
+            专享定制
           </div>
         </el-col>
 
@@ -18,12 +21,17 @@
               <el-tab-pane v-for="(item, index) in list" :key="index">
                 <div
                   class="hovertitle cas"
-                  style="margin-right:0%;"
+                  style="margin-right: 0%"
                   slot="label"
-                  @click="activeName='first'"
+                  @click="activeName = 'first'"
                 >
-                  <img class="cloudimg" :src="'../../../../web/static/images/img'+(index+1)+'.png'" />
-                  <div class="title3">{{item.name}}</div>
+                  <img
+                    class="cloudimg"
+                    :src="
+                      '../../../../web/static/images/img' + (index + 1) + '.png'
+                    "
+                  />
+                  <div class="title3">{{ item.name }}</div>
                 </div>
               </el-tab-pane>
             </el-tabs>
@@ -32,30 +40,69 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col style="background-image: url(../../../../web/static/images/index/beijing.jpg)">
-        <el-col :span="20" :offset="2" style="margin-top: 40px;margin-bottom: 40px;">
+      <el-col
+        style="
+          background-image: url(../../../../web/static/images/index/beijing.jpg);
+        "
+      >
+        <el-col
+          :span="20"
+          :offset="2"
+          style="margin-top: 40px; margin-bottom: 40px"
+        >
           <div>
-            <el-col :span="12" class="span12" style v-for="(item, index) in list1" :key="index">
-              <div v-if="index<2" style="background:white;padding:20px;" class="span11">
-                <div style="height:30px;">
-                  <span class="title1">{{item.name}}</span>
+            <el-col
+              :span="12"
+              class="span12"
+              style
+              v-for="(item, index) in list1"
+              :key="index"
+            >
+              <div
+                v-if="index < 2"
+                style="background: white; padding: 20px"
+                class="span11"
+              >
+                <div style="height: 30px">
+                  <span class="title1">{{ item.name }}</span>
 
-                  <el-tag style="margin-left:10px;" effect="dark" type="danger" size="small">特惠</el-tag>
-                  <el-tag style="margin-left:10px;" effect="dark" type="danger" size="small">热销</el-tag>
+                  <el-tag
+                    style="margin-left: 10px"
+                    effect="dark"
+                    type="danger"
+                    size="small"
+                    >特惠</el-tag
+                  >
+                  <el-tag
+                    style="margin-left: 10px"
+                    effect="dark"
+                    type="danger"
+                    size="small"
+                    >热销</el-tag
+                  >
                 </div>
-                <div class="title2">{{item.description}}</div>
+                <div class="title2">{{ item.productintroduction }}</div>
                 <div>
-                  <el-button size="small" @click="checkbuy(item.id)" type="primary">立即开通</el-button>
-                  <el-button size="small" @click="check(item.id)">查看详情</el-button>
+                  <el-button size="small" @click="checkbuy(item)" type="primary"
+                    >立即开通</el-button
+                  >
+                  <el-button size="small" @click="check(item)"
+                    >查看详情</el-button
+                  >
                 </div>
               </div>
             </el-col>
-            <el-col :span="24" style="margin-top:20px;">
-              <el-col :span="8" class="backgroundtitle" v-for="(item, index) in list3" :key="index">
-                <div class="title" @click="ches(item.id)">
-                  <div class="title1">{{item.name}}</div>
+            <el-col :span="24" style="margin-top: 20px">
+              <el-col
+                :span="8"
+                class="backgroundtitle"
+                v-for="(item, index) in list3"
+                :key="index"
+              >
+                <div class="title" @click="ches(item)">
+                  <div class="title1">{{ item.name }}</div>
                   <div class="div1title">
-                    <span class="title2">{{item.description}}</span>
+                    <span class="title2">{{ item.productintroduction }}</span>
                   </div>
                 </div>
               </el-col>
@@ -69,12 +116,13 @@
 <script>
 import {
   getcloudServiceCatalogList, // 获取目录
-  getServiceSubdirectoryMessage // 获取子目录
+  getServiceSubdirectoryMessage, // 获取子目录
 } from "../../api/serviceOperating";
+import { getServicecatalogs, getcloudproductInfo } from "../../api/CMSApi";
 import {
   requestParams,
   parseHash,
-  appendParamsToUrl
+  appendParamsToUrl,
 } from "../../utils/urlParam";
 export default {
   data() {
@@ -82,30 +130,11 @@ export default {
       listLoading: true,
       innerVisible: false,
       list: [],
-      list2: [],
       list3: [],
       list1: [],
       activeName: "first",
-      class1: "teamlistimg",
-      class2: "teamlistimg1",
-      advantage: [
-        {
-          pic: "@/static/images/img1.png"
-        },
-        {
-          pic: "@/static/images/img2.png"
-        },
-        {
-          pic: "@/static/images/img3.png"
-        },
-        {
-          pic: "@/static/images/img4.png"
-        },
-        {
-          pic: "@/static/images/img5.png"
-        }
-      ],
-      applicationArray: []
+
+      catalog: "",
     };
   },
   created() {
@@ -118,7 +147,6 @@ export default {
     // 获取选择父节点id，name
     confirmChoice(data) {
       this.innerVisible = false;
-      // console.log(data.id);
       this.contents.levelName = data.name;
       this.contents.parentId = data.id;
     },
@@ -127,45 +155,42 @@ export default {
       this.innerVisible = true;
     },
     //获取云服务目录
-    onSubmit() {
-      // console.log("submit!");
-    },
-    fetchData() {
+    onSubmit() {},
+    async fetchData() {
       this.listLoading = true;
-      getcloudServiceCatalogList(this.listQuery).then(response => {
-        console.log(response);
-        this.list = response.content.content;
-        this.huoqu(0); //默认显示
-        this.listLoading = false;
-      });
+      const params = { parentId: 0, _sort: "sort:asc" };
+      const res = await requestParams(getServicecatalogs, params);
+      this.list = res;
+      this.catalog = this.list[0].name;
+      this.huoqu(0); //默认显示
+      this.listLoading = false;
     },
     tableChange(pagination) {
       this.fetchData();
     },
     //获取子目录
     handleNodeClick(data, node) {
-      // console.log(data.index);
       this.huoqu(data.index);
-      // console.log(node);
     },
     async huoqu(a) {
-      const res = await requestParams(getServiceSubdirectoryMessage,this.list[a].id);
-        this.list1 = res.content.content;
-        console.log(this.list1);
-        // this.list3 = this.list1.splice(2);
-        // console.log(this.list3)
+      var params1 = {
+        servicecatalog_id: this.list[a].id,
+      };
+      this.catalog = this.list[a].name;
+      const res = await requestParams(getcloudproductInfo, params1);
+      this.list1 = res;
     },
     //跳转
-    check(id) {
-      location.href = "html/productDetail1.html?id=" + id;
+    check(item) {
+      location.href = `/html/productDetail1.html?id=${item.productId}&productName=${item.name}&catalog=${this.catalog}&productId=${item.id}#?`;
     },
-    checkbuy(id) {
-      location.href = "html/newBuyDetail.html?id=" + id;
+    checkbuy(item) {
+      location.href = `/html/productDetail1.html?id=${item.productId}&productName=${item.name}&catalog=${this.catalog}&productId=${item.id}#?`;
     },
-    ches(id) {
-      location.href = "html/productDetail1.html?id=" + id;
-    }
-  }
+    ches(item) {
+      location.href = `/html/productDetail1.html?id=${item.productId}&productName=${item.name}&catalog=${this.catalog}&productId=${item.id}#?`;
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

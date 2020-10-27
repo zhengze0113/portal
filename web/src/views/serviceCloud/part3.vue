@@ -5,13 +5,18 @@
         :span="20"
         :offset="2"
         :class="searchBarFixed == true ? 'isFixed' : ''"
-        style="background:#FFFFFF;height:60px;text-align:center;box-shadow:0px 2px 16px 0px rgba(134, 139, 137, 0.35);"
+        style="
+          background: #ffffff;
+          height: 60px;
+          text-align: center;
+          box-shadow: 0px 2px 16px 0px rgba(134, 139, 137, 0.35);
+        "
       >
         <el-col
           class="hovertitle"
           :span="20"
           :offset="2"
-          style="text-align:center;"
+          style="text-align: center"
         >
           <div v-if="24 % list.length != 0">
             <el-col
@@ -21,9 +26,7 @@
               :key="index"
               @click.native="scrollTo(index)"
             >
-              <span class="ttle1" style="cursor: pointer;">{{
-                item.name
-              }}</span>
+              <span class="ttle1" style="cursor: pointer">{{ item.name }}</span>
             </el-col>
           </div>
           <div v-else @click="aa()">
@@ -39,7 +42,7 @@
       </el-col>
     </el-row>
     <el-row class="con" v-for="(item, index) in list1" :key="index">
-      <el-row style="background:white;height:auto;">
+      <el-row style="background: white; height: auto">
         <el-col
           :span="20"
           :offset="2"
@@ -48,28 +51,33 @@
           <div
             class="ca"
             :class="index == 0 ? '' : 'mar40'"
-            style="text-align:center;margin-bottom:40px ;"
+            style="text-align: center; margin-bottom: 40px"
           >
             <div class="title2">{{ item.name }}</div>
           </div>
         </el-col>
       </el-row>
       <el-row
-        style="width:100%;background:#F9F9F9;height:auto;padding-bottom:20px;"
+        style="
+          width: 100%;
+          background: #f9f9f9;
+          height: auto;
+          padding-bottom: 20px;
+        "
       >
-        <el-col :span="20" :offset="2" style="margin-top:2%;">
+        <el-col :span="20" :offset="2" style="margin-top: 2%">
           <el-col
             :span="12"
             class="span11"
-            style=" "
+            style=""
             v-for="(item, index) in item.list1"
             :key="index"
           >
-            <div class="hoverspan11" style="background:#FFFFFF;">
+            <div class="hoverspan11" style="background: #ffffff">
               <div>
                 <span class="vessel">{{ item.name }}</span>
                 <el-tag
-                  style="margin:20px 10px 6px 6px;"
+                  style="margin: 20px 10px 6px 6px"
                   v-for="item in items"
                   :key="item.label"
                   :type="item.type"
@@ -78,20 +86,20 @@
                   >{{ item.label }}</el-tag
                 >
                 <img
-                  style="width:15%;float:right;"
+                  style="width: 15%; float: right"
                   src="/web/static/images/safety.png"
                   alt
                 />
-                <div style="margin:1% 0% 1% 6%;">
+                <div style="margin: 1% 0% 1% 6%">
                   <span class="versseltitle">{{ item.description }}</span>
                 </div>
-                <div style="margin:3% 2% 0% 6%;padding-bottom:4%;">
+                <div style="margin: 3% 2% 0% 6%; padding-bottom: 4%">
                   <el-button type="primary" size="small" @click="order(item)"
                     >立即申请</el-button
                   >
                   <el-button
                     size="small"
-                    style="margin-left:25px;"
+                    style="margin-left: 25px"
                     @click="check(item)"
                     >查看详情</el-button
                   >
@@ -103,7 +111,7 @@
         <el-col :span="20" :offset="2">
           <el-col
             :span="8"
-            style="padding:20px;margin-top:21px;"
+            style="padding: 20px; margin-top: 21px"
             class="routers"
             v-for="(ite, index) in item.list2"
             :key="index"
@@ -117,14 +125,14 @@
         <el-col
           :span="18"
           :offset="3"
-          style="text-align:center;"
+          style="text-align: center"
           v-if="item.list2.length > 6"
         >
           <div class="selects">
             <span class="select">查看更多</span>
             <img
               src="/web/static/images/two.png"
-              style="width:17px; margin:1px -75px 0px 0px ; "
+              style="width: 17px; margin: 1px -75px 0px 0px"
               alt
             />
           </div>
@@ -134,16 +142,11 @@
   </div>
 </template>
 <script>
-import {
-  //getCloudServiceList,
-  //getCloudServiceResources,
-  getCloudServiceCatalogs,
-  getCloudServiceCatalogsC
-} from "../../api/serviceOperating";
+import { getServicecatalogs, getcloudproductInfo } from "../../api/CMSApi";
 import {
   requestParams,
   parseHash,
-  appendParamsToUrl
+  appendParamsToUrl,
 } from "../../utils/urlParam";
 export default {
   data() {
@@ -155,60 +158,63 @@ export default {
         { name: "最新活动" },
         { name: "新品服务" },
         { name: "运营公告" },
-        { name: "运营公告" }
+        { name: "运营公告" },
       ],
-      items: [{ type: "", label: "热销" }, { type: "success", label: "安全" }],
+      items: [
+        { type: "", label: "热销" },
+        { type: "success", label: "安全" },
+      ],
       pics: [
         {
           title: "服务路由（Router）",
-          title1: "服务路由（route），是授权入站连接到达集群服务的规则集合。"
+          title1: "服务路由（route），是授权入站连接到达集群服务的规则集合。",
         },
         {
           title: "项目创建",
-          title1: "项目创建，提供高性能可伸缩的容器应用管理能力。"
+          title1: "项目创建，提供高性能可伸缩的容器应用管理能力。",
         },
         {
           title: "云Web服务",
           title1:
-            "Tomcat是一个开放源代码、运行servlet和JSPWeb应用软件的基于Java的Web应用软件容器。"
+            "Tomcat是一个开放源代码、运行servlet和JSPWeb应用软件的基于Java的Web应用软件容器。",
         },
         {
           title: "云网关",
-          title1: "基于云计算的灵活、低成本、运维简单的桌面服务。"
+          title1: "基于云计算的灵活、低成本、运维简单的桌面服务。",
         },
         {
           title: "云数据库",
-          title1: "基于云计算的灵活、低成本、运维简单的桌面服务。"
+          title1: "基于云计算的灵活、低成本、运维简单的桌面服务。",
         },
         {
           title: "项目管理服务",
-          title1: "基于云计算的灵活、低成本、运维简单的桌面服务"
-        }
+          title1: "基于云计算的灵活、低成本、运维简单的桌面服务",
+        },
       ],
       activeName: "first",
       a: [
         {
-          pic: "/web/static/images/service1.png"
+          pic: "/web/static/images/service1.png",
         },
         {
-          pic: "/web/static/images/service2.png"
+          pic: "/web/static/images/service2.png",
         },
         {
-          pic: "/web/static/images/service3.png"
+          pic: "/web/static/images/service3.png",
         },
         {
-          pic: "/web/static/images/service4.png"
-        }
+          pic: "/web/static/images/service4.png",
+        },
       ],
       b: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       c: [1, 2, 3, 4, 5, 6, 7, 8],
       list: [],
-      list1: []
+      list1: [],
     };
   },
   created() {
     this.search1 = parseHash(this.search1);
-    // this.fetchData();
+    this.fetchData();
   },
   mounted() {
     // 监听滚动事件
@@ -221,13 +227,22 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+    getId(name) {
+      return (
+        decodeURIComponent(
+          (new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(
+            location.href
+          ) || [, ""])[1].replace(/\+/g, "%20")
+        ) || null
+      );
+    },
     // 滚动监听器
     onScroll() {
       // 获取所有锚点元素
       const navContents = document.querySelectorAll(".con");
       // 所有锚点元素的 offsetTop
       const offsetTopArr = [];
-      navContents.forEach(item => {
+      navContents.forEach((item) => {
         offsetTopArr.push(item.offsetTop);
       });
       // 获取当前文档流的 scrollTop
@@ -309,11 +324,8 @@ export default {
         : (this.firstTitle = false);
     },
 
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
+    handleClick(tab, event) {},
     link(item1) {
-      console.log(item1);
       var objStr = JSON.stringify(item1);
       localStorage.setItem("objStr", objStr);
       location.href = "/html/serviceDirectoryDetails.html";
@@ -321,19 +333,32 @@ export default {
     //获取数据
     async fetchData() {
       this.listLoading = true;
-      const res = await requestParams(getCloudServiceCatalogs);
-      this.list = res.content.content;
+
+      const params = { parentId: 0, _sort: "sort:asc" };
+      const res = await requestParams(getServicecatalogs, params);
+      this.list = res;
       for (var i = 0; i < this.list.length; i++) {
-        const res1 = await requestParams(
-          getCloudServiceCatalogsC,
-          this.list[i].id
-        );
-        var a = { id: 0, name: "", list1: [], list2: [] };
-        a.list1 = res1.content.content;
+        var child = {
+          menuTxt: this.list[i].name,
+          children: [],
+        };
+        var params1 = {
+          servicecatalog_id: this.list[i].id,
+        };
+        const res1 = await requestParams(getcloudproductInfo, params1);
+        let a = { id: 0, name: "", list1: [], list2: [] };
+        for (var j = 0; j < res1.length; j++) {
+          if (!res1[j].is_putaway) {
+          } else {
+            res1[j].catalog = this.list[i].name;
+          }
+        }
+        a.list1 = res1;
         a.name = this.list[i].name;
         a.id = this.list[i].id;
         this.list1.push(a);
       }
+
       this.test(this.list1);
       console.log(this.list1);
       this.listLoading = false;
@@ -347,27 +372,16 @@ export default {
       }
     },
     check(item) {
-      window.location.href = `/html/productDetail1.html?id=${
-        item.id
-      }&productName=${item.name}&catalogId=${item.parent.id}&catalog=${
-        item.parent.name
-      }#?`;
+      window.location.href = `/html/productDetails.html?id=${item.productId}&ll=${item.id}&productName=${item.name}&catalog=${item.catalog}&productId=${item.id}#?`;
     },
     ches(item) {
-      window.location.href = `/html/productDetail1.html?id=${
-        item.id
-      }&productName=${item.name}&catalogId=${item.parent.id}&catalog=${
-        item.parent.name
-      }#?`;
+      window.location.href = `/html/productDetail1.html?id=${item.productId}&productName=${item.name}&catalog=${item.catalog}&productId=${item.id}#?`;
     },
     order(item) {
-      window.location.href = `/html/productDetail1.html?id=${
-        item.id
-      }&productName=${item.name}&catalogId=${item.parent.id}&catalog=${
-        item.parent.name
-      }#?`;
-    }
-  }
+      console.log(item);
+      window.location.href = `/html/productDetail1.html?id=${item.productId}&productName=${item.name}&catalog=${item.catalog}&productId=${item.id}#?`;
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

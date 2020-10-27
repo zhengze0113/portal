@@ -140,21 +140,7 @@ export default {
     linkBuy() {
       window.location.href = "/html/newBuyDetail.html?id=" + this.id;
     },
-    getFatherId(id) {
-      getServiceCatalogsInfo(id).then(r => {
-        this.objectCloud = r.content;
-        this.id = id;
-        getCloudServiceCatalogsC(r.content.parentId).then(r => {
-          for (var i = 0; i < r.content.content.length; i++) {
-            if (r.content.content[i].id == id) {
-              r.content.content.splice(i, 1);
-              this.compatriotsObject = r.content.content;
-            }
-          }
-          this.getProductList();
-        });
-      });
-    },
+
 
     link(id) {
       window.location.href = "/html/productDetail.html?id=" + id;
@@ -180,7 +166,6 @@ export default {
   },
   created() {
     this.id = this.getId("id");
-    // this.getFatherId(this.id);
     this.getProduct(this.id);
   },
   mounted() {

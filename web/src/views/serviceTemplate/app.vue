@@ -173,10 +173,8 @@
 
 <script>
 import {
-  getServiceCatalogsInfo,
   getResourcesSku, //获取云资源下的sku
   getResourcesSkuInfo, //查询详细sku信息
-  getCloudServiceCatalogsC,
   getClusters, //获取集群
   getProjects, //项目信息
   getProjectResource, //获取项目下资源空间

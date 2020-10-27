@@ -4,7 +4,7 @@ let baseURL = {
   // 数据接口
   DataInterfaceOams: "http://10.72.78.125:8082",
   DataInterfaceIams: "http://10.72.78.125:8081",
-  LoginHref: "/html/login.html",
+  LoginHref: "http://10.72.78.125/html/login.html",
   // LoginHref:"http://transcas-paas-portal.devapp.cnooc/toFront",
   // LoginHref:"http://10.72.78.125:8088/toFront",
   /**

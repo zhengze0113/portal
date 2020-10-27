@@ -365,7 +365,6 @@
 
 <script>
 import {
-  getServiceCatalogsInfo,
   getResourcesSku, //获取云资源下的sku
   getResourcesSkuInfo, //查询详细sku信息
   getProjects,
