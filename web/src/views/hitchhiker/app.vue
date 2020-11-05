@@ -271,7 +271,6 @@ import {
   getResourcesSku, //获取云资源下的sku
   getResourcesSkuInfo, //查询详细sku信息
   getClusters, //获取集群
-  getProject,
   getProjects, //项目信息
   getProjectResource, //资源空间
 } from "../../api/serviceOperating";
@@ -615,7 +614,7 @@ export default {
     async getProject1() {
       //获取
       const res1 = await requestParams(getProjects);
-      this.optionProject = res1.content.content;
+      this.optionProject = res1.content;
     },
     getObject(val) {
       let obj = {};

@@ -72,7 +72,7 @@
             v-for="(item,index) in compatriotsObject"
             :key="item.id"
             @click="link(item.id)"
-            v-if="index<3"
+            :v-if="index < 3"
           >
             <el-row style="display:table-cell;">
               <el-col :span="8" style="padding-top:1%;">
@@ -94,11 +94,6 @@
 <script>
 import topBar from "../../components/hd1/topBar";
 import { getProductDetail } from "../../api/productDetail";
-import {
-  getServiceCatalogsInfo,
-  getCloudServiceCatalogsC
-} from "../../api/serviceOperating";
-
 import baseURL from "../../api/app";
 
 import {

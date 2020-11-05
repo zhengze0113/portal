@@ -4,12 +4,14 @@ let baseURL = {
   // 数据接口
   DataInterfaceOams: "http://10.72.78.125:8082",
   DataInterfaceIams: "http://10.72.78.125:8081",
-  LoginHref: "http://10.72.78.125/html/login.html",
+  // LoginHref: "http://10.72.78.125/html/login.html",
+  LoginHref: "http://localhost:9250/html/login.html",
   // LoginHref:"http://transcas-paas-portal.devapp.cnooc/toFront",
   // LoginHref:"http://10.72.78.125:8088/toFront",
   /**
    * 以下为容器启动需要配置参数
    */
+  DomainName:"localhost",
   DataInterfaceUsms: "http://10.72.78.125:8083",
   DataInterfaceCmss: "http://10.72.78.125:8085",
   DataInterfaceAmcs: "http://10.72.78.125:8808",

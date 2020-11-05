@@ -1132,7 +1132,7 @@ export default {
       //获取用户下的项目列表
       this.search1.sort = this.user.uid;
       const projectres = await requestParams(getProjects, this.search1);
-      this.project = projectres.content.content;
+      this.project = projectres.content;
       this.deployment.projectNo = this.project[0].projectNo;
       this.deployment.projectName = this.project[0].projectName;
 

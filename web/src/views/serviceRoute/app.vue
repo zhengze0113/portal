@@ -1406,7 +1406,7 @@ export default {
       this.search1.sort = this.user.uid;
       const projectres = await requestParams(getProjects, this.search1);
 
-      this.project = projectres.content.content;
+      this.project = projectres.content;
       this.form.projectName = this.project[0].projectNo;
 
       this.addorder.projectId = this.project[0].id;

@@ -526,7 +526,7 @@ export default {
       this.user = JSON.parse(getUserInfo());
       this.search.sort = this.user.uid;
       const projectres = await requestParams(getProjects, this.search);
-      this.projects = projectres.content.content;
+      this.projects = projectres.content;
       projectres.content.content.forEach((item) => {
         let options = { label: item.projectName, value: item.projectNo };
         this.project.push(options);

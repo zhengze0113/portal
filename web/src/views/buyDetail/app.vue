@@ -685,7 +685,7 @@ export default {
     async getProject1() {
       //获取
       const res1 = await requestParams(getProject);
-      this.optionProject = res1.content.content;
+      this.optionProject = res1.content;
       this.valueProject = this.optionProject[0].name;
       for (var i = 0; i < this.skuInfoSpecs.length; i++) {
         if (this.skuInfoSpecs[i].name == "项目信息") {

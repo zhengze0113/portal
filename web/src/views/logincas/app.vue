@@ -32,7 +32,7 @@ export default {
         .dispatch("Login", data)
         .then(() => {
           this.loading = false;
-          window.history.go(-2);
+          window.location.href = "/html";
         })
         .catch(() => {
           this.loading = false;

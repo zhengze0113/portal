@@ -45,6 +45,7 @@ service.interceptors.request.use(
         if (
             (config.url.search(baseURL.DATAURL) != -1) == false &&
             (config.url.search("/acs/loginSso") != -1) == false &&
+            (config.url.search("/api/cloud/iams/login") != -1) == false &&
             (config.url.search("/api/cloud/iams/refresh") != -1) == false &&
             (config.url.search("/api/cloud/osms/v1/catalogs") != -1) == false
         ) {

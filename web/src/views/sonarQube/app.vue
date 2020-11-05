@@ -472,7 +472,7 @@ export default {
     async getProject1() {
       //获取
       const res1 = await requestParams(getProject);
-      this.optionProject = res1.content.content;
+      this.optionProject = res1.content;
       this.projectinformation = this.optionProject[0].name;
     },
     getClustersLabel(val) {

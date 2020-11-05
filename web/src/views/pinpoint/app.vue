@@ -1424,7 +1424,7 @@ export default {
       this.pinpointFrom.webCpu = parseFloat(list[0].cpuCores) + "";
       this.pinpointFrom.collectorMemory = parseFloat(list[0].memory) + "";
       const projectres = await requestParams(getProjects, this.search1);
-      this.project = projectres.content.content;
+      this.project = projectres.content;
       this.clicksclist(this.pinpointFrom.envId);
     },
     addPvc() {
@@ -1485,7 +1485,7 @@ export default {
     async getProject1() {
       //获取
       const res1 = await requestParams(getProject);
-      this.optionProject = res1.content.content;
+      this.optionProject = res1.content;
       this.pinpointFrom.projectNo = this.optionProject[0].projectNo;
       this.addorder.projectId = this.optionProject[0].id;
       this.addorder.projectName = this.optionProject[0].projectName;

@@ -2161,7 +2161,6 @@ export default {
         "/html/productDetail1.html?id=220&productName=Apm性能管理&catalogId=28&catalog=服务治理#?";
     },
     onenApmYanz() {
-      console.log(this.targetExecuteDir);
       if (this.Imaedition == "" || this.Imaedition == null) {
         this.$notify({
           type: "warning",
@@ -2189,7 +2188,6 @@ export default {
             this.deployment.envId,
             this.deployment.namespace
           ).then((r) => {
-            console.log(r);
             if (!r.content) {
               this.$notify({
                 type: "warning",
@@ -2526,7 +2524,6 @@ export default {
 
       this.imageName = this.imagesName[this.imagecIndex].name;
 
-      console.log(this.imagesName[this.imagecIndex]);
     },
     imageEd(name) {
       if (name != "") {
@@ -2557,7 +2554,6 @@ export default {
           this.deployment.namespace,
           imageUrl
         ).then((res) => {
-          console.log(res);
           for (let i = 0; i < res.content.env.length; i++) {
             var val = res.content.env[i].split("=");
             this.deployment.envarr.push({ key: val[0], value: val[1] });
@@ -2611,7 +2607,6 @@ export default {
         name
       ).then((res) => {
         this.targetExecuteDir = res.content.targetExecuteDir;
-        console.log(this.targetExecuteDir);
         for (let i = 0; i < res.content.env.length; i++) {
           var val = res.content.env[i].split("=");
           this.deployment.envarr.push({ key: val[0], value: val[1] });
@@ -2713,14 +2708,12 @@ export default {
       });
       this.addorder.projectId = obj.id;
       this.addorder.projectName = obj.projectName;
-      console.log(this.addorder);
     },
     //提交订单
     async commitOrder() {
       //提交订单参数
       const r = await requestParams(getResourcesSkuInfo, this.radio);
       this.skuInfo = r.content;
-      console.log(r);
       this.skuInfo.category = this.name;
 
       let params1 = { name: "", paramValue: "" };
@@ -2778,7 +2771,6 @@ export default {
         this.addorder.items[0].name = this.getId("productName");
         this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
         this.addorder.items[0].duration = this.time + "月";
-        console.log(this.addorder);
         // 存储
         var data = JSON.stringify(this.addorder);
         var moint = sessionStorage.setItem(
@@ -2821,17 +2813,15 @@ export default {
       //获取用户下的项目列表
       this.search1.sort = this.user.uid;
       const projectres = await requestParams(getProjects, this.search1);
-      this.project = projectres.content.content;
-      console.log(this.project);
+      this.project = projectres.content;
       this.monitoringFrom.configure = this.project[0].projectNo;
       this.deployment.projectNo = this.project[0].projectNo;
       this.deployment.projectName = this.project[0].projectName;
 
       this.addorder.projectId = this.project[0].id;
       this.addorder.projectName = this.project[0].projectName;
-      console.log(this.addorder);
       const res1 = await requestParams(whetherExistPersonnel, this.search);
-      if (res1.content.content.length >= 0) {
+      if (res1.content.length >= 0) {
         this.personnelState = true;
         this.personnelState1 = false;
       } else {
@@ -2989,14 +2979,11 @@ export default {
     changeProject(event) {},
 
     getClustersLabel(val) {
-      console.log(val);
       let obj = {};
-      console.log(this.envs);
       obj = this.envs.find((item) => {
         return item.id == val;
       });
       let getName = "";
-      console.log(obj);
       getName = obj.name;
       return getName;
     },
@@ -3187,7 +3174,6 @@ export default {
               JSON.stringify(this.deployment)
             );
             sessionStorage.setItem("order", data);
-            console.log(sessionStorage);
             location.href = "/html/confirmOrder.html";
           }
         } else {
@@ -3197,12 +3183,10 @@ export default {
     },
     getObject(val) {
       let obj = {};
-      console.log(this.envs);
       obj = this.envs.find((item) => {
         return item.id == val;
       });
       let getName = "";
-      console.log(obj);
       getName = obj.name;
       return getName;
     },

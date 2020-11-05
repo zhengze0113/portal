@@ -137,7 +137,7 @@ export default {
     handleCommand(command) {
       if (getAccessToken() != undefined) {
         getProject().then(r => {
-          if (r.content.content.length > 0) {
+          if (r.content.length > 0) {
             if (command == this.baseURL.DataInterface3scale) {
               window.open(command);
             } else {

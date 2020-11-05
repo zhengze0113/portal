@@ -988,7 +988,7 @@ export default {
     async getProject1() {
       //获取
       const res1 = await requestParams(getProject);
-      this.optionProject = res1.content.content;
+      this.optionProject = res1.content;
       this.gatewayFrom.projectNo = this.optionProject[0].projectNo;
 
       this.addorder.projectId = this.optionProject[0].id;

@@ -27,7 +27,7 @@
             style="width: 60%"
             class="demo-ruleForm"
           >
-            <el-form-item label="选择集群：" prop="namespace">
+            <el-form-item label="选择项目：" prop="namespace">
               <el-select
                 v-model="monitoringFrom.namespace"
                 filterable
@@ -589,7 +589,7 @@ export default {
     async getProject1() {
       //获取
       const res1 = await requestParams(getProject);
-      this.optionProject = res1.content.content;
+      this.optionProject = res1.content;
       this.projectinformation = this.optionProject[0].name;
 
       this.addorder.projectId = this.optionProject[0].id;

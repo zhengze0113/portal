@@ -1015,7 +1015,7 @@ export default {
       this.zhuce.discoveryMemory = parseFloat(this.skuData.memory) + "";
       //获取项目信息
       const projectres = await requestParams(getProjects, this.search1);
-      this.project = projectres.content.content;
+      this.project = projectres.content;
       this.zhuce.projectNo = this.project[0].projectNo;
       this.addorder.projectId = this.project[0].id;
       this.addorder.projectName = this.project[0].projectName;
