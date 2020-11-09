@@ -231,6 +231,7 @@
                         filterable
                         placeholder="请选择集群"
                         style="width: 100%"
+                        @change="changeEnv"
                       >
                         <el-option
                           v-for="item in envs"
@@ -1468,6 +1469,7 @@
 
         <el-col :span="21">
           <el-checkbox
+        
             class="skuFont"
             style="margin-bottom: 10px"
             v-model="disable"
@@ -2430,6 +2432,9 @@ export default {
       this.addorder.projectId = obj.id;
       this.addorder.projectName = obj.projectName;
     },
+    changeEnv(data) {
+       this.deployment.namespace = "";
+    },
     // RS值动态添加/删除
     removeDomain(item) {
       var index = this.RSrobecommands.indexOf(item);
@@ -2689,12 +2694,13 @@ export default {
         this.sum = Math.floor(this.sum * 100) / 100;
       }
     },
-    confirm() {
-      if (this.disable == true) {
-        this.disable = false;
-      } else if (this.disable == false) {
-        this.disable = true;
-      }
+    confirm() { 
+      console.log(this.disable);
+      // if (this.disable) {
+      //   this.disable = !this.disable;
+      // } else if (this.disable == false) {
+      //   this.disable = true;
+      // }
     },
     //服务协议
     agreement() {
@@ -3474,7 +3480,7 @@ export default {
     },
   },
   created() {
-    
+   
     this.addorder.productId = this.getId("id");
     this.addorder.productName = this.getId("productName");
     this.addorder.catalogId = this.getId("catalogId");
@@ -3482,6 +3488,7 @@ export default {
     this.handleScroll();
     this.fetchData();
     this.getClusters();
+     console.log(this.disable);
   },
   mounted() {
     this.isFixed =

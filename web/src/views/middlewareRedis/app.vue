@@ -316,7 +316,7 @@
 
         <el-col :span="21">
           <el-checkbox
-            @change="confirm()"
+            v-model="disable"
             class="skuFont"
             style="margin-bottom: 10px"
           >

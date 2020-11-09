@@ -125,6 +125,7 @@
                     filterable
                     placeholder="请选择集群"
                     style="width: 100%"
+                    @change="changeEnv"
                   >
                     <el-option
                       v-for="item in envs"
@@ -703,9 +704,9 @@
 
         <el-col :span="21">
           <el-checkbox
-            @change="confirm()"
             class="skuFont"
             style="margin-bottom: 10px"
+            v-model="disable"
           >
             <el-link type="primary" @click="agreement()">《服务条款》</el-link>
           </el-checkbox>
@@ -936,6 +937,7 @@ export default {
   },
   methods: {
     clickProject(data) {
+      this.form.namespace = "";
       this.projectResource.envId = this.form.kubernetesUrn;
       this.projectResource.projectNo = this.form.projectName;
       getProjectResource(this.projectResource).then((r) => {
@@ -950,6 +952,9 @@ export default {
       });
       this.addorder.projectId = obj.id;
       this.addorder.projectName = obj.projectName;
+    },
+     changeEnv(data) {
+       this.form.namespace = "";
     },
     clickToName(judge) {
       if (judge) {

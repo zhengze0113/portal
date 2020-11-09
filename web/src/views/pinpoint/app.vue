@@ -345,7 +345,7 @@
 
         <el-col :span="21">
           <el-checkbox
-            @change="confirm()"
+            v-model="disable"
             class="skuFont"
             style="margin-bottom: 10px"
           >
@@ -1011,6 +1011,7 @@ export default {
     },
     //  获取sc list
     clicksclist(kubernetes_urn) {
+      this.pvcvolume.namespace = "";
       gerStrogeclass(kubernetes_urn).then((r) => {
         this.sclist = r.content;
       });

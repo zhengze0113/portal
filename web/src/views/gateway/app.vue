@@ -124,6 +124,7 @@
                     filterable
                     placeholder="请选择"
                     style="width: 100%"
+                    @change="changeEnv"
                   >
                     <el-option
                       v-for="item in edit"
@@ -424,7 +425,7 @@
 
         <el-col :span="21">
           <el-checkbox
-            @change="confirm()"
+            v-model="disable"
             class="skuFont"
             style="margin-bottom: 10px"
           >
@@ -671,6 +672,9 @@ export default {
       });
       this.addorder.projectId = obj.id;
       this.addorder.projectName = obj.projectName;
+    },
+    changeEnv(data) {
+       this.gatewayFrom.nameSpace = "";
     },
     //验证组件是否被注册
     verification(data) {

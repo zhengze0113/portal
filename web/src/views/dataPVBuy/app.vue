@@ -367,7 +367,7 @@
 
         <el-col :span="21">
           <el-checkbox
-            @change="confirm()"
+            v-model="disable"
             class="skuFont"
             style="margin-bottom: 10px"
           >
@@ -582,6 +582,12 @@ export default {
       this.addorder.projectId = obj.id;
       this.addorder.projectName = obj.projectName;
       console.log(this.addorder);
+    },
+    clicksclist(kubernetes_urn) {
+      this.pvcvolume.namespace = "";
+      gerStrogeclass(kubernetes_urn).then((r) => {
+        this.sclist = r.content;
+      });
     },
     resourceValidation() {
       getResourceSpaceNameInfo(
@@ -831,11 +837,7 @@ export default {
       return getName;
     },
     //  获取sc list
-    clicksclist(kubernetes_urn) {
-      gerStrogeclass(kubernetes_urn).then((r) => {
-        this.sclist = r.content;
-      });
-    },
+
     scChange() {
       gerStrogeclass(this.pvcvolume.kubernetes_urn).then((r) => {
         this.sclist = r.content;

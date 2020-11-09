@@ -124,6 +124,7 @@
                     filterable
                     placeholder="请选择"
                     style="width: 100%"
+                    @change="changeEnv"
                   >
                     <el-option
                       v-for="item in edit"
@@ -367,9 +368,10 @@
         <el-col :span="3"> <p class="skuFont">服务协议</p></el-col>
         <el-col :span="21">
           <el-checkbox
-            @change="confirm()"
+
             class="skuFont"
             style="margin-bottom: 10px"
+            v-model="disable"
           >
             <el-link type="primary" @click="agreement()">《服务条款》</el-link>
           </el-checkbox>
@@ -604,6 +606,9 @@ export default {
       });
       this.addorder.projectId = obj.id;
       this.addorder.projectName = obj.projectName;
+    },
+    changeEnv(data) {
+      this.monitoringFrom.nameSpace = "";
     },
     //验证组件是否被注册
     verification(data) {

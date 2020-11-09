@@ -11,6 +11,7 @@ let baseURL = {
   /**
    * 以下为容器启动需要配置参数
    */
+  DdeveloperPaasPortal:"http://portal-developer-paas-portal.devapp.cnooc",
   DomainName:"localhost",
   DataInterfaceUsms: "http://10.72.78.125:8083",
   DataInterfaceCmss: "http://10.72.78.125:8085",
@@ -25,11 +26,11 @@ let baseURL = {
  * 以下代码本地启动需要注释掉
  */
 
-  // const arr = document.querySelector("html").dataset.promiseBaseUrl.split(";");
-  // arr.forEach(item => {
-  //   const path = item.split("|");
-  //   baseURL[path[0]] = path[1];
-  // });
+  const arr = document.querySelector("html").dataset.promiseBaseUrl.split(";");
+  arr.forEach(item => {
+    const path = item.split("|");
+    baseURL[path[0]] = path[1];
+  });
 
 
 //****************/

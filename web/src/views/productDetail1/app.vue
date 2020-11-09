@@ -235,6 +235,12 @@ export default {
       const res = await requestParams(getProductMessage, this.servicecatalogId);
       this.list = res;
       console.log(this.list);
+      if (getAccessToken() != undefined && this.list.name == "API订购管理") {
+        location.href = baseURL.DdeveloperPaasPortal;
+      } 
+       if (getAccessToken() == undefined && this.list.name == "API订购管理") {
+        location.href = baseURL.LoginHref;
+      }
       this.list2 = [
         { title: "概览", id: "" },
         { title: "产品详细信息", id: this.list.id },
