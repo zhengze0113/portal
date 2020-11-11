@@ -128,6 +128,7 @@
                 filterable
                 placeholder="请选择"
                 style="width: 100%"
+                @change="changeEnv"
               >
                 <el-option
                   v-for="item in envs"
@@ -205,7 +206,7 @@
 
         <el-col :span="21">
           <el-checkbox
-           v-model="disable"
+            v-model="disable"
             class="skuFont"
             style="margin-bottom: 10px"
           >
@@ -403,7 +404,7 @@ export default {
     this.addorder.productName = this.getId("productName");
     this.addorder.catalogId = this.getId("catalogId");
     this.addorder.catalog = this.getId("catalog");
-    
+
     this.handleScroll();
     this.fetchData();
     this.getClusters();
@@ -416,6 +417,10 @@ export default {
     window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
+    changeEnv(data) {
+      this.monitoringFrom.namespace = "";
+      this.fetchData();
+    },
     clickName(data) {
       let obj = {};
       obj = this.optionProject.find((item) => {

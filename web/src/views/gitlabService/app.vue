@@ -56,6 +56,7 @@
                 filterable
                 placeholder="请选择"
                 style="width: 100%"
+           
               >
                 <el-option
                   v-for="item in edit"
@@ -130,7 +131,7 @@
 
         <el-col :span="21">
           <el-checkbox
-           v-model="disable"
+            v-model="disable"
             class="skuFont"
             style="margin-bottom: 10px"
           >
@@ -288,6 +289,9 @@ export default {
     };
   },
   methods: {
+    changeEnv(data) {
+      this.gatewayFrom.nameSpace = "";
+    },
     clickName(data) {
       let obj = {};
       obj = this.optionProject.find((item) => {
@@ -307,7 +311,7 @@ export default {
         ) || null
       );
     },
-  
+
     //服务协议
     agreement() {
       location.href = "/html/agreement.html";

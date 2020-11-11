@@ -138,6 +138,7 @@
                 filterable
                 placeholder="请选择"
                 style="width: 100%"
+                @change="changeEnv"
               >
                 <el-option
                   v-for="item in envs"
@@ -378,7 +379,7 @@ export default {
         type: "",
       },
       search: {
-        params: '',
+        params: "",
         page: 1,
         rows: 100,
       },
@@ -423,6 +424,9 @@ export default {
     window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
+    changeEnv(data) {
+      this.monitoringFrom.namespace = "";
+    },
     clickName(data) {
       let obj = {};
       obj = this.optionProject.find((item) => {
@@ -446,7 +450,7 @@ export default {
     agreement() {
       location.href = "/html/agreement.html";
     },
-  
+
     //固定定位
     handleScroll() {
       let scrollTop1 =
@@ -465,9 +469,9 @@ export default {
     async rowClick(row, column, event) {
       this.skuData = row;
       this.radio = row.id;
-      this.monitoringFrom.cpu = parseFloat(row.cpuCores)+"";
-      this.monitoringFrom.mem = parseFloat(row.memory)+"";
-      this.monitoringFrom.storage = parseFloat(row.storage)+"";
+      this.monitoringFrom.cpu = parseFloat(row.cpuCores) + "";
+      this.monitoringFrom.mem = parseFloat(row.memory) + "";
+      this.monitoringFrom.storage = parseFloat(row.storage) + "";
       this.price = row.price;
       this.sum = this.price * this.time;
       this.sum = Math.floor(this.sum * 100) / 100;
@@ -606,9 +610,9 @@ export default {
       this.skulist = list;
       this.skuData = list[0];
 
-      this.monitoringFrom.cpu = parseFloat(this.skuData.cpuCores)+"";
-      this.monitoringFrom.mem = parseFloat(this.skuData.memory)+"";
-      this.monitoringFrom.storage = parseFloat(this.skuData.storage)+"";
+      this.monitoringFrom.cpu = parseFloat(this.skuData.cpuCores) + "";
+      this.monitoringFrom.mem = parseFloat(this.skuData.memory) + "";
+      this.monitoringFrom.storage = parseFloat(this.skuData.storage) + "";
     },
     //获取集群
     async getClusters() {

@@ -244,20 +244,7 @@
                       <el-radio label="8Gi">8Gi</el-radio>
                     </el-radio-group>
                   </el-form-item>
-                  <el-form-item
-                    label="配置密码："
-                    prop="password"
-                    class="skuDivFont"
-                  >
-                    <el-input
-                      v-model="redisFrom.password"
-                      placeholder="请输入redis密码"
-                      type="password"
-                      autocomplete="new-password"
-                      show-password
-                      clearable
-                    ></el-input>
-                  </el-form-item>
+                  
                 </el-form>
               </el-col>
             </el-row>
@@ -444,7 +431,7 @@ export default {
         cpu: "100m",
         memory: "256Mi",
         storage: "1Gi",
-        password: "",
+   
         label: [{ key: "", value: "" }],
       },
       price: 0,
@@ -661,10 +648,6 @@ export default {
         params6.name = "集群规模";
         params6.paramValue = this.redisFrom.slaveCount;
         this.skuInfoSpecs.push(params6);
-        let params7 = { name: "", paramValue: "" };
-        params7.name = "配置密码";
-        params7.paramValue = this.redisFrom.password;
-        this.skuInfoSpecs.push(params7);
         let params8 = { name: "", paramValue: "" };
         params8.name = "标签";
         params8.paramValue = this.redisFrom.label;
@@ -676,7 +659,7 @@ export default {
         this.addorder.items[0].finalPrice = this.sum;
         this.addorder.items[0].skuId = this.radio; //
         this.addorder.items[0].category = this.getId("productName");
-        this.addorder.items[0].name = this.getId("productName");
+        this.addorder.items[0].name =this.getId("productName");
         this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs);
         var duration = "月";
         this.mode == "MONTH" ? (duration = "月") : (duration = "年");
@@ -698,7 +681,7 @@ export default {
         Math.floor(Math.random() * (32767 - 30000 + 1)) + 30000;
       this.listLoading = true;
       this.id = this.getId("id");
-      const resProduct = await requestParams(
+       const resProduct = await requestParams(
         getProductMessage,
         this.getId("productId")
       );

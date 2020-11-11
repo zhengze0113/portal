@@ -981,7 +981,7 @@ export default {
     },
     //  获取sc list
     clicksclist(kubernetes_urn) {
-      this.pvcvolume.namespace = "";
+      this.pinpointFrom.nameSpace = "";
       // this.fetchData();
       gerStrogeclass(kubernetes_urn).then((r) => {
         this.sclist = r.content;

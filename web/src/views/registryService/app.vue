@@ -135,6 +135,7 @@
                     filterable
                     placeholder="请选择"
                     style="width: 100%"
+                    @change="changeEnv"
                   >
                     <el-option
                       v-for="item in edit"
@@ -636,6 +637,9 @@ export default {
     };
   },
   methods: {
+    changeEnv(data) {
+      this.zhuce.nameSpace = "";
+    },
     //验证组件是否被注册
     clickProject(data) {
       this.zhuce.nameSpace = "";

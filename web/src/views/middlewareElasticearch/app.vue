@@ -61,6 +61,7 @@
                       filterable
                       placeholder="请选择集群"
                       style="width: 100%"
+                      @change="changeEnv"
                     >
                       <el-option
                         v-for="item in envs"
@@ -487,6 +488,9 @@ export default {
     };
   },
   methods: {
+    changeEnv(data) {
+      this.redisFrom.namespace = "";
+    },
     //验证资源空间剩余空间
     delEnv(row) {
       this.redisFrom.label.splice(row.$index, 1);
