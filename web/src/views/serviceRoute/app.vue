@@ -43,13 +43,13 @@
                 <template slot-scope="scope">{{ scope.row.name }}</template>
               </el-table-column>
               <el-table-column label="cpu" align="center">
-                <template >————</template>
+                <template>————</template>
               </el-table-column>
               <el-table-column label="内存" align="center">
-                <template >————</template>
+                <template>————</template>
               </el-table-column>
               <el-table-column label="存储空间" align="center">
-                <template >————</template>
+                <template>————</template>
               </el-table-column>
 
               <!-- <el-table-column label="版本" align="center">
@@ -178,6 +178,12 @@
                       validator: checkHostName,
                       trigger: 'blur',
                     },
+                    {
+                      pattern: /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/,
+                      message:
+                        '只能由字母,数字,中划线组成,中划线不能在开头或末尾,至少包含两个字符串,字符串间以点分割,且不超过100个字符。',
+                      trigger: 'blur',
+                    },
                   ]"
                 >
                   <el-input
@@ -197,7 +203,11 @@
                   ></el-input>
                 </el-form-item>
                 <div class="service-box">
-                  <el-form-item label="服务" prop="to.name" :rules="[{ required: true, message: '服务不能为空' }]">
+                  <el-form-item
+                    label="服务"
+                    prop="to.name"
+                    :rules="[{ required: true, message: '服务不能为空' }]"
+                  >
                     <el-select
                       @change="servicesChange"
                       @visible-change="clickToName"
@@ -256,11 +266,7 @@
                     </el-form-item>
                   </el-form-item>
                 </div>
-                <el-form-item
-                  label="目标端口"
-                  prop="port"
-           
-                >
+                <el-form-item label="目标端口" prop="port">
                   <el-select
                     style="width: 50%"
                     v-model="form.port"
@@ -929,7 +935,7 @@ export default {
       skuInfo: null,
       id: "",
       search: {
-        params: '',
+        params: "",
         page: 1,
         rows: 100,
       },
@@ -953,8 +959,8 @@ export default {
       this.addorder.projectId = obj.id;
       this.addorder.projectName = obj.projectName;
     },
-     changeEnv(data) {
-       this.form.namespace = "";
+    changeEnv(data) {
+      this.form.namespace = "";
     },
     clickToName(judge) {
       if (judge) {
@@ -1151,7 +1157,7 @@ export default {
       }
     },
     async nextStep() {
-      let formParams= JSON.parse(JSON.stringify(this.form));
+      let formParams = JSON.parse(JSON.stringify(this.form));
       let labels = {};
       formParams.labels.forEach((item) => {
         labels[item.key] = item.value;
@@ -1320,7 +1326,7 @@ export default {
         ) || null
       );
     },
-    
+
     //服务协议
     agreement() {
       location.href = "/html/agreement.html";
@@ -1484,7 +1490,7 @@ export default {
     this.addorder.productName = this.getId("productName");
     this.addorder.catalogId = this.getId("catalogId");
     this.addorder.catalog = this.getId("catalog");
-    
+
     this.handleScroll();
     this.fetchData();
     // 获取集群
