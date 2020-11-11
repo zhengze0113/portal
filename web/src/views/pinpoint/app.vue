@@ -774,6 +774,7 @@ export default {
       },
       skulist: [],
       skuInfoSpecs: [],
+      skuInfoSpecs2: [],
       skuInfo: null,
       id: "",
       labelPosition: "left",
@@ -850,137 +851,113 @@ export default {
     };
   },
   methods: {
-    async submitPvc(pvcvolume) {
+   async submitPvc(pvcvolume) {
       this.$refs[pvcvolume].validate((valid) => {
         if (valid) {
-          let skuInfoSpecs = [];
-          getResourcesSkuInfo(this.pvcvolume.skuId).then((r) => {
-            this.skuInfo = r.content;
-            let arr = r.content.storage.split(";");
-            for (let a = 0; a < arr.length; a++) {
-              let arr1 = arr[a].split(":");
-              let params = { name: "", paramValue: "" };
-              if (arr1[0].trim() == "区域信息") {
-                params.name = arr1[0];
-                params.paramValue = this.getClustersLabel(
-                  this.pvcvolume.kubernetes_urn
-                );
-                skuInfoSpecs.push(params);
-                let params1 = { name: "", paramValue: "" };
-                params1.name = "项目";
-                params1.paramValue = this.pvcvolume.projectNo;
-                this.skuInfoSpecs.push(params1);
-                let params2 = { name: "", paramValue: "" };
-                params2.name = "资源空间";
-                params2.paramValue = this.pvcvolume.namespace;
-                this.skuInfoSpecs.push(params2);
-                let params3 = { name: "", paramValue: "" };
-                params3.name = "PVC名称";
-                params3.paramValue = this.pvcvolume.name;
-                this.skuInfoSpecs.push(params3);
-                let params4 = { name: "", paramValue: "" };
-                params4.name = "Storage Class";
-                params4.paramValue = this.pvcvolume.strogeclassName;
-                this.skuInfoSpecs.push(params4);
-                let params5 = { name: "", paramValue: "" };
-                params5.name = "请求容量";
-                params5.paramValue = this.pvcvolume.capacity;
-                this.skuInfoSpecs.push(params5);
-              }
+          let params = { name: "", paramValue: "" };
+          params.name = "集群";
+          params.paramValue = this.getClustersLabel(
+            this.pvcvolume.kubernetes_urn
+          );
+          this.skuInfoSpecs2.push(params);
+          let params1 = { name: "", paramValue: "" };
+          params1.name = "项目";
+          params1.paramValue = this.pvcvolume.projectNo;
+          this.skuInfoSpecs2.push(params1);
+          let params2 = { name: "", paramValue: "" };
+          params2.name = "资源空间";
+          params2.paramValue = this.pvcvolume.namespace;
+          this.skuInfoSpecs2.push(params2);
+          let params3 = { name: "", paramValue: "" };
+          params3.name = "PVC名称";
+          params3.paramValue = this.pvcvolume.name;
+          this.skuInfoSpecs2.push(params3);
+          let params4 = { name: "", paramValue: "" };
+          params4.name = "Storage Class";
+          params4.paramValue = this.pvcvolume.strogeclassName;
+          this.skuInfoSpecs2.push(params4);
+          let params5 = { name: "", paramValue: "" };
+          params5.name = "请求容量";
+          params5.paramValue = this.pvcvolume.capacity;
+          this.skuInfoSpecs2.push(params5);
 
-              if (arr1[0].trim() == "回收策略") {
-                params.name = arr1[0];
-                params.paramValue = this.reclaimPolicy;
-                skuInfoSpecs.push(params);
-              }
-              if (arr1[0].trim() == "访问模式") {
-                params.name = arr1[0];
-                params.paramValue = arr1[0];
-                skuInfoSpecs.push(params);
+          if (this.labels.length > 0) {
+            for (let i = 0; i < this.labels.length; i++) {
+              this.labels[i].key;
+              this.labels[i].value;
+              this.pvcvolume.labels[this.labels[i].key] = this.labels[i].value;
+            }
+          }
+
+          for (var key in this.addorder.items[0]) {
+            for (var key1 in this.skuInfo) {
+              if (key == key1) {
+                this.addorder.items[0][key] = this.skuInfo[key1];
               }
             }
+          }
+          this.addorder.amount =
+            this.pvcvolume.basePrice * this.pvcvolume.purchase;
+          this.addorder.items[0].amount = this.time;
+          this.addorder.items[0].basicPrice = this.pvcvolume.basePrice;
+          this.addorder.items[0].finalPrice =
+            this.pvcvolume.basePrice * this.pvcvolume.purchase;
+          this.addorder.items[0].skuId = this.pvcvolume.skuId;
+          this.addorder.items[0].category = "数据存储（PVC）";
+          this.addorder.items[0].name = "数据存储（PVC）";
 
-            if (this.labels.length > 0) {
-              for (let i = 0; i < this.labels.length; i++) {
-                this.labels[i].key;
-                this.labels[i].value;
-                this.pvcvolume.labels[this.labels[i].key] = this.labels[
-                  i
-                ].value;
-              }
-            }
-
-            for (var key in this.addorder.items[0]) {
-              for (var key1 in this.skuInfo) {
-                if (key == key1) {
-                  this.addorder.items[0][key] = this.skuInfo[key1];
-                }
-              }
-            }
-            this.addorder.amount =
-              this.pvcvolume.basePrice * this.pvcvolume.purchase;
-            this.addorder.items[0].amount = this.time;
-            this.addorder.items[0].basicPrice = this.pvcvolume.basePrice;
-            this.addorder.items[0].finalPrice =
-              this.pvcvolume.basePrice * this.pvcvolume.purchase;
-            this.addorder.items[0].skuId = this.pvcvolume.skuId;
-            this.addorder.items[0].category = "数据存储（PVC）";
-            this.addorder.items[0].name = "数据存储（PVC）";
-
-            this.addorder.items[0].params = JSON.stringify(skuInfoSpecs);
-            this.addorder.items[0].duration = this.pvcvolume.purchase + "月";
-            this.pvcvolume.amount =
-              this.pvcvolume.basePrice * this.pvcvolume.purchase;
-            let platformParams = [
-              {
-                requestModeParams: {
-                  protocol: "http",
-                  requestPath: "",
-                  httpMethod: "",
-                  ParamFormat: "json",
-                },
-                params: "",
-                headers: "",
+          this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs2);
+          this.addorder.items[0].duration = this.pvcvolume.purchase + "月";
+          this.pvcvolume.amount =
+            this.pvcvolume.basePrice * this.pvcvolume.purchase;
+          let platformParams = [
+            {
+              requestModeParams: {
+                protocol: "http",
+                requestPath: "",
+                httpMethod: "",
+                ParamFormat: "json",
               },
-            ];
-            platformParams[0].requestModeParams.requestPath =
-              baseURL.DataInterfaceCmss +
-              "/api/cloud/cmss/v1/project/" +
-              this.pvcvolume.projectNo +
-              "/kubernetes/" +
-              this.pvcvolume.kubernetes_urn +
-              "/namespace/" +
-              this.pvcvolume.namespace +
-              "/persistentVolumeClaim";
-            platformParams[0].requestModeParams.httpMethod = "post";
+              params: "",
+              headers: "",
+            },
+          ];
+          platformParams[0].requestModeParams.requestPath =
+            baseURL.DataInterfaceCmss +
+            "/api/cloud/cmss/v1/project/" +
+            this.pvcvolume.projectNo +
+            "/kubernetes/" +
+            this.pvcvolume.kubernetes_urn +
+            "/namespace/" +
+            this.pvcvolume.namespace +
+            "/persistentVolumeClaim";
+          platformParams[0].requestModeParams.httpMethod = "post";
 
-            delete this.pvcvolume.kubernetes_urn;
-            delete this.pvcvolume.namespace;
-            delete this.pvcvolume.projectNo;
-            let params1 = JSON.stringify(this.pvcvolume);
-            platformParams[0].params = params1;
-            platformParams[0].headers = "";
-            this.addorder.items[0].platformParams = JSON.stringify(
-              platformParams
-            );
-            Vue.set(this.addorder, "orderResourceType", "APPLICATION");
-            console.log(this.addorder);
-            //创建订单
-            postOrders(this.addorder).then((r) => {
-              if (r.code == 201) {
-                this.pvcStatus = !this.pvcStatus;
-                this.initPvc();
-                this.$notify({
-                  type: "success",
-                  message: r.message,
-                });
-              } else {
-                this.$notify({
-                  type: "error",
-                  message: r.message,
-                });
-              }
-            });
+          delete this.pvcvolume.kubernetes_urn;
+          delete this.pvcvolume.namespace;
+          delete this.pvcvolume.projectNo;
+          let paramspvcvolume = JSON.stringify(this.pvcvolume);
+          platformParams[0].params = paramspvcvolume;
+          platformParams[0].headers = "";
+          this.addorder.items[0].platformParams = JSON.stringify(
+            platformParams
+          );
+          Vue.set(this.addorder, "orderResourceType", "APPLICATION");
+          //创建订单
+          postOrders(this.addorder).then((r) => {
+            if (r.code == 201) {
+              this.pvcStatus = !this.pvcStatus;
+              this.initPvc();
+              this.$notify({
+                type: "success",
+                message: r.message,
+              });
+            } else {
+              this.$notify({
+                type: "error",
+                message: r.message,
+              });
+            }
           });
         } else {
           return false;
@@ -992,26 +969,20 @@ export default {
     },
     //初始化PVC规格
     async getPVCSku() {
-      this.search2.params = `[{"param":{"catalogId":${17}},"sign":"EQ"}]`;
-      this.search2.page = 1;
-      this.search2.rows = 100;
-      const res = await requestParams(getResourcesSku, this.search2);
+      this.numberArr = [];
+      this.search.serviceCode = "syjcs333.pvc.zgHwAZYc";
+      this.search.page = 1;
+      this.search.rows = 100;
+      const res = await requestParams(getResourcesSku, this.search);
       this.pvclist = res.content.content;
       for (var i = 0; i < this.pvclist.length; i++) {
-        const r = await requestParams(getResourcesSkuInfo, this.pvclist[i].id);
-        var sku = r.content;
-        let arr = sku.storage.split(";");
-        for (let a = 0; a < arr.length; a++) {
-          let arr2 = arr[a].split(":");
-          if (arr2[0].trim() == "容量") {
-            this.numberArr.push(arr2[1].trim() + "Gi");
-          }
-        }
+        this.numberArr.push(this.pvclist[i].storage);
       }
     },
     //  获取sc list
     clicksclist(kubernetes_urn) {
       this.pvcvolume.namespace = "";
+      // this.fetchData();
       gerStrogeclass(kubernetes_urn).then((r) => {
         this.sclist = r.content;
       });
@@ -1043,23 +1014,15 @@ export default {
       }
     },
     async pvcpic(row) {
-      for (var i = 0; i < this.pvclist.length; i++) {
-        const r = await requestParams(getResourcesSkuInfo, this.pvclist[i].id);
-        var sku = r.content;
-        let arr = sku.storage.split(";");
-        for (let a = 0; a < arr.length; a++) {
-          let arr2 = arr[a].split(":");
-          if (arr2[0].trim() == "容量") {
-            let str = arr2[1].trim() + "Gi";
-            if (str == row) {
-              // this.pvcvolume.purchase = this.time;
-              // this.pvcvolume.amount = this.sum;
-              this.pvcvolume.basePrice = r.content.price.price;
-              this.pvcvolume.skuId = this.pvclist[i].id;
-            }
-          }
-        }
-      }
+      let obj = {};
+      obj = this.pvclist.find((item) => {
+        //model就是上面的数据源
+        return item.storage === row; //筛选出匹配数据
+      });
+
+      this.pvcvolume.amount = this.pvcvolume.purchase * obj.price;
+      this.pvcvolume.basePrice = obj.price;
+      this.pvcvolume.skuId = obj.id;
       getResourceSpaceNameInfo(
         this.pvcvolume.kubernetes_urn,
         this.pvcvolume.namespace
@@ -1161,7 +1124,7 @@ export default {
         ) || null
       );
     },
-    
+
     //服务协议
     agreement() {
       location.href = "/html/agreement.html";
@@ -1481,6 +1444,9 @@ export default {
         this.edit.push(data);
       }
       this.pinpointFrom.envId = this.edit[0].value;
+      await gerStrogeclass(this.pinpointFrom.envId).then((r) => {
+        this.sclist = r.content;
+      });
     },
     //获取项目信息下拉框
     async getProject1() {
@@ -1569,7 +1535,7 @@ export default {
     this.addorder.productName = this.getId("productName");
     this.addorder.catalogId = this.getId("catalogId");
     this.addorder.catalog = this.getId("catalog");
-    
+
     this.handleScroll();
     this.fetchData();
     this.getClusters();

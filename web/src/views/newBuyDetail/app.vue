@@ -2328,23 +2328,17 @@ export default {
       }
     },
     async pvcpic(row) {
-      for (var i = 0; i < this.pvclist.length; i++) {
-        const r = await requestParams(getResourcesSkuInfo, this.pvclist[i].id);
-        var sku = r.content;
-        let arr = sku.storage.split(";");
-        for (let a = 0; a < arr.length; a++) {
-          let arr2 = arr[a].split(":");
-          if (arr2[0].trim() == "容量") {
-            let str = arr2[1].trim() + "Gi";
-            if (str == row) {
-              // this.pvcvolume.purchase = this.time;
-              // this.pvcvolume.amount = this.sum;
-              this.pvcvolume.basePrice = r.content.price.price;
-              this.pvcvolume.skuId = this.pvclist[i].id;
-            }
-          }
-        }
-      }
+
+      let obj = {};
+      obj = this.pvclist.find((item) => {
+        //model就是上面的数据源
+        return item.storage === row; //筛选出匹配数据
+      });
+
+      this.pvcvolume.amount = this.pvcvolume.purchase*obj.price;
+      this.pvcvolume.basePrice = obj.price;
+      this.pvcvolume.skuId = obj.id;
+     
       getResourceSpaceNameInfo(
         this.pvcvolume.kubernetes_urn,
         this.pvcvolume.namespace
@@ -2433,7 +2427,9 @@ export default {
       this.addorder.projectName = obj.projectName;
     },
     changeEnv(data) {
+       this.imagesName = "";
        this.deployment.namespace = "";
+       this.fetchData();
     },
     // RS值动态添加/删除
     removeDomain(item) {
@@ -2606,10 +2602,11 @@ export default {
       this.clicksclist(this.deployment.envId);
     },
     waibuOcpImages(name) {
+
       getOcpExternalImagesitems(
         this.deployment.envId,
         this.imageName,
-        name
+        name.trim()
       ).then((res) => {
         this.targetExecuteDir = res.content.targetExecuteDir;
         for (let i = 0; i < res.content.env.length; i++) {
@@ -2880,21 +2877,14 @@ export default {
     },
     //初始化PVC规格
     async getPVCSku() {
-      this.search.params = `[{"param":{"catalogId":${17}},"sign":"EQ"}]`;
+      this.numberArr= [];
+      this.search.serviceCode = "syjcs333.pvc.zgHwAZYc";
       this.search.page = 1;
       this.search.rows = 100;
       const res = await requestParams(getResourcesSku, this.search);
       this.pvclist = res.content.content;
       for (var i = 0; i < this.pvclist.length; i++) {
-        const r = await requestParams(getResourcesSkuInfo, this.pvclist[i].id);
-        var sku = r.content;
-        let arr = sku.storage.split(";");
-        for (let a = 0; a < arr.length; a++) {
-          let arr2 = arr[a].split(":");
-          if (arr2[0].trim() == "容量") {
-            this.numberArr.push(arr2[1].trim() + "Gi");
-          }
-        }
+        this.numberArr.push(this.pvclist[i].storage);
       }
     },
     //获取资源空间
@@ -3248,8 +3238,9 @@ export default {
         this.deployment.volumes.splice(index, 1);
       }
     },
-    addPvc() {
+    async addPvc() {
       this.pvcStatus = !this.pvcStatus;
+
     },
     //  获取sc list
     clicksclist(kubernetes_urn) {
@@ -3264,7 +3255,7 @@ export default {
       this.$refs[pvcvolume].validate((valid) => {
         if (valid) {
           let params = { name: "", paramValue: "" };
-          params.name = arr1[0];
+          params.name = "集群";
           params.paramValue = this.getClustersLabel(
             this.pvcvolume.kubernetes_urn
           );
@@ -3315,7 +3306,7 @@ export default {
           this.addorder.items[0].category = "数据存储（PVC）";
           this.addorder.items[0].name = "数据存储（PVC）";
 
-          this.addorder.items[0].params = JSON.stringify(skuInfoSpecs2);
+          this.addorder.items[0].params = JSON.stringify(this.skuInfoSpecs2);
           this.addorder.items[0].duration = this.pvcvolume.purchase + "月";
           this.pvcvolume.amount =
             this.pvcvolume.basePrice * this.pvcvolume.purchase;
