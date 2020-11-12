@@ -208,12 +208,8 @@
                   :rules="[
                     { required: true, message: 'mysql地址不能为空' },
                     { max: 253, message: '长度最多253个字符', trigger: 'blur' },
-                    {
-                      pattern: /^[a-z0-9\.\-\:]*$/,
-                      message:
-                        '包括小写字母、数字、横线(-)和点(.),最长支持253个字符',
-                      trigger: 'blur',
-                    },
+                   
+
                   ]"
                 >
                   <el-input
@@ -227,11 +223,8 @@
                   :rules="[
                     { required: true, message: 'mysql端口号不能为空' },
                     { type: 'number', message: 'mysql端口号必须为数字值' },
-                    {
-                      pattern: /^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/g,
-                      message: '范围需为（80～65535）',
-                      trigger: 'blur',
-                    },
+                   
+
                   ]"
                 >
                   <el-input
@@ -245,11 +238,7 @@
                   :rules="[
                     { required: true, message: 'mysql用户名不能为空' },
                     { max: 253, message: '长度最多253个字符', trigger: 'blur' },
-                    {
-                      pattern: /^[a-z0-9\-]*$/,
-                      message: '包括小写字母、数字',
-                      trigger: 'blur',
-                    },
+                  
                   ]"
                 >
                   <el-input
@@ -281,12 +270,8 @@
                   :rules="[
                     { required: true, message: 'Rabbitmq地址不能为空' },
                     { max: 253, message: '长度最多253个字符', trigger: 'blur' },
-                    {
-                      pattern: /^[a-z0-9\.\-\:]*$/,
-                      message:
-                        '包括小写字母、数字、横线(-)和点(.),最长支持253个字符',
-                      trigger: 'blur',
-                    },
+                    
+
                   ]"
                 >
                   <el-input
@@ -319,11 +304,7 @@
                   :rules="[
                     { required: true, message: 'Rabbitmq用户名不能为空' },
                     { max: 253, message: '长度最多253个字符', trigger: 'blur' },
-                    {
-                      pattern: /^[a-z0-9\-]*$/,
-                      message: '包括小写字母、数字',
-                      trigger: 'blur',
-                    },
+                   
                   ]"
                 >
                   <el-input

@@ -186,12 +186,8 @@
                   :rules="[
                     { required: true, message: '内容不能为空' },
                     { max: 253, message: '长度最多253个字符', trigger: 'blur' },
-                    {
-                      pattern: /^[a-z0-9\.\-\:]*$/,
-                      message:
-                        '包括小写字母、数字、横线(-)和点(.),最长支持253个字符',
-                      trigger: 'blur'
-                    }
+                    
+
                   ]"
                 >
                   <el-input
@@ -223,11 +219,7 @@
                   :rules="[
                     { required: true, message: '内容不能为空' },
                     { max: 253, message: '长度最多253个字符', trigger: 'blur' },
-                    {
-                      pattern: /^[a-z0-9]*$/,
-                      message: '包括小写字母、数字',
-                      trigger: 'blur'
-                    }
+                    
                   ]"
                 >
                   <el-input
@@ -255,12 +247,8 @@
                   :rules="[
                     { required: true, message: '内容不能为空' },
                     { max: 253, message: '长度最多253个字符', trigger: 'blur' },
-                    {
-                      pattern: /^[a-z0-9\.\-\:]*$/,
-                      message:
-                        '包括小写字母、数字、横线(-)和点(.),最长支持253个字符',
-                      trigger: 'blur'
-                    }
+                   
+
                   ]"
                 >
                   <el-input
@@ -303,12 +291,8 @@
                   :rules="[
                     { required: true, message: '内容不能为空' },
                     { max: 253, message: '长度最多253个字符', trigger: 'blur' },
-                    {
-                      pattern: /^[a-z0-9\.\-\:]*$/,
-                      message:
-                        '包括小写字母、数字、横线(-)和点(.),最长支持253个字符',
-                      trigger: 'blur'
-                    }
+                  
+
                   ]"
                 >
                   <el-input

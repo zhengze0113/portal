@@ -65,7 +65,7 @@
             <el-form-item
               label="Nexus地址："
               prop="nexus_url"
-              :rules="[{ required: true, message: 'Nexus地址不能为空'},{type:'url', message:'请填写正确的Nexus地址'}]"
+              :rules="[{ required: true, message: 'Nexus地址不能为空'}]"
             >
               <el-input v-model="monitoringFrom.nexus_url" placeholder="请添加nexus地址"></el-input>
             </el-form-item>

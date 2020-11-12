@@ -45,7 +45,7 @@
             <el-form-item
               label="sonarQube地址："
               prop="sonar_url"
-              :rules="[{ required: true, message: 'sonarQube地址不能为空'},{type:'url',message:'请填写正确的url地址'}]"
+              :rules="[{ required: true, message: 'sonarQube地址不能为空'}]"
             >
               <el-input v-model="monitoringFrom.sonar_url" placeholder="请添加sonarQube地址"></el-input>
             </el-form-item>

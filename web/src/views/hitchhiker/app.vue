@@ -419,7 +419,6 @@ export default {
   methods: {
     changeEnv(data) {
       this.monitoringFrom.namespace = "";
-      this.fetchData();
     },
     clickName(data) {
       let obj = {};

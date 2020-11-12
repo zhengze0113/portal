@@ -71,7 +71,7 @@
               prop="gitlab_url"
               :rules="[
                 { required: true, message: 'gitlab地址不能为空' },
-                { type: 'url', message: '请填写正确的gitlab地址' },
+                
               ]"
             >
               <el-input

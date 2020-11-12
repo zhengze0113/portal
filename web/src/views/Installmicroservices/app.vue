@@ -224,7 +224,7 @@
           <el-col :span="2" class="mar_r">
             <el-row>
               <el-col>
-                <el-image class="image_h" :src="url"></el-image>
+                <img class="image_h" :src="url" />
               </el-col>
               <el-col class="specFontimg">注册中心服务</el-col>
               <el-col class="specFontimg">
@@ -237,7 +237,7 @@
           <el-col :span="2" class="mar_r">
             <el-row>
               <el-col>
-                <el-image class="image_h" :src="url"></el-image>
+                <img class="image_h" :src="url" />
               </el-col>
               <el-col class="specFontimg">配置中心服务</el-col>
               <el-col class="specFontimg">
@@ -250,7 +250,7 @@
           <el-col :span="2" class="mar_r">
             <el-row>
               <el-col>
-                <el-image class="image_h" :src="url"></el-image>
+                <img class="image_h" :src="url" />
               </el-col>
               <el-col class="specFontimg">调用链服务</el-col>
               <el-col class="specFontimg">
@@ -263,7 +263,7 @@
           <el-col :span="2" class="mar_r">
             <el-row>
               <el-col>
-                <el-image class="image_h" :src="url"></el-image>
+                <img class="image_h" :src="url" />
               </el-col>
               <el-col class="specFontimg">网关服务</el-col>
               <el-col class="specFontimg">
@@ -276,7 +276,7 @@
           <el-col :span="2" class="mar_r">
             <el-row>
               <el-col>
-                <el-image class="image_h" :src="hystrix_logo"></el-image>
+                <img class="image_h" :src="hystrix_logo" />
               </el-col>
               <el-col class="specFontimg">熔断监控服务</el-col>
               <el-col class="specFontimg">
@@ -289,7 +289,7 @@
           <el-col :span="2" class="mar_r">
             <el-row>
               <el-col>
-                <el-image class="image_h" :src="hystrix_logo"></el-image>
+                <img class="image_h" :src="hystrix_logo" />
               </el-col>
               <el-col class="specFontimg">熔断降级服务</el-col>
               <el-col class="specFontimg">
@@ -302,7 +302,7 @@
           <el-col :span="2" class="mar_r">
             <el-row>
               <el-col>
-                <el-image class="image_h" :src="url"></el-image>
+                <img class="image_h" :src="url" />
               </el-col>
               <el-col class="specFontimg">分布式服务</el-col>
               <el-col class="specFontimg">
@@ -315,7 +315,7 @@
           <el-col :span="2" class="mar_r">
             <el-row>
               <el-col>
-                <el-image class="image_h" :src="mysql_logo"></el-image>
+                <img class="image_h" :src="mysql_logo" />
               </el-col>
               <el-col class="specFontimg">MySQL</el-col>
               <el-col class="specFontimg">
@@ -328,7 +328,7 @@
           <el-col :span="2" class="mar_r">
             <el-row>
               <el-col>
-                <el-image class="image_h" :src="rabbitmq_logo"></el-image>
+                <img class="image_h" :src="rabbitmq_logo" />
               </el-col>
               <el-col class="specFontimg">RabbitMQ</el-col>
               <el-col class="specFontimg">
@@ -341,7 +341,7 @@
           <el-col :span="2" class="mar_r">
             <el-row>
               <el-col>
-                <el-image class="image_h" :src="redis_logo"></el-image>
+                <img class="image_h" :src="redis_logo" />
               </el-col>
               <el-col class="specFontimg">redis</el-col>
               <el-col class="specFontimg">
@@ -406,7 +406,7 @@
 
         <el-col :span="21">
           <el-checkbox
-           v-model="disable"
+            v-model="disable"
             class="skuFont"
             style="margin-bottom: 10px"
           >
@@ -680,7 +680,7 @@ export default {
         ) || null
       );
     },
-  
+
     //服务协议
     agreement() {
       location.href = "/html/agreement.html";
@@ -1023,7 +1023,7 @@ export default {
       this.addorder.projectName = obj.projectName;
     },
     changeEnv(data) {
-        this.pinpointFrom.nameSpace = "";
+      this.pinpointFrom.nameSpace = "";
     },
     resourceValidation(data) {
       this.verification(data);
@@ -1397,7 +1397,8 @@ export default {
   min-height: 136px;
 }
 .image_h {
-  min-height: 77px;
+  width: 92px;
+  height: 60px;
 }
 /deep/ .el-form-item__label {
   text-align: left;

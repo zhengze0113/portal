@@ -1429,6 +1429,7 @@
               v-model="time"
               :min="1"
               :max="12"
+              :step="1"  
               size="mini"
               style="width: 130px"
               @change="countTime"
@@ -2429,7 +2430,6 @@ export default {
     changeEnv(data) {
        this.imagesName = "";
        this.deployment.namespace = "";
-       this.fetchData();
     },
     // RS值动态添加/删除
     removeDomain(item) {
